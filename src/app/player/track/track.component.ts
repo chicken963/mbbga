@@ -24,5 +24,9 @@ export class TrackComponent implements OnInit {
       }
     });
   }
+  
+  public onTimeupdate(e: any) {
+    console.log(e);
+  }
 
 }
