@@ -3,22 +3,24 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AppComponent } from './app.component';
-import { PlayerComponent } from './player/player.component';
-import { TrackComponent } from './player/track/track.component';
-import { PlaylistComponent } from './player/playlist/playlist.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
+import { PlayerComponent } from './pages/player/player.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PlayerComponent,
-    TrackComponent,
-    PlaylistComponent
+    PlayerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    ScrollingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
