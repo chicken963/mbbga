@@ -1,0 +1,17 @@
+.spacer {
+    flex: 1 1 auto;
+}
+
+.login-button:hover {
+    background-color: #a0a0a0;
+}
+
+#hello-user {
+    margin-right: 5px;
+}
+
+/*
+#logout-button {
+    background-color: #2196f3;
+    color: #ffffff;
+}*/

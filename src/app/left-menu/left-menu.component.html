@@ -1,0 +1,14 @@
+<mat-list >
+    <mat-list-item *ngIf="isAuthorized()">
+        <mat-icon mat-list-icon>dashboard</mat-icon>
+        <h4 mat-line>Dashboard</h4>
+    </mat-list-item>
+    <mat-list-item *ngIf="isAuthorized()">
+        <mat-icon mat-list-icon>library_music</mat-icon>
+        <h4 mat-line>Music Library</h4>
+    </mat-list-item>
+    <mat-list-item>
+        <mat-icon mat-list-icon>settings</mat-icon>
+        <h4 mat-line>Settings</h4>
+    </mat-list-item>
+</mat-list>

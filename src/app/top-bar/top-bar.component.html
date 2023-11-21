@@ -1,0 +1,28 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button (click)="toggleLeftMenu()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span class="spacer"></span>
+    <h2>MuzBAT</h2>
+    <span class="spacer"></span>
+    <div *ngIf="isAuthorized()">
+        <button mat-icon-button>
+            <mat-icon>notifications</mat-icon>
+        </button>
+        <button mat-button [matMenuTriggerFor]="adminMenu">
+            <span id="hello-user">Hello, {{getCurrentUser()}}</span>
+            <mat-icon>account_circle</mat-icon>
+        </button>
+    </div>
+    <div *ngIf="!isAuthorized()">
+        <button routerLink="/login" mat-raised-button class="login-button">
+            <mat-icon aria-hidden="false">login</mat-icon>
+            Login
+        </button>
+    </div>
+
+    <mat-menu #adminMenu="matMenu">
+        <button mat-menu-item (click)="logout()" id="logout-button">Logout</button>
+    </mat-menu>
+
+</mat-toolbar>
