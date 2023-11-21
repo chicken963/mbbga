@@ -10,11 +10,11 @@
       <mat-list color="primary">
         <h3 mat-subheader>Songs</h3>
         <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-        <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)">
+        <mat-list-item *ngFor="let file of files; let i = index" >
           <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
           <h4 mat-line>{{ file.name }}</h4>
           <h5 mat-line>by {{ file.artist }}</h5>
-          <h6 *ngIf="currentFile.index === i && state?.error">ERROR</h6>
+          <h6 *ngIf="currentFile.index === i">ERROR</h6>
           <mat-divider></mat-divider>
         </mat-list-item>
       </cdk-virtual-scroll-viewport>
@@ -22,7 +22,7 @@
     </div>
     <div class="media-footer">
       <mat-toolbar color="primary">
-        <mat-toolbar-row>
+        <!--<mat-toolbar-row>
            {{ state.readableCurrentTime }}
            <mat-slider class="time-slider" min="0" [max]="state.duration" step="1"  [value]="state.currentTime" (input)="onSliderChangeEnd($event)" [disabled]="state.error || currentFile.index === undefined"></mat-slider>
            {{ state.readableDuration }}
@@ -45,7 +45,7 @@
           </button>
           <mat-slider class="wolume-slider" min="0" max="1" step="0.01" [value]="state.volume" (input)="onVolumeChanged($event)" [disabled]="state.error || currentFile.index === undefined"></mat-slider>
           <mat-icon color="primary" *ngIf="!state?.error">volume_up</mat-icon>
-        </mat-toolbar-row>
+        </mat-toolbar-row>-->
       </mat-toolbar>
     </div>
 </div>
