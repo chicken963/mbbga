@@ -1,0 +1,13 @@
+
+.file-input-button {
+    display: flex;
+    align-items: center;
+}
+
+.file-input-button mat-icon {
+    margin-right: 8px;
+}
+
+input[type="file"] {
+    display: none;
+}

@@ -18,6 +18,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatMenuModule} from "@angular/material/menu";
+import {LibraryModule} from "./library/library.module";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {MatMenuModule} from "@angular/material/menu";
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatMenuModule
+    MatMenuModule,
+    LibraryModule
   ],
   providers: [
     {

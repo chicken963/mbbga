@@ -3,7 +3,7 @@
         <mat-icon mat-list-icon>dashboard</mat-icon>
         <h4 mat-line>Dashboard</h4>
     </mat-list-item>
-    <mat-list-item *ngIf="isAuthorized()">
+    <mat-list-item *ngIf="isAuthorized()" routerLink="/audio-library">
         <mat-icon mat-list-icon>library_music</mat-icon>
         <h4 mat-line>Music Library</h4>
     </mat-list-item>

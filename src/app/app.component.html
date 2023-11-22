@@ -4,8 +4,8 @@
     <app-left-menu></app-left-menu>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
+    <div class="row mt-5">
+      <div  [ngClass]="{'main-content': true, 'router-container': true, 'main-content-opened': isMenuVisible, 'col-md-8': true}">
         <router-outlet></router-outlet>
       </div>
     </div>

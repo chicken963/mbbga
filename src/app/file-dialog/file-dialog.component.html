@@ -1,0 +1,7 @@
+<button mat-raised-button color="primary">
+    <label for="fileInput" class="mat-button file-input-button">
+        <mat-icon>playlist_add</mat-icon>
+        <input #fileInput type="file" id="fileInput" (change)="showWorkbench($event)" accept=".mp3" multiple/>
+        Add audio track(s)
+    </label>
+</button>

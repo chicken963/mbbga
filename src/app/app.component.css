@@ -2,3 +2,17 @@ app-left-menu {
     display: block;
     height: 100%;
 }
+
+.router-container {
+    height: 100%;
+    width: 100%;
+}
+
+.main-content {
+    width: 80%;
+}
+
+.main-content-opened {
+    margin-left: 100px;
+    margin-right: 100px;
+}

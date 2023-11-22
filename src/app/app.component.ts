@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ToggleLeftServiceService} from "./services/toggle-left-service.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {LeftMenuComponent} from "./left-menu/left-menu.component";
 
 @Component({
   selector: 'app-root',
