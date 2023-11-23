@@ -19,6 +19,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatMenuModule} from "@angular/material/menu";
 import {LibraryModule} from "./library/library.module";
+import { OkPopupComponent } from './ok-popup/ok-popup.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -27,23 +29,25 @@ import {LibraryModule} from "./library/library.module";
     LoginComponent,
     WelcomeComponent,
     LeftMenuComponent,
-    TopBarComponent
+    TopBarComponent,
+    OkPopupComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    ScrollingModule,
-    FormsModule,
-    MatSidenavModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatMenuModule,
-    LibraryModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        ScrollingModule,
+        FormsModule,
+        MatSidenavModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatMenuModule,
+        LibraryModule,
+        MatDialogModule
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

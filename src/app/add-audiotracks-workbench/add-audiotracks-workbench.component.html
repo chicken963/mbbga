@@ -1,5 +1,45 @@
 <div id="container" *ngIf="data">
-    <div *ngFor="let file of data">
-        <p>{{file.name}}</p>
+    <div class="library-cards">
+        <div *ngFor="let audiotrack of audiotracks" class="d-flex flex-column">
+            <div class="d-flex flex-row justify-content-sm-between align-items-baseline">
+                <mat-form-field class="time">
+                    <mat-label>Start time</mat-label>
+                    <input matInput
+                           timeMask="00:00.0"
+                           placeholder="mm:ss.S"
+                           value="{{ audiotrack.startTime | timeFormat:'string' }}"
+                           (change)="updateStartTime($event, audiotrack)">
+                </mat-form-field>
+                <mat-form-field class="m-1 col-md-3">
+                    <mat-label>Artist</mat-label>
+                    <input matInput [(ngModel)]="audiotrack.artist">
+                </mat-form-field>
+                <mat-form-field class="m-1 col-md-4">
+                    <mat-label>Name</mat-label>
+                    <input matInput [(ngModel)]="audiotrack.name">
+                </mat-form-field>
+                <mat-form-field class="time">
+                    <mat-label>End time</mat-label>
+                    <input matInput
+                           timeMask="00:00.0"
+                           placeholder="mm:ss.S"
+                           value="{{ audiotrack.endTime | timeFormat:'string' }}"
+                           (change)="updateEndTime($event, audiotrack)">
+                </mat-form-field>
+                <mat-form-field class="time">
+                    <mat-label>Total</mat-label>
+                    <input matInput timeMask="00:00.0" placeholder="mm:ss.S" disabled
+                           value="{{ audiotrack.length | timeFormat:'string' }}">
+                </mat-form-field>
+            </div>
+            <div class="audio-container d-flex flex-row justify-content-center">
+                <audio controls>
+                    <source [src]="audiotrack.url" type="audio/mp3">
+                    Your browser does not support the audio tag.
+                </audio>
+            </div>
+        </div>
     </div>
+
+    <button mat-raised-button color="primary" (click)="addToLibrary()">Add to library</button>
 </div>

@@ -10,12 +10,10 @@ export class CloseDialogPopupComponent {
   constructor(private dialogRef: MatDialogRef<CloseDialogPopupComponent>) {}
 
   onConfirm(): void {
-    console.log("closing");
     this.dialogRef.close(true);
   }
 
   onCancel(): void {
-    console.log("not closing");
     this.dialogRef.close(false);
   }
 }

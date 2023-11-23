@@ -2,7 +2,7 @@
     <app-file-dialog></app-file-dialog>
 </div>
 <div class="library-container">
-    <mat-accordion *ngIf="content">
+    <mat-accordion *ngIf="content" [multi]="true">
         <mat-expansion-panel *ngFor="let letter of content">
             <mat-expansion-panel-header>
                 {{ letter.letter }}
