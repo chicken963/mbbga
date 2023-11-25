@@ -1,0 +1,19 @@
+.message-container {
+    color: white;
+}
+
+.done-all {
+    color: chartreuse;
+}
+/* Note: If you're using an SVG icon, you should make the class target the `<svg>` element */
+.white-icon svg {
+    fill: chartreuse;
+}
+
+.error {
+    color: #c2185b;
+}
+/* Note: If you're using an SVG icon, you should make the class target the `<svg>` element */
+.error svg {
+    fill: #c2185b;
+}

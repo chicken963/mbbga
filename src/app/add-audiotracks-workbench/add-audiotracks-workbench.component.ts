@@ -1,12 +1,17 @@
-import {Component, ElementRef, HostListener, Inject} from '@angular/core';
+import {Component, ElementRef, HostListener, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {CloseDialogPopupComponent} from "../close-dialog-popup/close-dialog-popup.component";
 import {LocalAudioService} from "../local-audio/local-audio-service";
 import {LocalAudioTrack} from "../local-audio/local-audio-track";
 import {HttpClient} from "@angular/common/http";
-import {LoadingService} from "../loading.service";
 import {OkPopupComponent} from "../ok-popup/ok-popup.component";
 import {TimeConversionService} from "../time-conversion.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {AudioTrack} from "../interfaces/audiotrack";
+import {NotificationComponent} from "../notification/notification.component";
+import {NotificationService} from "../utils/notification.service";
+import {DialogService} from "../utils/dialog.service";
+import {LibraryService} from "../library-content/library.service";
 
 @Component({
     selector: 'app-add-audiotracks-workbench',
@@ -19,13 +24,14 @@ export class AddAudiotracksWorkbenchComponent {
     audiotracks: LocalAudioTrack[] = [];
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: File[],
-                private dialog: MatDialog,
                 private selfDialogRef: MatDialogRef<AddAudiotracksWorkbenchComponent>,
                 private elementRef: ElementRef,
+                private dialogService: DialogService,
                 private localAudioService: LocalAudioService,
                 private http: HttpClient,
-                private loadingService: LoadingService,
-                private timeConversionService: TimeConversionService) {
+                private timeConversionService: TimeConversionService,
+                private notificationService: NotificationService,
+                private libraryService: LibraryService) {
         data.map(file => this.localAudioService.toLocalAudioTrack(file)
             .then(audiotrack => this.audiotracks.push(audiotrack)));
     }
@@ -40,21 +46,22 @@ export class AddAudiotracksWorkbenchComponent {
     }
 
     openConfirmationDialog(): void {
-        const confirmationDialogRef = this.dialog.open(CloseDialogPopupComponent);
-        confirmationDialogRef.afterClosed().subscribe((confirmed: boolean) => {
-            this.dialogIsOpened = false;
-            if (confirmed) {
-                this.selfDialogRef.close();
-            }
-        });
+        this.dialogService.openYesNoPopup("Are you sure you want to interrupt adding audio tracks to library?\nAll changes will be lost.",
+            (confirmed: boolean) => {
+                this.dialogIsOpened = false;
+                if (confirmed) {
+                    this.selfDialogRef.close();
+                }
+            });
     }
 
     addToLibrary() {
-        this.loadingService.show();
         let counter = 0;
+        let anyTrackFailed: boolean = false;
         for (let audiotrack of this.audiotracks) {
             const formData = new FormData();
             formData.append('file', audiotrack.file, audiotrack.name);
+            this.selfDialogRef.close();
             this.http.post("/audiotracks/add", audiotrack.file, {
                 params:
                     {
@@ -65,41 +72,24 @@ export class AddAudiotracksWorkbenchComponent {
                         duration: audiotrack.length
                     }
             }).subscribe(response => {
-                counter += 1;
-                if (counter == this.audiotracks.length) {
-                    this.loadingService.hide();
-                    this.dialogIsOpened = true;
-                    const confirmationDialogRef = this.dialog.open(OkPopupComponent,
-                        {
-                            data: {
-                                header: "Success",
-                                content: "Audio tracks successfully added to library."
-                            }
-                        });
-                    confirmationDialogRef.afterClosed().subscribe(() => {
-                        this.selfDialogRef.close();
-                        this.dialogIsOpened = false;
-                    });
-                }
-            },
+                    counter += 1;
+                    let audio = response as unknown as AudioTrack;
+                    this.libraryService.emitLibraryChangedEvent(audio);
+                    this.notificationService.showNotification(`Audio track '${audio.artist} - ${audio.name}' was successfully added to library`)
+                },
                 error => {
                     counter += 1;
-                    if (counter == this.audiotracks.length) {
-                        this.loadingService.hide();
-                        this.dialogIsOpened = true;
-                        const confirmationDialogRef = this.dialog.open(OkPopupComponent,
-                            {
-                                data: {
-                                    header: "Error",
-                                    content: "Something went wrong. Reason: " + error.message
-                                }
-                            });
-                        confirmationDialogRef.afterClosed().subscribe(() => {
-                            this.selfDialogRef.close();
-                            this.dialogIsOpened = false;
-                        });
+                    this.notificationService.showNotification(`Error happened while adding '${audiotrack.artist} - ${audiotrack.name}' to library. Reason: ${error.message}`);
+                }).add(() => {
+                if (counter == this.audiotracks.length) {
+                    if (anyTrackFailed) {
+                        this.notificationService.showNotification(
+                            "Some of the tracks were not added to library.", "error");
+                    } else {
+                        this.notificationService.showNotification(
+                            "Audio tracks successfully added to library.", "done-all");
                     }
-                })
+                }});
         }
     }
 

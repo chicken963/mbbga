@@ -13,6 +13,7 @@ import {MatInputModule} from "@angular/material/input";
 import { AudioTimeDirective } from '../audio-time.directive';
 import {FormsModule} from "@angular/forms";
 import {TimeFormatModule} from "../time-format/time-format.module";
+import { LibraryContentComponent } from '../library-content/library-content.component';
 
 
 
@@ -22,7 +23,8 @@ import {TimeFormatModule} from "../time-format/time-format.module";
     AddAudiotracksWorkbenchComponent,
     FileDialogComponent,
     CloseDialogPopupComponent,
-    AudioTimeDirective
+    AudioTimeDirective,
+    LibraryContentComponent
   ],
   imports: [
     CommonModule,

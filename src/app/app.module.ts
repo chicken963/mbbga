@@ -21,6 +21,8 @@ import {MatMenuModule} from "@angular/material/menu";
 import {LibraryModule} from "./library/library.module";
 import { OkPopupComponent } from './ok-popup/ok-popup.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     WelcomeComponent,
     LeftMenuComponent,
     TopBarComponent,
-    OkPopupComponent
+    OkPopupComponent,
+    NotificationComponent
   ],
     imports: [
         BrowserModule,
@@ -46,9 +49,11 @@ import {MatDialogModule} from "@angular/material/dialog";
         MatInputModule,
         MatMenuModule,
         LibraryModule,
-        MatDialogModule
+        MatDialogModule,
+        MatSnackBarModule
     ],
   providers: [
+      MatSnackBarModule,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

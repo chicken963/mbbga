@@ -2,23 +2,7 @@
     <app-file-dialog></app-file-dialog>
 </div>
 <div class="library-container">
-    <mat-accordion *ngIf="content" [multi]="true">
-        <mat-expansion-panel *ngFor="let letter of content">
-            <mat-expansion-panel-header>
-                {{ letter.letter }}
-            </mat-expansion-panel-header>
-            <div *ngFor="let artist of letter.artists">
-                <mat-expansion-panel>
-                    <mat-expansion-panel-header>
-                        {{ artist.artistName }}
-                    </mat-expansion-panel-header>
-                    <ul>
-                        <li *ngFor="let track of artist.audioTracks">{{track.artist}} - {{track.name}}</li>
-                    </ul>
-                </mat-expansion-panel>
-            </div>
-        </mat-expansion-panel>
-    </mat-accordion>
+    <app-library-content [content]="content"></app-library-content>
     <div *ngIf="!content" class="spinner-container">
         <p>Loading library...</p>
         <mat-spinner></mat-spinner>

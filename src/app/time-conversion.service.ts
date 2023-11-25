@@ -17,7 +17,6 @@ export class TimeConversionService {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = Math.floor(seconds % 60);
         const decimals = Math.floor(parseFloat((seconds % 1).toFixed(1)) * 10);
-        console.log(`${this.padNumber(minutes)}:${this.padNumber(remainingSeconds)}.${decimals}`)
         return `${this.padNumber(minutes)}:${this.padNumber(remainingSeconds)}.${decimals}`;
     }
 

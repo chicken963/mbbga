@@ -24,3 +24,7 @@ mat-sidenav-container {
 .mat-drawer-content {
     overflow: hidden !important;
 }
+
+snack-bar-container {
+    background: #424242 !important;
+}

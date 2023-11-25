@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-close-dialog-popup',
@@ -7,7 +7,8 @@ import {MatDialogRef} from "@angular/material/dialog";
   styleUrls: ['./close-dialog-popup.component.css']
 })
 export class CloseDialogPopupComponent {
-  constructor(private dialogRef: MatDialogRef<CloseDialogPopupComponent>) {}
+  constructor(private dialogRef: MatDialogRef<CloseDialogPopupComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any,) {}
 
   onConfirm(): void {
     this.dialogRef.close(true);

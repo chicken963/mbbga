@@ -1,0 +1,8 @@
+<div class="custom-snack-bar d-flex flex-row">
+    <mat-icon  *ngIf="data.icon == 'error'" class="error">error</mat-icon>
+    <span class="message-container">{{ data.message }}</span>
+    <mat-icon *ngIf="data.icon == 'done-all'" class="done-all">done_all</mat-icon>
+    <button mat-icon-button (click)="dismiss()" color="accent">
+        <mat-icon aria-label="Close snack bar">close</mat-icon>
+    </button>
+</div>

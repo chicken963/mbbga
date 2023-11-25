@@ -1,0 +1,58 @@
+<mat-accordion id="container" *ngIf="content" [multi]="true" class="mb-3">
+    <mat-expansion-panel *ngIf="latinContent" class="letter-range mb-3">
+        <mat-expansion-panel-header>A - Z</mat-expansion-panel-header>
+        <mat-expansion-panel *ngFor="let letter of latinContent">
+            <mat-expansion-panel-header>
+                {{ letter.letter }}
+            </mat-expansion-panel-header>
+            <div *ngFor="let artist of letter.artists">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        {{ artist.artistName }}
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li *ngFor="let track of artist.audioTracks">{{track.artist}} - {{track.name}}</li>
+                    </ul>
+                </mat-expansion-panel>
+            </div>
+        </mat-expansion-panel>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="slavicContent" class="letter-range mb-3">
+        <mat-expansion-panel-header>А - Я</mat-expansion-panel-header>
+        <mat-expansion-panel *ngFor="let letter of slavicContent">
+            <mat-expansion-panel-header>
+                {{ letter.letter }}
+            </mat-expansion-panel-header>
+            <div *ngFor="let artist of letter.artists">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        {{ artist.artistName }}
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li *ngFor="let track of artist.audioTracks">{{track.artist}} - {{track.name}}</li>
+                    </ul>
+                </mat-expansion-panel>
+            </div>
+        </mat-expansion-panel>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="otherContent" class="letter-range mb-3">
+        <mat-expansion-panel-header>0-9!@#$%^&*():"?<>|\,.</mat-expansion-panel-header>
+        <mat-expansion-panel *ngFor="let letter of otherContent">
+            <mat-expansion-panel-header>
+                {{ letter.letter }}
+            </mat-expansion-panel-header>
+            <div *ngFor="let artist of letter.artists">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        {{ artist.artistName }}
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li *ngFor="let track of artist.audioTracks">{{track.artist}} - {{track.name}}</li>
+                    </ul>
+                </mat-expansion-panel>
+            </div>
+        </mat-expansion-panel>
+    </mat-expansion-panel>
+</mat-accordion>
+
+
