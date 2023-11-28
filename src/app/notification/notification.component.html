@@ -1,9 +1,9 @@
-<div *ngFor="let message of data.message" class="custom-snack-bar d-flex flex-column align-items-center">
+<div *ngFor="let message of messages" class="custom-snack-bar d-flex flex-column align-items-center">
     <div class="custom-snack-bar d-flex flex-row align-items-center">
         <mat-icon  *ngIf="data.icon == 'error'" class="error">error</mat-icon>
         <span class="message-container">{{ message }}</span>
         <mat-icon *ngIf="data.icon == 'done-all'" class="done-all">done_all</mat-icon>
-        <button mat-icon-button (click)="removeMessage(data.message, message)" color="accent">
+        <button mat-icon-button (click)="removeMessage(message)" color="accent">
             <mat-icon aria-label="Close snack bar">close</mat-icon>
         </button>
     </div>

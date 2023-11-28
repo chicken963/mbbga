@@ -1,4 +1,4 @@
-import {Component, Inject, Input} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from "@angular/material/snack-bar";
 
 @Component({
@@ -8,17 +8,17 @@ import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from "@angular/material/snack-bar";
 })
 export class NotificationComponent {
 
-  constructor(public snackBarRef: MatSnackBarRef<NotificationComponent>,
-              @Inject(MAT_SNACK_BAR_DATA) public data: any,) {}
+  messages: string[] = [];
 
-  dismiss() {
-    this.snackBarRef.dismiss();
+  constructor(public snackBarRef: MatSnackBarRef<NotificationComponent>,
+              @Inject(MAT_SNACK_BAR_DATA) public data: any) {
+    this.messages = this.data.messages;
   }
 
-  removeMessage(messages: string[], message: string) {
-    messages.splice(messages.indexOf(message), 1);
-    if (messages.length === 0) {
-      this.dismiss();
+  removeMessage(message: string) {
+    this.messages.splice(this.messages.indexOf(message), 1);
+    if (this.messages.length === 0) {
+      this.snackBarRef.dismiss();
     }
   }
 }
