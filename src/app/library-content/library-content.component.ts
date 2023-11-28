@@ -24,7 +24,7 @@ export class LibraryContentComponent{
 
   ngOnInit(): void {
     setInterval(() => {
-      this.notificationService.showNotification(
+      this.notificationService.pushNotification(
           `Track ${this.index++} were not added to library.`, "error", 5000);
     }, 2000)
   }

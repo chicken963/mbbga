@@ -13,7 +13,7 @@ export class NotificationService {
     constructor(private snackBar: MatSnackBar) {
     }
 
-    public showNotification(message: string, icon?: string, duration: number = 5000): void {
+    public pushNotification(message: string, icon?: string, duration: number = 5000): void {
         this.messages.push(message);
         if (!this.snackBarIsDisplayed) {
             this.snackBarRef = this.snackBar.openFromComponent(NotificationComponent, {
@@ -21,8 +21,7 @@ export class NotificationService {
                 verticalPosition: 'top',
                 data: {
                     messages: this.messages,
-                    icon: icon,
-                    duration: duration,
+                    icon: icon
                 }
             });
             this.snackBarIsDisplayed = true;

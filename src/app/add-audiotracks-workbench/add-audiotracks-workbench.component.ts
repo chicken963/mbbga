@@ -75,18 +75,18 @@ export class AddAudiotracksWorkbenchComponent {
                     counter += 1;
                     let audio = response as unknown as AudioTrack;
                     this.libraryService.emitLibraryChangedEvent(audio);
-                    this.notificationService.showNotification(`Audio track '${audio.artist} - ${audio.name}' was successfully added to library`)
+                    this.notificationService.pushNotification(`Audio track '${audio.artist} - ${audio.name}' was successfully added to library`)
                 },
                 error => {
                     counter += 1;
-                    this.notificationService.showNotification(`Error happened while adding '${audiotrack.artist} - ${audiotrack.name}' to library. Reason: ${error.message}`);
+                    this.notificationService.pushNotification(`Error happened while adding '${audiotrack.artist} - ${audiotrack.name}' to library. Reason: ${error.message}`);
                 }).add(() => {
                 if (counter == this.audiotracks.length) {
                     if (anyTrackFailed) {
-                        this.notificationService.showNotification(
+                        this.notificationService.pushNotification(
                             "Some of the tracks were not added to library.", "error");
                     } else {
-                        this.notificationService.showNotification(
+                        this.notificationService.pushNotification(
                             "Audio tracks successfully added to library.", "done-all");
                     }
                 }});
