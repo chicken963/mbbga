@@ -22,12 +22,12 @@ export class LibraryContentComponent{
   latinContent: LibraryLetter[];
   otherContent: LibraryLetter[];
 
-  ngOnInit(): void {
+  /*ngOnInit(): void {
     setInterval(() => {
       this.notificationService.pushNotification(
           `Track ${this.index++} were not added to library.`, "error", 5000);
     }, 2000)
-  }
+  }*/
 
   ngOnChanges(): void {
     this.slavicContent = this.content?.filter(libraryLetter => this.cyrillicRegex.test(libraryLetter.letter));
