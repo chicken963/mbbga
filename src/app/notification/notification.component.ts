@@ -14,4 +14,11 @@ export class NotificationComponent {
   dismiss() {
     this.snackBarRef.dismiss();
   }
+
+  removeMessage(messages: string[], message: string) {
+    messages.splice(messages.indexOf(message), 1);
+    if (messages.length === 0) {
+      this.dismiss();
+    }
+  }
 }

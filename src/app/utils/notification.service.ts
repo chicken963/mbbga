@@ -6,35 +6,38 @@ import {NotificationComponent} from "../notification/notification.component";
     providedIn: 'root',
 })
 export class NotificationService {
-
-    private queue: MatSnackBarRef<NotificationComponent>[] = [];
+    private index: number = 0;
+    private messages: string[] = [];
+    private snackBarRef: MatSnackBarRef<NotificationComponent> | null = null;
 
     constructor(private snackBar: MatSnackBar) {
     }
 
     public showNotification(message: string, icon?: string, duration: number = 5000): void {
-        let snackBarRef = this.snackBar.openFromComponent(NotificationComponent, {
-            data: {
-                message: message,
-                icon: icon,
-                duration: duration,
+        console.log("showing notification " + this.index++);
+        this.messages.push(message);
+        if (this.snackBarRef === null) {
+            this.snackBarRef = this.snackBar.openFromComponent(NotificationComponent, {
                 horizontalPosition: 'end',
                 verticalPosition: 'top',
+                data: {
+                    message: this.messages,
+                    icon: icon,
+                    duration: duration,
+                }
+            });
+        }
+        let self = this;
+        setTimeout(() => {
+            self.messages.splice(self.messages.indexOf(message), 1);
+            if (this.messages.length === 0) {
+                self.snackBarRef?.dismiss();
             }
+        }, duration);
+
+        this.snackBarRef.afterDismissed().subscribe(() => {
+            this.snackBarRef = null;
         });
-
-        /*snackBarRef.afterDismissed().subscribe(() => {
-            this.queue.shift();
-            if (this.queue.length > 0) {
-                this.queue[0].dismiss();
-            }
-        });
-
-        this.queue.push(snackBarRef);
-
-        if (this.queue.length === 1) {
-            snackBarRef.dismiss();
-        }*/
     }
 
 

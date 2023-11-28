@@ -17,3 +17,8 @@
 .error svg {
     fill: #c2185b;
 }
+
+mat-icon {
+    margin-right: 5px;
+    margin-left: 5px;
+}
