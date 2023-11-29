@@ -23,18 +23,20 @@ import { OkPopupComponent } from './ok-popup/ok-popup.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NotificationComponent } from './notification/notification.component';
+import {TimeFormatModule} from "./time-format/time-format.module";
+import {MatLineModule} from "@angular/material/core";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PlayerComponent,
-    LoginComponent,
-    WelcomeComponent,
-    LeftMenuComponent,
-    TopBarComponent,
-    OkPopupComponent,
-    NotificationComponent
-  ],
+    declarations: [
+        AppComponent,
+        PlayerComponent,
+        LoginComponent,
+        WelcomeComponent,
+        LeftMenuComponent,
+        TopBarComponent,
+        OkPopupComponent,
+        NotificationComponent
+    ],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -50,16 +52,18 @@ import { NotificationComponent } from './notification/notification.component';
         MatMenuModule,
         LibraryModule,
         MatDialogModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        TimeFormatModule,
+        MatLineModule
     ],
-  providers: [
-      MatSnackBarModule,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent]
+    providers: [
+        MatSnackBarModule,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

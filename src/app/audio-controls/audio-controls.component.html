@@ -1,0 +1,67 @@
+<mat-card class="mat-elevation-z8">
+    <mat-card-content>
+        <div class="controls-container">
+            <div class="d-flex flex-column">
+                <div class="d-flex flex-row justify-content-sm-between align-items-baseline">
+                    <mat-form-field class="time m-1">
+                        <mat-label>Start time</mat-label>
+                        <input matInput
+                               timeMask="00:00.0"
+                               placeholder="mm:ss.S"
+                               value="{{ audioTrack.startTime | timeFormat:'string' }}"
+                               (change)="updateStartTime($event, audioTrack)">
+                    </mat-form-field>
+                    <mat-form-field class="m-1 col-md-3">
+                        <mat-label>Artist</mat-label>
+                        <input matInput [(ngModel)]="audioTrack.artist">
+                    </mat-form-field>
+                    <mat-form-field class="m-1 col-md-4">
+                        <mat-label>Name</mat-label>
+                        <input matInput [(ngModel)]="audioTrack.name">
+                    </mat-form-field>
+                    <mat-form-field class="time m-1">
+                        <mat-label>End time</mat-label>
+                        <input matInput
+                               timeMask="00:00.0"
+                               placeholder="mm:ss.S"
+                               value="{{ audioTrack.endTime | timeFormat:'string' }}"
+                               (change)="updateEndTime($event, audioTrack)">
+                    </mat-form-field>
+                    <mat-form-field class="time m-1">
+                        <mat-label>Total</mat-label>
+                        <input matInput timeMask="00:00.0" placeholder="mm:ss.S" disabled
+                               value="{{ audioTrack.length | timeFormat:'string' }}">
+                    </mat-form-field>
+                </div>
+                <div class="audio-container d-flex flex-row justify-content-between">
+                    <audio #defaultAudio>
+                        <source [src]="audioTrack.url" type="audio/mp3">
+                        Your browser does not support the audio tag.
+                    </audio>
+                    <div class="range-slider-and-buttons d-flex flex-row justify-content-between">
+                        <div class="d-flex flex-row justify-content-start align-items-center">
+                            <button mat-button class="play-control-button" (click)="play()" *ngIf="!isPlaying()">
+                                <mat-icon>play_arrow</mat-icon>
+                            </button>
+                            <button mat-button class="play-control-button" (click)="pause()" *ngIf="isPlaying()">
+                                <mat-icon>pause</mat-icon>
+                            </button>
+                            <button mat-button class="play-control-button" (click)="stop()">
+                                <mat-icon>stop</mat-icon>
+                            </button>
+                            <button mat-button class="play-control-button" (click)="replay5()">
+                                <mat-icon>replay_5</mat-icon>
+                            </button>
+                            <button mat-button class="play-control-button" (click)="forward5()">
+                                <mat-icon>forward_5</mat-icon>
+                            </button>
+                        </div>
+                        <app-range-slider class="m-3" [audio-track]="audioTrack"></app-range-slider>
+                    </div>
+                    <app-volume-slider class="d-flex align-items-center"></app-volume-slider>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+<br>

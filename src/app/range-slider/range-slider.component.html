@@ -1,0 +1,4 @@
+<mat-slider *ngIf="audioTrack" min="0" max="{{audioTrack.length}}">
+    <input [(ngModel)]="audioTrack.startTime" matSliderStartThumb>
+    <input [(ngModel)]="audioTrack.endTime" matSliderEndThumb>
+</mat-slider>

@@ -6,32 +6,35 @@ import {NotificationComponent} from "../notification/notification.component";
     providedIn: 'root',
 })
 export class NotificationService {
-    private messages: string[] = [];
+    private notifications: NotificationMessage[] = [];
     private snackBarRef: MatSnackBarRef<NotificationComponent>;
     private snackBarIsDisplayed: boolean = false;
 
     constructor(private snackBar: MatSnackBar) {
     }
 
-    public pushNotification(message: string, icon?: string, duration: number = 5000): void {
-        this.messages.push(message);
+    public pushNotification(message: string, type?: NotificationType, duration: number = 5000): void {
+        let notification = {message: message, icon: type ? type : "info"};
+        this.notifications.push(notification);
         if (!this.snackBarIsDisplayed) {
             this.snackBarRef = this.snackBar.openFromComponent(NotificationComponent, {
                 horizontalPosition: 'end',
                 verticalPosition: 'top',
-                data: {
-                    messages: this.messages,
-                    icon: icon
-                }
+                data: { notifications: this.notifications }
             });
             this.snackBarIsDisplayed = true;
         }
-        setTimeout(() => this.snackBarRef.instance.removeMessage(message), duration);
+        setTimeout(() => this.snackBarRef.instance.removeMessage(notification), duration);
 
         this.snackBarRef.afterDismissed().subscribe(() => {
             this.snackBarIsDisplayed = false;
         });
     }
-
-
 }
+
+export type NotificationMessage = {
+    message: string;
+    icon: NotificationType;
+}
+
+export type NotificationType = "success" | "error" | "info";

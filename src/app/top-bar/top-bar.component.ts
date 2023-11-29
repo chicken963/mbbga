@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component} from '@angular/core';
 import {ToggleLeftServiceService} from "../services/toggle-left-service.service";
 import {AuthService} from "../services/auth.service";
 

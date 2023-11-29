@@ -1,0 +1,13 @@
+<div class="volume-slider-container d-flex flex-row">
+    <button mat-icon-button (mouseenter)="showSlider = true" >
+        <mat-icon color="accent">volume_up</mat-icon>
+    </button>
+    <mat-slider color="accent"
+            *ngIf="showSlider"
+            class="volume-slider m-2"
+            min="0"
+            max="100"
+            [discrete]="true">
+        <input matSliderThumb>
+    </mat-slider>
+</div>

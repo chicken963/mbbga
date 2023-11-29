@@ -15,6 +15,14 @@ import {FormsModule} from "@angular/forms";
 import {TimeFormatModule} from "../time-format/time-format.module";
 import { LibraryContentComponent } from '../library-content/library-content.component';
 
+import {MatSliderModule} from '@angular/material/slider';
+import {AudioControlsComponent} from "../audio-controls/audio-controls.component";
+import {MatListModule} from "@angular/material/list";
+import {RangeSliderComponent} from "../range-slider/range-slider.component";
+import {MatCardModule} from "@angular/material/card";
+import {AppModule} from "../app.module";
+import {VolumeSliderComponent} from "../volume-slider/volume-slider.component";
+
 
 
 @NgModule({
@@ -24,19 +32,25 @@ import { LibraryContentComponent } from '../library-content/library-content.comp
     FileDialogComponent,
     CloseDialogPopupComponent,
     AudioTimeDirective,
-    LibraryContentComponent
+    LibraryContentComponent,
+    AudioControlsComponent,
+    VolumeSliderComponent
   ],
-  imports: [
-    CommonModule,
-    MatExpansionModule,
-    MatProgressSpinnerModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDialogModule,
-    MatInputModule,
-    FormsModule,
-    TimeFormatModule
-  ],
+    imports: [
+        CommonModule,
+        MatExpansionModule,
+        MatProgressSpinnerModule,
+        MatButtonModule,
+        MatIconModule,
+        MatDialogModule,
+        MatInputModule,
+        FormsModule,
+        TimeFormatModule,
+        MatSliderModule,
+        MatListModule,
+        RangeSliderComponent,
+        MatCardModule
+    ],
   entryComponents: [AddAudiotracksWorkbenchComponent]
 })
 export class LibraryModule { }

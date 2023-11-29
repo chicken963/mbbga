@@ -29,7 +29,6 @@ export class AddAudiotracksWorkbenchComponent {
                 private dialogService: DialogService,
                 private localAudioService: LocalAudioService,
                 private http: HttpClient,
-                private timeConversionService: TimeConversionService,
                 private notificationService: NotificationService,
                 private libraryService: LibraryService) {
         data.map(file => this.localAudioService.toLocalAudioTrack(file)
@@ -87,17 +86,9 @@ export class AddAudiotracksWorkbenchComponent {
                             "Some of the tracks were not added to library.", "error");
                     } else {
                         this.notificationService.pushNotification(
-                            "Audio tracks successfully added to library.", "done-all");
+                            "Audio tracks successfully added to library.", "success");
                     }
                 }});
         }
-    }
-
-    updateStartTime($event: any, audiotrack: LocalAudioTrack) {
-        audiotrack.startTime = this.timeConversionService.stringToSeconds($event.target.value);
-    }
-
-    updateEndTime($event: any, audiotrack: LocalAudioTrack) {
-        audiotrack.endTime = this.timeConversionService.stringToSeconds($event.target.value);
     }
 }

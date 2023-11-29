@@ -1,0 +1,15 @@
+.volume-slider-container {
+    position: relative;
+}
+
+.volume-slider {
+    position: absolute;
+    left: 53%;
+    width: 100px; /* Adjust width as needed */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.volume-slider:hover {
+    opacity: 1;
+}
