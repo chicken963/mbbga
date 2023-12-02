@@ -1,0 +1,31 @@
+<div class="d-flex flex-row justify-content-sm-between align-items-baseline">
+    <mat-form-field class="time m-1 col-xs-2">
+        <mat-label>Start time</mat-label>
+        <input matInput
+               timeMask="00:00.0"
+               placeholder="mm:ss.S"
+               value="{{ audioTrack.startTime | timeFormat:'string' }}"
+               (change)="updateStartTime($event, audioTrack)">
+    </mat-form-field>
+    <mat-form-field class="m-1 col-md-3">
+        <mat-label>Artist</mat-label>
+        <input matInput [(ngModel)]="audioTrack.artist">
+    </mat-form-field>
+    <mat-form-field class="m-1 col-md-4">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="audioTrack.name">
+    </mat-form-field>
+    <mat-form-field class="time m-1 col-xs-2">
+        <mat-label>End time</mat-label>
+        <input matInput
+               timeMask="00:00.0"
+               placeholder="mm:ss.S"
+               value="{{ audioTrack.endTime | timeFormat:'string' }}"
+               (change)="updateEndTime($event, audioTrack)">
+    </mat-form-field>
+    <mat-form-field class="time m-1 col-xs-2">
+        <mat-label>Total</mat-label>
+        <input matInput timeMask="00:00.0" placeholder="mm:ss.S" disabled
+               value="{{ audioTrack.length | timeFormat:'string' }}">
+    </mat-form-field>
+</div>

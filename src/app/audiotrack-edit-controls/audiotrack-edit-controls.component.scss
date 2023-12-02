@@ -1,0 +1,20 @@
+.container {
+  width: 100%;
+}
+
+.range-slider-and-buttons {
+  width: 100%;
+}
+app-range-slider {
+  width: 100%;
+}
+
+.play-control-button {
+  min-width: 30px;
+
+  mat-icon {
+    transform: scale(1.5);
+    margin-right: 0;
+  }
+
+}

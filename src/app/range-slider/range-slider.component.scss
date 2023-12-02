@@ -12,3 +12,16 @@ mat-slider {
     }
   }
 }
+
+::ng-deep .mdc-slider__thumb-knob {
+  --mdc-slider-handle-width: 16px;
+  --mdc-slider-handle-height: 16px;
+}
+
+::ng-deep .mat-mdc-slider-visual-thumb .mat-ripple {
+  height: 50% !important;
+  width: 50% !important;
+  border-radius: 50%;
+  top: 25%;
+  left: 25%;
+}

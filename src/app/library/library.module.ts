@@ -22,6 +22,8 @@ import {RangeSliderComponent} from "../range-slider/range-slider.component";
 import {MatCardModule} from "@angular/material/card";
 import {AppModule} from "../app.module";
 import {VolumeSliderComponent} from "../volume-slider/volume-slider.component";
+import { AudiotrackEditInputsComponent } from '../audiotrack-edit-inputs/audiotrack-edit-inputs.component';
+import { AudiotrackEditControlsComponent } from '../audiotrack-edit-controls/audiotrack-edit-controls.component';
 
 
 
@@ -34,7 +36,9 @@ import {VolumeSliderComponent} from "../volume-slider/volume-slider.component";
     AudioTimeDirective,
     LibraryContentComponent,
     AudioControlsComponent,
-    VolumeSliderComponent
+    VolumeSliderComponent,
+    AudiotrackEditInputsComponent,
+    AudiotrackEditControlsComponent
   ],
     imports: [
         CommonModule,

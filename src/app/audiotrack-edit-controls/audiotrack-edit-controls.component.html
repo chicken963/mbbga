@@ -1,0 +1,28 @@
+<div class="container d-flex flex-row justify-content-between">
+    <audio #defaultAudio>
+        <source [src]="audioTrack.url" type="audio/mp3">
+        Your browser does not support the audio tag.
+    </audio>
+    <div class="range-slider-and-buttons d-flex flex-row justify-content-start">
+        <div class="d-flex flex-row justify-content-start align-items-center">
+            <button mat-button class="play-control-button" (click)="play()" *ngIf="!isPlaying()">
+                <mat-icon>play_arrow</mat-icon>
+            </button>
+            <button mat-button class="play-control-button" (click)="pause()" *ngIf="isPlaying()">
+                <mat-icon>pause</mat-icon>
+            </button>
+            <button mat-button class="play-control-button" (click)="stop()">
+                <mat-icon>stop</mat-icon>
+            </button>
+            <button mat-button class="play-control-button" (click)="replay5()">
+                <mat-icon>replay_5</mat-icon>
+            </button>
+            <button mat-button class="play-control-button" (click)="forward5()">
+                <mat-icon>forward_5</mat-icon>
+            </button>
+        </div>
+        <app-range-slider class="m-3" [audio-track]="audioTrack"></app-range-slider>
+
+    </div>
+    <app-volume-slider class="d-flex align-items-center ml-5"></app-volume-slider>
+</div>

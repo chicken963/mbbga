@@ -1,24 +1,10 @@
-.audio-container {
-   width: 90%;
-}
-
-.range-slider-and-buttons {
-    width: 100%;
-}
-
-app-range-slider {
-    width: 100%;
-}
-
 mat-card {
     box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 8px rgba(0, 0, 0, 0.12);
 }
+.controls-container {
+    width: inherit;
+}
 
-.play-control-button {
-    min-width: 30px;
-    mat-icon {
-      transform: scale(1.5);
-      margin-right: 0;
-    }
-
+.editable-fields {
+    width: calc(100% - 50px);
 }
