@@ -1,0 +1,11 @@
+::ng-deep .arrow-button.mdc-button  {
+  min-width: 40px;
+  mat-icon {
+    margin-right: 0;
+  }
+}
+
+
+::ng-deep .mat-mdc-button .mat-mdc-button-touch-target {
+    height: 24px;
+}

@@ -2,6 +2,9 @@
     <div class="library-cards p-1">
         <app-audio-controls *ngFor="let audiotrack of audiotracks" [audio-track]="audiotrack" [mode]="'edit'"></app-audio-controls>
     </div>
+    <div class="footer d-flex m-1 flex-row justify-content-between">
+        <button mat-raised-button color="primary" (click)="addToLibrary()">Add to library</button>
+        <app-volume-slider class="d-flex align-items-center"></app-volume-slider>
+    </div>
 
-    <button mat-raised-button color="primary" (click)="addToLibrary()">Add to library</button>
 </div>

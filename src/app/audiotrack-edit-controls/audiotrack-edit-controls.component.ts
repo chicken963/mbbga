@@ -1,67 +1,88 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {AudioTrack} from "../interfaces/audiotrack";
 import {LibraryPlayerService} from "../audio-controls/library-player.service";
-import {VolumeService} from "../volume.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import {LocalAudioTrack} from "../local-audio/local-audio-track";
+import {RangeSliderComponent} from "../range-slider/range-slider.component";
+import {ProgressService} from "../range-slider/progress.service";
 
 @Component({
-  selector: 'app-audiotrack-edit-controls',
-  templateUrl: './audiotrack-edit-controls.component.html',
-  styleUrls: ['./audiotrack-edit-controls.component.scss']
+    selector: 'app-audiotrack-edit-controls',
+    templateUrl: './audiotrack-edit-controls.component.html',
+    styleUrls: ['./audiotrack-edit-controls.component.scss']
 })
-export class AudiotrackEditControlsComponent implements AfterViewInit{
+export class AudiotrackEditControlsComponent implements OnInit, AfterViewInit {
 
-  @Input("audio-track")
-  audioTrack: AudioTrack;
+    @Input("audio-track")
+    audioTrack: LocalAudioTrack;
 
-  @ViewChild("defaultAudio")
-  private defaultAudio: ElementRef;
+    @ViewChild("defaultAudio")
+    private defaultAudio: ElementRef<HTMLAudioElement>;
 
-  rangeValues: number[] = [20, 80]; // Initial range values
-  minValue = 0;
-  maxValue = 100;
+    @ViewChild("rangeSlider")
+    private rangeSlider: RangeSliderComponent;
 
-  constructor(private libraryPlayerService: LibraryPlayerService,
-              private volumeService: VolumeService) {
-  }
+    currentTrackIsPlaying: boolean = false;
 
-  ngAfterViewInit(): void {
-    this.volumeService.getVolume().subscribe((volume) => {
-      this.defaultAudio.nativeElement.volume = volume;
-    });
-  }
 
-  play() {
-    this.libraryPlayerService.isPlaying = true;
-    let switchedFromAnotherTrack: boolean = this.libraryPlayerService.currentTrack === this.audioTrack;
-    if (switchedFromAnotherTrack) {
-      this.libraryPlayerService.currentTrack = this.audioTrack;
-      this.defaultAudio.nativeElement.volume = this.libraryPlayerService.volume;
-      this.defaultAudio.nativeElement.currentTime = this.audioTrack.startTime;
+    constructor(private libraryPlayerService: LibraryPlayerService, private progressService: ProgressService) {
+      this.libraryPlayerService.isPlaying().subscribe(value => {
+        if (this.libraryPlayerService.currentTrack === this.audioTrack) {
+          this.currentTrackIsPlaying = value;
+        }
+      })
     }
-    this.defaultAudio.nativeElement.play();
-  }
 
-  pause() {
-    this.libraryPlayerService.isPlaying = false;
-    this.defaultAudio.nativeElement.pause();
-  }
+    ngOnInit(): void {
+        this.audioTrack.progressInSeconds = 0;
+    }
 
-  isPlaying(): boolean {
-    return this.libraryPlayerService.isPlayingNow(this.audioTrack);
-  }
+    ngAfterViewInit(): void {
+        this.audioTrack.audioEl = this.defaultAudio.nativeElement;
+    }
 
-  stop() {
-    this.libraryPlayerService.isPlaying = false;
-    this.defaultAudio.nativeElement.pause();
-    this.defaultAudio.nativeElement.currentTime = 0;
-  }
+    play() {
+        this.libraryPlayerService.play(this.audioTrack);
+    }
 
-  replay5() {
-    this.defaultAudio.nativeElement.currentTime -= 5;
-  }
+    pause() {
+        this.libraryPlayerService.pause();
+    }
 
-  forward5() {
-    this.defaultAudio.nativeElement.currentTime += 5;
-  }
 
+    stop() {
+        if (this.audioTrack === this.libraryPlayerService.currentTrack) {
+            this.libraryPlayerService.stop();
+        } else {
+            this.audioTrack.audioEl.currentTime = this.audioTrack.startTime;
+            this.audioTrack.progressInSeconds = 0;
+            this.rangeSlider.updateProgressSlider(0);
+        }
+
+    }
+
+    replay5() {
+        this.audioTrack.audioEl.currentTime = Math.max(this.audioTrack.audioEl.currentTime - 5, this.audioTrack.startTime);
+        this.audioTrack.progressInSeconds = this.audioTrack.audioEl.currentTime - this.audioTrack.startTime;
+        if (this.libraryPlayerService.currentTrack === this.audioTrack) {
+            this.libraryPlayerService.setProgressPercentage(this.audioTrack.audioEl.currentTime);
+        } else {
+            this.rangeSlider.updateProgressSlider(this.progressService.evaluateProgress(this.audioTrack.startTime, this.audioTrack.audioEl.currentTime, this.audioTrack.endTime));
+        }
+    }
+
+    forward5() {
+        if (this.libraryPlayerService.currentTrack === this.audioTrack) {
+            this.libraryPlayerService.setProgressPercentage(this.audioTrack.audioEl.currentTime += 5);
+        } else {
+            this.audioTrack.audioEl.currentTime = Math.min(this.audioTrack.audioEl.currentTime + 5, this.audioTrack.endTime);
+            this.audioTrack.progressInSeconds = this.audioTrack.audioEl.currentTime - this.audioTrack.startTime;
+            this.rangeSlider.updateProgressSlider(this.progressService.evaluateProgress(this.audioTrack.startTime, this.audioTrack.audioEl.currentTime, this.audioTrack.endTime))
+        }
+    }
+
+    getProgress(): Observable<number> {
+        return this.audioTrack === this.libraryPlayerService.currentTrack
+            ? this.libraryPlayerService.getProgressInSeconds()
+            : new BehaviorSubject(this.audioTrack.progressInSeconds).asObservable();
+    }
 }

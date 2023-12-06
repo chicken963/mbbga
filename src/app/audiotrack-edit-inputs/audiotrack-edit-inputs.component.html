@@ -6,6 +6,12 @@
                placeholder="mm:ss.S"
                value="{{ audioTrack.startTime | timeFormat:'string' }}"
                (change)="updateStartTime($event, audioTrack)">
+        <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix (click)="incrementStartTime()">
+            <mat-icon>keyboard_arrow_up</mat-icon>
+        </button>
+        <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix (click)="decrementStartTime()">
+            <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
     </mat-form-field>
     <mat-form-field class="m-1 col-md-3">
         <mat-label>Artist</mat-label>
@@ -22,6 +28,12 @@
                placeholder="mm:ss.S"
                value="{{ audioTrack.endTime | timeFormat:'string' }}"
                (change)="updateEndTime($event, audioTrack)">
+        <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix (click)="incrementEndTime()">
+            <mat-icon>keyboard_arrow_up</mat-icon>
+        </button>
+        <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix (click)="decrementEndTime()">
+            <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
     </mat-form-field>
     <mat-form-field class="time m-1 col-xs-2">
         <mat-label>Total</mat-label>

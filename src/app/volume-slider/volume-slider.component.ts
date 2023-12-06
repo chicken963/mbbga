@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LibraryPlayerService} from "../audio-controls/library-player.service";
 import {VolumeService} from "../volume.service";
 
@@ -7,11 +7,18 @@ import {VolumeService} from "../volume.service";
   templateUrl: './volume-slider.component.html',
   styleUrls: ['./volume-slider.component.scss']
 })
-export class VolumeSliderComponent {
+export class VolumeSliderComponent implements OnInit {
 
   constructor(private libraryPlayerService: LibraryPlayerService,
               private volumeService: VolumeService) {
   }
+
+  ngOnInit(): void {
+        this.volumeService.getVolume().subscribe((value) => {
+          this.volume = value;
+        })
+    }
+
   volume: number = 100;
 
   formatLabel(value: number): string {

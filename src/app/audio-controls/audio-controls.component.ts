@@ -2,6 +2,7 @@ import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {AudioTrack} from "../interfaces/audiotrack";
 import {TimeConversionService} from "../time-conversion.service";
 import {LibraryPlayerService} from "./library-player.service";
+import {LocalAudioTrack} from "../local-audio/local-audio-track";
 
 @Component({
     selector: 'app-audio-controls',
@@ -10,13 +11,15 @@ import {LibraryPlayerService} from "./library-player.service";
 })
 export class AudioControlsComponent {
 
-
-
     @Input("mode")
     mode: string;
 
     @Input("audio-track")
-    audioTrack: AudioTrack;
+    audioTrack: LocalAudioTrack;
 
+}
 
+export interface UpdatePlayState {
+    isPlayed: boolean,
+    audioTrack: LocalAudioTrack;
 }
