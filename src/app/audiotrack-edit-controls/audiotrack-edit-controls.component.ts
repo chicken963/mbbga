@@ -15,6 +15,9 @@ export class AudiotrackEditControlsComponent implements OnInit, AfterViewInit {
     @Input("audio-track")
     audioTrack: LocalAudioTrack;
 
+    @Input("mode")
+    mode: string;
+
     @ViewChild("defaultAudio")
     private defaultAudio: ElementRef<HTMLAudioElement>;
 
@@ -64,19 +67,20 @@ export class AudiotrackEditControlsComponent implements OnInit, AfterViewInit {
         this.audioTrack.audioEl.currentTime = Math.max(this.audioTrack.audioEl.currentTime - 5, this.audioTrack.startTime);
         this.audioTrack.progressInSeconds = this.audioTrack.audioEl.currentTime - this.audioTrack.startTime;
         if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setProgressPercentage(this.audioTrack.audioEl.currentTime);
+            this.libraryPlayerService.setProgressPercentage(this.progressService.evaluateProgress(this.audioTrack));
         } else {
-            this.rangeSlider.updateProgressSlider(this.progressService.evaluateProgress(this.audioTrack.startTime, this.audioTrack.audioEl.currentTime, this.audioTrack.endTime));
+            this.rangeSlider.updateProgressSlider(this.progressService.evaluateProgress(this.audioTrack));
         }
     }
 
     forward5() {
         if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setProgressPercentage(this.audioTrack.audioEl.currentTime += 5);
+            this.audioTrack.audioEl.currentTime += 5
+            this.libraryPlayerService.setProgressPercentage(this.progressService.evaluateProgress(this.audioTrack));
         } else {
             this.audioTrack.audioEl.currentTime = Math.min(this.audioTrack.audioEl.currentTime + 5, this.audioTrack.endTime);
             this.audioTrack.progressInSeconds = this.audioTrack.audioEl.currentTime - this.audioTrack.startTime;
-            this.rangeSlider.updateProgressSlider(this.progressService.evaluateProgress(this.audioTrack.startTime, this.audioTrack.audioEl.currentTime, this.audioTrack.endTime))
+            this.rangeSlider.updateProgressSlider(this.progressService.evaluateProgress(this.audioTrack))
         }
     }
 

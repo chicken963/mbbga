@@ -1,14 +1,9 @@
-import {Component, ElementRef, HostListener, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CloseDialogPopupComponent} from "../close-dialog-popup/close-dialog-popup.component";
+import {Component, ElementRef, HostListener, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {LocalAudioService} from "../local-audio/local-audio-service";
 import {LocalAudioTrack} from "../local-audio/local-audio-track";
 import {HttpClient} from "@angular/common/http";
-import {OkPopupComponent} from "../ok-popup/ok-popup.component";
-import {TimeConversionService} from "../time-conversion.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {AudioTrack} from "../interfaces/audiotrack";
-import {NotificationComponent} from "../notification/notification.component";
 import {NotificationService} from "../utils/notification.service";
 import {DialogService} from "../utils/dialog.service";
 import {LibraryService} from "../library-content/library.service";
@@ -52,6 +47,13 @@ export class AddAudiotracksWorkbenchComponent {
                     this.selfDialogRef.close();
                 }
             });
+    }
+
+    deleteFromWorkbench(audioTrack: LocalAudioTrack) {
+        const index = this.audiotracks.findIndex(wbAudioTrack => wbAudioTrack === audioTrack);
+        if (index !== -1) {
+            this.audiotracks.splice(index, 1);
+        }
     }
 
     addToLibrary() {

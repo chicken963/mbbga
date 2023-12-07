@@ -11,7 +11,7 @@ import { FileDialogComponent } from '../file-dialog/file-dialog.component';
 import { CloseDialogPopupComponent } from '../close-dialog-popup/close-dialog-popup.component';
 import {MatInputModule} from "@angular/material/input";
 import { AudioTimeDirective } from '../audio-time.directive';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TimeFormatModule} from "../time-format/time-format.module";
 import { LibraryContentComponent } from '../library-content/library-content.component';
 
@@ -20,10 +20,10 @@ import {AudioControlsComponent} from "../audio-controls/audio-controls.component
 import {MatListModule} from "@angular/material/list";
 import {RangeSliderComponent} from "../range-slider/range-slider.component";
 import {MatCardModule} from "@angular/material/card";
-import {AppModule} from "../app.module";
 import {VolumeSliderComponent} from "../volume-slider/volume-slider.component";
 import { AudiotrackEditInputsComponent } from '../audiotrack-edit-inputs/audiotrack-edit-inputs.component';
 import { AudiotrackEditControlsComponent } from '../audiotrack-edit-controls/audiotrack-edit-controls.component';
+import { AudiotrackViewInputsComponent } from '../audiotrack-view-inputs/audiotrack-view-inputs.component';
 
 
 
@@ -38,7 +38,8 @@ import { AudiotrackEditControlsComponent } from '../audiotrack-edit-controls/aud
     AudioControlsComponent,
     VolumeSliderComponent,
     AudiotrackEditInputsComponent,
-    AudiotrackEditControlsComponent
+    AudiotrackEditControlsComponent,
+    AudiotrackViewInputsComponent
   ],
     imports: [
         CommonModule,
@@ -53,7 +54,8 @@ import { AudiotrackEditControlsComponent } from '../audiotrack-edit-controls/aud
         MatSliderModule,
         MatListModule,
         RangeSliderComponent,
-        MatCardModule
+        MatCardModule,
+        ReactiveFormsModule
     ],
   entryComponents: [AddAudiotracksWorkbenchComponent]
 })

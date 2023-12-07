@@ -1,5 +1,5 @@
-import {Injectable} from "@angular/core";
-import {BehaviorSubject, distinctUntilChanged, interval, Observable, Subject, Subscription} from "rxjs";
+import {Injectable, OnDestroy} from "@angular/core";
+import {BehaviorSubject, distinctUntilChanged, interval, Observable, Subject, Subscription, takeUntil} from "rxjs";
 import {VolumeService} from "../volume.service";
 import {LocalAudioTrack} from "../local-audio/local-audio-track";
 import {ProgressService} from "../range-slider/progress.service";
@@ -7,9 +7,11 @@ import {ProgressService} from "../range-slider/progress.service";
 @Injectable({
     providedIn: "root"
 })
-export class LibraryPlayerService {
+export class LibraryPlayerService implements OnDestroy {
 
     currentTrack: LocalAudioTrack;
+
+    ngDestroy$: Subject<boolean> = new Subject<boolean>();
 
     private startTimeSubject: Subject<number> = new Subject<number>();
     private endTimeSubject: Subject<number> = new Subject<number>();
@@ -17,20 +19,16 @@ export class LibraryPlayerService {
     private progressSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     private progressPercentageSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-    private isPlayingSubscription: Subscription;
     private progressSubscription: Subscription;
     private startTimeSubscription: Subscription;
-    private endTimeSubscription: Subscription;
-    private currentTrackSubscription: Subscription;
-    private playedLengthSubscription: Subscription;
 
     private currentTrackSubject = new Subject<LocalAudioTrack>();
 
 
     constructor(private volumeService: VolumeService, private progressService: ProgressService) {
-        this.getCurrentTrack().subscribe(audioTrack => {
+        this.getCurrentTrack().pipe(takeUntil(this.ngDestroy$)).subscribe(audioTrack => {
             this.currentTrack = audioTrack;
-            this.volumeService.getVolume().subscribe((volume) => {
+            this.volumeService.getVolume().pipe(takeUntil(this.ngDestroy$)).subscribe((volume) => {
                 this.currentTrack.audioEl.volume = volume / 100;
             });
             this.currentTrack.audioEl.currentTime = this.currentTrack.startTime;
@@ -38,7 +36,7 @@ export class LibraryPlayerService {
 
 
 
-        this.isPlaying().subscribe(value => {
+        this.isPlaying().pipe(takeUntil(this.ngDestroy$)).subscribe(value => {
             if (value) {
                 this.startUpdateProgress();
             } else {
@@ -46,7 +44,7 @@ export class LibraryPlayerService {
             }
         })
 
-        this.getStartTime().subscribe(value => {
+        this.getStartTime().pipe(takeUntil(this.ngDestroy$)).subscribe(value => {
             if (this.isPlayingSubject.value) {
                 this.pause();
             }
@@ -56,8 +54,8 @@ export class LibraryPlayerService {
 
         })
 
-        this.getEndTime().subscribe(value => {
-            let progress = this.progressService.evaluateProgress(this.currentTrack.startTime, this.currentTrack.audioEl.currentTime, value);
+        this.getEndTime().pipe(takeUntil(this.ngDestroy$)).subscribe(value => {
+            let progress = this.progressService.evaluateProgress(this.currentTrack);
             if (progress >= 100) {
                 this.setProgressPercentage(100);
                 this.pause();
@@ -85,13 +83,14 @@ export class LibraryPlayerService {
         this.stopUpdateProgress();
         this.progressSubscription?.unsubscribe();
         this.startTimeSubscription?.unsubscribe();
+        this.ngDestroy$.next(true);
     }
 
     updateProgress(period: number): void {
         const currentTime = this.currentTrack.audioEl.currentTime;
         this.currentTrack.progressInSeconds = currentTime - this.currentTrack.startTime;
         this.setProgressInSeconds(currentTime - this.currentTrack.startTime);
-        this.setProgressPercentage(this.progressService.evaluateProgress(this.currentTrack.startTime, currentTime, this.currentTrack.endTime));
+        this.setProgressPercentage(this.progressService.evaluateProgress(this.currentTrack));
         if (currentTime >= this.currentTrack.endTime - period / 1000) {
             this.pause();
             this.setProgressInSeconds(this.currentTrack.endTime - this.currentTrack.startTime);

@@ -1,12 +1,34 @@
 <mat-card class="mat-elevation-z8">
     <mat-card-content>
         <div class="controls-container d-flex flex-row justify-content-between">
-            <div class="d-flex flex-column editable-fields">
-                <app-audiotrack-edit-inputs [audio-track]="audioTrack"></app-audiotrack-edit-inputs>
-                <app-audiotrack-edit-controls [audio-track]="audioTrack"></app-audiotrack-edit-controls>
+            <div class="d-flex flex-column editable-fields col-11">
+                <app-audiotrack-edit-inputs
+                        #editInputs
+                        *ngIf="mode === 'edit'"
+                        [audio-track]="audioTrack">
+                </app-audiotrack-edit-inputs>
+                <app-audiotrack-view-inputs
+                        class="d-flex flex-row justify-content-center align-items-center"
+                        *ngIf="mode === 'view'"
+                        [audio-track]="audioTrack">
+                </app-audiotrack-view-inputs>
+                <app-audiotrack-edit-controls [audio-track]="audioTrack" [mode]="mode"></app-audiotrack-edit-controls>
             </div>
-            <div class="menu-buttons-container d-flex align-items-center p-3">
-                <mat-icon>delete</mat-icon>
+            <div class="menu-buttons-container d-flex flex-column align-items-center p-3 col-1" >
+                <button mat-icon-button class="m-2" (click)="delete()" color="primary">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <button *ngIf="mode === 'view'"
+                        mat-icon-button class="m-2"
+                        (click)="mode = 'edit'">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button *ngIf="mode === 'edit'"
+                        mat-icon-button class="m-2 done-all"
+                        (click)="mode = 'view'"
+                        [disabled]="!inputsAreValid()">
+                    <mat-icon>done</mat-icon>
+                </button>
             </div>
         </div>
     </mat-card-content>
