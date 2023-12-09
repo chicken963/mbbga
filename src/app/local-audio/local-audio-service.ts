@@ -9,7 +9,7 @@ export class LocalAudioService {
 
     private audioExtensions: string[] = ["wav", "mp3", "flac", "ogg", "aac", "m4a"]
 
-    toLocalAudioTrack(file: File): Promise<LocalAudioTrack> {
+    toLocalAudioTrack(file: File, mode: string): Promise<LocalAudioTrack> {
         const audioUrl = URL.createObjectURL(file);
         const audio = new Audio();
         return new Promise<LocalAudioTrack>((resolve, reject) => {
@@ -23,7 +23,8 @@ export class LocalAudioService {
                     endTime: audio.duration,
                     length: audio.duration,
                     audioEl: audio,
-                    file: file
+                    file: file,
+                    mode: mode
                 } as LocalAudioTrack
                 resolve(audiotrack);
             });

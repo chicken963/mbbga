@@ -22,7 +22,10 @@ export class DialogService {
     }
 
     openYesNoPopup(message: string, callback: (confirmed: boolean) => void) {
-        const confirmationDialogRef = this.dialog.open(CloseDialogPopupComponent, { data: {message: message}});
+        const confirmationDialogRef = this.dialog.open(CloseDialogPopupComponent,
+            {
+                data: {message: message},
+                disableClose: true});
         confirmationDialogRef.afterClosed().subscribe(callback);
     }
 }

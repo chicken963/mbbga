@@ -17,7 +17,7 @@ export class AddAudiotracksWorkbenchComponent {
 
     private dialogIsOpened: boolean = false;
     audiotracks: LocalAudioTrack[] = [];
-    allInputsAreValid: boolean = true;
+    allTracksAreConfirmed: boolean = false;
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: File[],
                 private selfDialogRef: MatDialogRef<AddAudiotracksWorkbenchComponent>,
@@ -27,19 +27,11 @@ export class AddAudiotracksWorkbenchComponent {
                 private http: HttpClient,
                 private notificationService: NotificationService,
                 private libraryService: LibraryService) {
-        data.map(file => this.localAudioService.toLocalAudioTrack(file)
+        data.map(file => this.localAudioService.toLocalAudioTrack(file, "edit")
             .then(audiotrack => this.audiotracks.push(audiotrack)));
-        this.libraryService.audioTrackInputsAreValid().subscribe(() => {
+        /*this.libraryService.audioTrackInputsAreValid().subscribe(() => {
             this.allInputsAreValid = this.allAudioTracksAreConfirmed()
-        })
-    }
-
-
-    @HostListener('document:mousedown', ['$event'])
-    onClickOutside(event: Event): void {
-        if (!this.elementRef.nativeElement.contains(event.target) && !this.dialogIsOpened) {
-            this.openConfirmationDialog();
-        }
+        })*/
     }
 
     openConfirmationDialog(): void {
@@ -105,5 +97,9 @@ export class AddAudiotracksWorkbenchComponent {
 
     allAudioTracksAreConfirmed(): boolean {
         return !this.audiotracks.find(audiotrack => !audiotrack.inputsAreValid);
+    }
+
+    checkAllAudioTracksConfirmed() {
+        this.allTracksAreConfirmed = !this.audiotracks.find(audiotrack => audiotrack.mode !== 'view');
     }
 }

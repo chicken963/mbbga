@@ -4,16 +4,16 @@
             <div class="d-flex flex-column editable-fields col-11">
                 <app-audiotrack-edit-inputs
                         #editInputs
-                        *ngIf="mode === 'edit'"
+                        *ngIf="audioTrack.mode === 'edit'"
                         [audio-track]="audioTrack"
                         (inputsValidityChanged)="onFormValidityChanged($event)">
                 </app-audiotrack-edit-inputs>
                 <app-audiotrack-view-inputs
                         class="d-flex flex-row justify-content-center align-items-center"
-                        *ngIf="mode === 'view'"
+                        *ngIf="audioTrack.mode === 'view'"
                         [audio-track]="audioTrack">
                 </app-audiotrack-view-inputs>
-                <app-audiotrack-edit-controls [audio-track]="audioTrack" [mode]="mode"></app-audiotrack-edit-controls>
+                <app-audiotrack-edit-controls [audio-track]="audioTrack"></app-audiotrack-edit-controls>
             </div>
             <div class="menu-buttons-container d-flex flex-column align-items-center px-3 col-1" >
                 <button mat-mini-fab class="m-2 panel-button"
@@ -22,19 +22,19 @@
                         matTooltip="Delete track from workbench">
                     <mat-icon>delete</mat-icon>
                 </button>
-                <button *ngIf="mode === 'view'"
+                <button *ngIf="audioTrack.mode === 'view'"
                         mat-mini-fab class="m-2 panel-button"
-                        (click)="mode = 'edit'"
+                        (click)="setMode('edit')"
                         matTooltip="Edit draft">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button *ngIf="mode === 'edit' && audioTrack?.inputsAreValid"
+                <button *ngIf="audioTrack.mode === 'edit' && audioTrack?.inputsAreValid"
                         mat-mini-fab class="m-2 done-all panel-button"
-                        (click)="mode = 'view'"
+                        (click)="setMode('view')"
                         matTooltip="Save draft">
                     <mat-icon>done</mat-icon>
                 </button>
-                <button *ngIf="mode === 'edit'  && !audioTrack?.inputsAreValid"
+                <button *ngIf="audioTrack.mode === 'edit'  && !audioTrack?.inputsAreValid"
                         matTooltip="Fill all field properly to be able to save track"
                         mat-mini-fab class="m-2 warning panel-button"
                         color="warn">

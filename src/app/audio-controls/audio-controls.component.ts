@@ -21,9 +21,6 @@ export const slideInOut = trigger('slideInOut', [
 })
 export class AudioControlsComponent {
 
-    @Input("mode")
-    mode: string;
-
     @Input("audio-track")
     audioTrack: LocalAudioTrack;
 
@@ -31,6 +28,7 @@ export class AudioControlsComponent {
     editInputsComponent: AudiotrackEditInputsComponent;
 
     @Output() onDelete = new EventEmitter<LocalAudioTrack>();
+    @Output() onModeChange = new EventEmitter<string>();
 
     inputsAreValid: boolean = false;
 
@@ -40,6 +38,11 @@ export class AudioControlsComponent {
 
     delete() {
         this.onDelete.emit(this.audioTrack);
+    }
+
+    setMode(mode: string) {
+        this.audioTrack.mode = mode;
+        this.onModeChange.emit(mode);
     }
 
     onFormValidityChanged(isValid: boolean) {

@@ -15,7 +15,7 @@ export class FileDialogComponent {
   openFileDialog(): void {
     const dialogRef = this.dialog.open(FileDialogComponent);
     dialogRef.afterClosed().subscribe((selectedFiles: FileList) => {
-      if (selectedFiles) {
+      if (selectedFiles?.length > 0) {
         this.showWorkbench(selectedFiles);
       }
     });
@@ -25,6 +25,7 @@ export class FileDialogComponent {
   showWorkbench(event: any) {
     const files = event.target.files;
     const dialogRef = this.dialog.open(AddAudiotracksWorkbenchComponent, {
+      disableClose: true,
       width: '90%',
       data: Array.from(files)
     });

@@ -4,5 +4,6 @@ export interface LocalAudioTrack extends AudioTrack {
     audioEl: HTMLAudioElement,
     file: File,
     progressInSeconds: number,
-    inputsAreValid: boolean
+    inputsAreValid: boolean,
+    mode: string;
 }
