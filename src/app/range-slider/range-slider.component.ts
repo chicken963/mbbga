@@ -79,7 +79,7 @@ export class RangeSliderComponent implements AfterViewInit {
         this.renderer.setStyle(
             this.sliderElement,
             'background',
-            `linear-gradient(90deg, rgba(9,121,82,1) ${percent}%, rgba(194,24,91,1) ${percent}%)`
+            `linear-gradient(90deg, rgba(73,156,84,1) ${percent}%, rgba(194,24,91,1) ${percent}%)`
         );
     }
 

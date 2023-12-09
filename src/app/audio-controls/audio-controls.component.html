@@ -14,20 +14,27 @@
                 </app-audiotrack-view-inputs>
                 <app-audiotrack-edit-controls [audio-track]="audioTrack" [mode]="mode"></app-audiotrack-edit-controls>
             </div>
-            <div class="menu-buttons-container d-flex flex-column align-items-center p-3 col-1" >
-                <button mat-icon-button class="m-2" (click)="delete()" color="primary">
+            <div class="menu-buttons-container d-flex flex-column align-items-center px-3 col-1" >
+                <button mat-mini-fab class="m-2 panel-button" (click)="delete()" color="primary"  aria-label="Delete track from workbench">
                     <mat-icon>delete</mat-icon>
                 </button>
                 <button *ngIf="mode === 'view'"
-                        mat-icon-button class="m-2"
-                        (click)="mode = 'edit'">
+                        mat-mini-fab class="m-2 panel-button"
+                        (click)="mode = 'edit'"
+                        aria-label="Edit draft">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button *ngIf="mode === 'edit'"
-                        mat-icon-button class="m-2 done-all"
+                <button *ngIf="mode === 'edit' && inputsAreValid()"
+                        mat-mini-fab class="m-2 done-all panel-button"
                         (click)="mode = 'view'"
-                        [disabled]="!inputsAreValid()">
+                        aria-label="Save draft">
                     <mat-icon>done</mat-icon>
+                </button>
+                <button *ngIf="mode === 'edit' && !inputsAreValid()"
+                        aria-label="Fill all field properly to be able to save track"
+                        mat-mini-fab class="m-2 warning panel-button"
+                        disabled>
+                    <mat-icon>warning</mat-icon>
                 </button>
             </div>
         </div>

@@ -6,14 +6,43 @@ mat-card {
     width: calc(100% - 66px);
 }*/
 .done-all {
-    color: chartreuse;
+    color: #499C54;
+    .white-icon svg {
+        fill: #499C54;
+    }
 }
-.white-icon svg {
-    fill: chartreuse;
-}
+
 
 app-audiotrack-view-inputs {
     height: 86px;
     font-size: 16px;
     color: white;
+}
+
+app-audiotrack-edit-controls {
+    height: 40px;
+}
+
+/*
+.panel-button {
+
+    &.rounded-accent-button {
+        background-color: rgba(194, 24, 91, 0.2);
+        border-radius: 50%; // Adjust the border-radius to make it rounded
+        color: white;
+
+        &:hover, &:focus {
+            background-color: rgba(194, 24, 91, 0.4); // Adjust the color on hover or focus
+        }
+
+        &:active {
+            background-color: rgba(194, 24, 91, 0.7); // Adjust the color in the active state
+        }
+    }
+}*/
+.warning {
+    color: #F4CA16;
+    .white-icon svg {
+        fill: #F4CA16;
+    }
 }

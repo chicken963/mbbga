@@ -6,7 +6,7 @@ import {LeftMenuComponent} from "./left-menu/left-menu.component";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
   animations: [
     trigger('slideInOut', [
       state('true', style({ transform: 'translateX(0)' })),

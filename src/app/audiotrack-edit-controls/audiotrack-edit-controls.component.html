@@ -21,7 +21,7 @@
                 <mat-icon>forward_5</mat-icon>
             </button>
         </div>
-        <app-range-slider #rangeSlider class="m-3" [audio-track]="audioTrack" [mode]="mode"></app-range-slider>
+        <app-range-slider #rangeSlider class="mx-3" [audio-track]="audioTrack" [mode]="mode"></app-range-slider>
         <div class="current-progress">{{ getProgress() | async | timeFormat:'string' }} / {{ audioTrack.endTime - audioTrack.startTime | timeFormat:'string'}}</div>
     </div>
 </div>
