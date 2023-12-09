@@ -7,6 +7,7 @@ import {Observable, Subscription} from "rxjs";
 import {RangeSliderService} from "../range-slider.service";
 import {LibraryPlayerService} from "../audio-controls/library-player.service";
 import {LocalAudioTrack} from "../local-audio/local-audio-track";
+import {AudiotrackValidateService} from "../audiotrack-validate.service";
 
 @Component({
     selector: 'app-range-slider',
@@ -24,6 +25,7 @@ export class RangeSliderComponent implements AfterViewInit {
 
     constructor(private rangeSliderService: RangeSliderService,
                 private playerService: LibraryPlayerService,
+                private audiotrackValidateService: AudiotrackValidateService,
                 private renderer: Renderer2,
                 private el: ElementRef) {
     }
@@ -54,7 +56,6 @@ export class RangeSliderComponent implements AfterViewInit {
         this.getCurrentTrack().subscribe(audioTrack => {
             if (audioTrack === this.audioTrack) {
                 this.progressPercentageSubscription = this.getProgressPercentage().subscribe(value => {
-                    console.log(value);
                     this.updateProgressSlider(value);
                 })
             } else {
@@ -63,13 +64,15 @@ export class RangeSliderComponent implements AfterViewInit {
         })
     }
 
-    onStartTimeChanged() {
+    onStartTimeChanged(event: any) {
+        this.audioTrack.startTime = this.audiotrackValidateService.validateStartTime(this.audioTrack, event.target.value);
         if (this.playerService.currentTrack === this.audioTrack) {
             this.playerService.setStartTime(this.audioTrack.startTime);
         }
     }
 
-    onEndTimeChanged() {
+    onEndTimeChanged(event: any) {
+        this.audioTrack.endTime = this.audiotrackValidateService.validateEndTime(this.audioTrack, event.target.value);
         if (this.playerService.currentTrack === this.audioTrack) {
             this.playerService.setEndTime(this.audioTrack.endTime);
         }

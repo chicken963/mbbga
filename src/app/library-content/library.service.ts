@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {AudioTrack} from "../interfaces/audiotrack";
 import {LibraryLetter} from "../interfaces/library";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 
 @Injectable({
     providedIn: 'root',
@@ -9,6 +9,7 @@ import {Subject} from "rxjs";
 export class LibraryService {
 
     private libraryChangedEventSource = new Subject<AudioTrack>();
+    private inputsValiditySubject: Subject<boolean> = new Subject<boolean>();
 
     event$ = this.libraryChangedEventSource.asObservable();
 
@@ -40,5 +41,14 @@ export class LibraryService {
                     audioTracks: [audioTrack]
                 }]
         });
+    }
+
+
+    audioTrackInputsAreValid(): Observable<boolean> {
+        return this.inputsValiditySubject.asObservable();
+    }
+
+    setAudioTrackInputsValidity(value: boolean): void {
+        return this.inputsValiditySubject.next(value);
     }
 }

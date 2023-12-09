@@ -1,13 +1,23 @@
 <div id="container" *ngIf="data" class="p-1">
-    <div class="library-cards p-1">
+    <div mat-dialog-title class="d-flex flex-row justify-content-between">
+        <h2 >Add your audio to library</h2>
+        <button mat-icon-button
+                (click)="openConfirmationDialog()"
+                class="close-button"
+                matTooltip="Discard all changes and exit">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <div class="library-cards p-1" mat-dialog-content>
         <app-audio-controls *ngFor="let audiotrack of audiotracks"
                             [audio-track]="audiotrack"
                             [mode]="'edit'"
                             (onDelete)="deleteFromWorkbench($event)">
         </app-audio-controls>
     </div>
-    <div class="footer d-flex m-1 flex-row justify-content-between">
-        <button mat-raised-button color="primary" (click)="addToLibrary()">Add to library</button>
+    <div class="footer d-flex m-1 flex-row justify-content-between" mat-dialog-actions>
+        <button mat-raised-button color="primary" (click)="addToLibrary()" [disabled]="!allInputsAreValid">Add to library</button>
         <app-volume-slider class="d-flex align-items-center"></app-volume-slider>
     </div>
 </div>

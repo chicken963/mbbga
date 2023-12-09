@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Inject} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, Inject, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {LocalAudioService} from "../local-audio/local-audio-service";
 import {LocalAudioTrack} from "../local-audio/local-audio-track";
@@ -17,6 +17,7 @@ export class AddAudiotracksWorkbenchComponent {
 
     private dialogIsOpened: boolean = false;
     audiotracks: LocalAudioTrack[] = [];
+    allInputsAreValid: boolean = true;
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: File[],
                 private selfDialogRef: MatDialogRef<AddAudiotracksWorkbenchComponent>,
@@ -28,22 +29,26 @@ export class AddAudiotracksWorkbenchComponent {
                 private libraryService: LibraryService) {
         data.map(file => this.localAudioService.toLocalAudioTrack(file)
             .then(audiotrack => this.audiotracks.push(audiotrack)));
+        this.libraryService.audioTrackInputsAreValid().subscribe(() => {
+            this.allInputsAreValid = this.allAudioTracksAreConfirmed()
+        })
     }
 
 
     @HostListener('document:mousedown', ['$event'])
     onClickOutside(event: Event): void {
         if (!this.elementRef.nativeElement.contains(event.target) && !this.dialogIsOpened) {
-            this.dialogIsOpened = true;
             this.openConfirmationDialog();
         }
     }
 
     openConfirmationDialog(): void {
+        this.dialogIsOpened = true;
         this.dialogService.openYesNoPopup("Are you sure you want to interrupt adding audio tracks to library?\nAll changes will be lost.",
             (confirmed: boolean) => {
                 this.dialogIsOpened = false;
                 if (confirmed) {
+                    this.audiotracks = [];
                     this.selfDialogRef.close();
                 }
             });
@@ -51,6 +56,10 @@ export class AddAudiotracksWorkbenchComponent {
 
     deleteFromWorkbench(audioTrack: LocalAudioTrack) {
         const index = this.audiotracks.findIndex(wbAudioTrack => wbAudioTrack === audioTrack);
+        if (this.audiotracks.length === 1) {
+            this.openConfirmationDialog();
+            return;
+        }
         if (index !== -1) {
             this.audiotracks.splice(index, 1);
         }
@@ -92,5 +101,9 @@ export class AddAudiotracksWorkbenchComponent {
                     }
                 }});
         }
+    }
+
+    allAudioTracksAreConfirmed(): boolean {
+        return !this.audiotracks.find(audiotrack => !audiotrack.inputsAreValid);
     }
 }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {LocalAudioTrack} from "../local-audio/local-audio-track";
 import {AudiotrackEditInputsComponent} from "../audiotrack-edit-inputs/audiotrack-edit-inputs.component";
 /*import {animate, style, transition, trigger} from "@angular/animations";
@@ -32,16 +32,18 @@ export class AudioControlsComponent {
 
     @Output() onDelete = new EventEmitter<LocalAudioTrack>();
 
+    inputsAreValid: boolean = false;
+
+    constructor(private cdr: ChangeDetectorRef) {
+    }
+
+
     delete() {
         this.onDelete.emit(this.audioTrack);
     }
 
-    inputsAreValid() {
-        return this.editInputsComponent?.isValid();
+    onFormValidityChanged(isValid: boolean) {
+        this.audioTrack.inputsAreValid = isValid;
+        this.cdr.detectChanges();
     }
-}
-
-export interface UpdatePlayState {
-    isPlayed: boolean,
-    audioTrack: LocalAudioTrack;
 }

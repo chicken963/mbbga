@@ -175,7 +175,16 @@ export class LibraryPlayerService implements OnDestroy {
     }
 
     setStartTime(startTime: number): void {
-        this.startTimeSubject.next(startTime);
+        console.log(startTime);
+        let validatedValue: number = startTime;
+        if (startTime > this.currentTrack.length) {
+            validatedValue = this.currentTrack.length;
+        } else if (startTime >= this.currentTrack.endTime) {
+            validatedValue = this.currentTrack.endTime - 0.1;
+        } else if (startTime < 0) {
+            validatedValue = 0;
+        }
+        this.startTimeSubject.next(validatedValue);
     }
 
     getStartTime(): Observable<number> {
@@ -183,7 +192,15 @@ export class LibraryPlayerService implements OnDestroy {
     }
 
     setEndTime(endTime: number): void {
-        this.endTimeSubject.next(endTime);
+        let validatedValue: number = endTime;
+        if (endTime > this.currentTrack.length) {
+            validatedValue = this.currentTrack.length;
+        } else if (endTime <= this.currentTrack.startTime) {
+            validatedValue = this.currentTrack.startTime + 0.1;
+        } else if (endTime <= 0) {
+            validatedValue = 0.1;
+        }
+        this.endTimeSubject.next(validatedValue);
     }
 
     getEndTime(): Observable<number> {

@@ -24,6 +24,7 @@ import {VolumeSliderComponent} from "../volume-slider/volume-slider.component";
 import { AudiotrackEditInputsComponent } from '../audiotrack-edit-inputs/audiotrack-edit-inputs.component';
 import { AudiotrackEditControlsComponent } from '../audiotrack-edit-controls/audiotrack-edit-controls.component';
 import { AudiotrackViewInputsComponent } from '../audiotrack-view-inputs/audiotrack-view-inputs.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 
@@ -55,7 +56,8 @@ import { AudiotrackViewInputsComponent } from '../audiotrack-view-inputs/audiotr
         MatListModule,
         RangeSliderComponent,
         MatCardModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatTooltipModule
     ],
   entryComponents: [AddAudiotracksWorkbenchComponent]
 })
