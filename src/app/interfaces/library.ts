@@ -1,4 +1,4 @@
-import {AudioTrack} from "./audiotrack";
+import {LocalAudioTrack} from "../local-audio/local-audio-track";
 
 export interface LibraryLetter {
     letter: string;
@@ -7,5 +7,5 @@ export interface LibraryLetter {
 
 export interface Artist {
     artistName: string;
-    audioTracks: AudioTrack[];
+    audioTracks: LocalAudioTrack[];
 }

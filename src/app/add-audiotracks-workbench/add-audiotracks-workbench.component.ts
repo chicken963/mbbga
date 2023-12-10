@@ -29,9 +29,6 @@ export class AddAudiotracksWorkbenchComponent {
                 private libraryService: LibraryService) {
         data.map(file => this.localAudioService.toLocalAudioTrack(file, "edit")
             .then(audiotrack => this.audiotracks.push(audiotrack)));
-        /*this.libraryService.audioTrackInputsAreValid().subscribe(() => {
-            this.allInputsAreValid = this.allAudioTracksAreConfirmed()
-        })*/
     }
 
     openConfirmationDialog(): void {
@@ -75,7 +72,7 @@ export class AddAudiotracksWorkbenchComponent {
                     }
             }).subscribe(response => {
                     counter += 1;
-                    let audio = response as unknown as AudioTrack;
+                    let audio = response as unknown as LocalAudioTrack;
                     this.libraryService.emitLibraryChangedEvent(audio);
                     this.notificationService.pushNotification(`Audio track '${audio.artist} - ${audio.name}' was successfully added to library`)
                 },

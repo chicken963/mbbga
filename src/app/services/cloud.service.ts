@@ -22,7 +22,7 @@ export class CloudService {
             artist: item.artist,
             startTime: item.startTime,
             endTime: item.endTime,
-            url: `http://localhost:8080/audiotracks/${item.artist}/${item.name}`,
+            url: `http://localhost:8080/audiotracks/binary?artist=${item.artist}&name=${item.name}&start=${item.startTime}&end=${item.endTime}`,
             length: item.length
           };
           return data;

@@ -1,23 +1,23 @@
 import {Injectable} from "@angular/core";
-import {AudioTrack} from "../interfaces/audiotrack";
 import {LibraryLetter} from "../interfaces/library";
 import {Observable, Subject} from "rxjs";
+import {LocalAudioTrack} from "../local-audio/local-audio-track";
 
 @Injectable({
     providedIn: 'root',
 })
 export class LibraryService {
 
-    private libraryChangedEventSource = new Subject<AudioTrack>();
+    private libraryChangedEventSource = new Subject<LocalAudioTrack>();
     private inputsValiditySubject: Subject<boolean> = new Subject<boolean>();
 
     event$ = this.libraryChangedEventSource.asObservable();
 
-    emitLibraryChangedEvent(event: AudioTrack) {
+    emitLibraryChangedEvent(event: LocalAudioTrack) {
         this.libraryChangedEventSource.next(event);
     }
 
-    add(library: LibraryLetter[], audioTrack: AudioTrack) {
+    add(library: LibraryLetter[], audioTrack: LocalAudioTrack) {
         let artist = audioTrack.artist;
         let targetLetter = library.find(libraryLetter => libraryLetter.letter === artist[0]);
         if (targetLetter) {

@@ -1,16 +1,17 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {LibraryPlayerService} from "../audio-controls/library-player.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {LocalAudioTrack} from "../local-audio/local-audio-track";
 import {RangeSliderComponent} from "../range-slider/range-slider.component";
 import {ProgressService} from "../range-slider/progress.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: 'app-audiotrack-edit-controls',
     templateUrl: './audiotrack-edit-controls.component.html',
     styleUrls: ['./audiotrack-edit-controls.component.scss']
 })
-export class AudiotrackEditControlsComponent implements OnInit, AfterViewInit {
+export class AudiotrackEditControlsComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Input("audio-track")
     audioTrack: LocalAudioTrack;
@@ -27,12 +28,25 @@ export class AudiotrackEditControlsComponent implements OnInit, AfterViewInit {
     currentTrackIsPlaying: boolean = false;
 
 
-    constructor(private libraryPlayerService: LibraryPlayerService, private progressService: ProgressService) {
-      this.libraryPlayerService.isPlaying().subscribe(value => {
-        if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-          this.currentTrackIsPlaying = value;
+    constructor(private libraryPlayerService: LibraryPlayerService,
+                private progressService: ProgressService,
+                private http: HttpClient) {
+        this.libraryPlayerService.isPlaying().subscribe(value => {
+            if (this.libraryPlayerService.currentTrack === this.audioTrack) {
+                this.currentTrackIsPlaying = value;
+            }
+        })
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+
+        if (changes.defaultAudio) {
+            console.log("changed default audio")
         }
-      })
+        // @ts-ignore
+        if (changes.defaultAudio && changes.defaultAudio.nativeElement) {
+            console.log("changed to " + this.audioTrack.url)
+        }
     }
 
     ngOnInit(): void {
@@ -44,8 +58,13 @@ export class AudiotrackEditControlsComponent implements OnInit, AfterViewInit {
     }
 
     play() {
+        if (!this.audioTrack.url) {
+            this.loadAudioFromRemote();
+        }
         this.libraryPlayerService.play(this.audioTrack);
     }
+
+
 
     pause() {
         this.libraryPlayerService.pause();
@@ -88,5 +107,35 @@ export class AudiotrackEditControlsComponent implements OnInit, AfterViewInit {
         return this.audioTrack === this.libraryPlayerService.currentTrack
             ? this.libraryPlayerService.getProgressInSeconds()
             : new BehaviorSubject(this.audioTrack.progressInSeconds).asObservable();
+    }
+
+    private loadAudioFromRemote() {
+        this.http.get(`audiotracks/binary?artist=${this.audioTrack.artist}&name=${this.audioTrack.name}&start=${this.audioTrack.startTime}&end=${this.audioTrack.endTime}`, {
+            headers: {'Content-Type': 'audio/mpeg'},
+            responseType: 'arraybuffer' as 'json'
+        })
+            .subscribe((response) => {
+                let bufferedResponse: ArrayBuffer = response as ArrayBuffer;
+                let blob = new Blob([bufferedResponse]);
+                this.defaultAudio.nativeElement.src = URL.createObjectURL(blob);
+                this.audioTrack.url = `audiotracks/binary?artist=${this.audioTrack.artist}&name=${this.audioTrack.name}&start=${this.audioTrack.startTime}&end=${this.audioTrack.endTime}`;
+                this.defaultAudio.nativeElement.currentTime = 100;
+                this.libraryPlayerService.play(this.audioTrack);
+                // const audioContext = new (window.AudioContext)();
+                // audioContext.decodeAudioData(bufferedResponse, (decodedData) => {
+                //     this.audioTrack.url = `audiotracks/binary?artist=${this.audioTrack.artist}&name=${this.audioTrack.name}&start=${this.audioTrack.startTime}&end=${this.audioTrack.endTime}`;
+                //     this.defaultAudio.nativeElement.play();
+                // const source = audioContext.createBufferSource();
+                // source.buffer = decodedData;
+                //
+                // const htmlElement = this.defaultAudio.nativeElement;
+                // htmlElement.src = URL.createObjectURL(new Blob([bufferedResponse], {type: 'audio/mpeg'}));
+                // htmlElement.play();
+                // source.connect(audioContext.destination);
+                // source.start(0);
+                //     })
+            }, error => {
+                console.error('Error fetching media:', error);
+            });
     }
 }
