@@ -24,14 +24,16 @@ export class FileDialogComponent {
 
   showWorkbench(event: any) {
     const files = event.target.files;
-    const dialogRef = this.dialog.open(AddAudiotracksWorkbenchComponent, {
-      disableClose: true,
-      width: '90%',
-      data: Array.from(files)
-    });
+    if (Array.from(files).length > 0) {
+      const dialogRef = this.dialog.open(AddAudiotracksWorkbenchComponent, {
+        disableClose: true,
+        width: '90%',
+        data: Array.from(files)
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      dialogRef.close();
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        dialogRef.close();
+      });
+    }
   }
 }

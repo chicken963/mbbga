@@ -21,12 +21,12 @@ export class LibraryService {
         let artist = audioTrack.artist;
         let targetLetter = library.find(libraryLetter => libraryLetter.letter === artist[0]);
         if (targetLetter) {
-            let targetArtist = targetLetter.artists.find(artist => audioTrack.artist === artist.artistName);
+            let targetArtist = targetLetter.artists?.find(artist => audioTrack.artist === artist.artistName);
             if (targetArtist) {
-                targetArtist.audioTracks.push(audioTrack);
+                targetArtist.audioTracks?.push(audioTrack);
                 return;
             }
-            targetLetter.artists.push(
+            targetLetter.artists?.push(
                 {
                     artistName: audioTrack.artist,
                     audioTracks: [audioTrack]

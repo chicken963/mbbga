@@ -25,6 +25,8 @@
     background: #c92563;
 }
 
-.letter-range {
-
+::ng-deep .mat-mdc-progress-spinner {
+    width: 25px !important;
+    height: 25px !important;
+    margin-left: 10px;
 }

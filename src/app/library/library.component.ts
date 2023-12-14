@@ -15,11 +15,10 @@ export class LibraryComponent {
 
     constructor(private http: HttpClient,
                 private libraryService: LibraryService) {
-        this.http.get("/library")
+        this.http.get("/library/all")
             .subscribe(response => {
-                    this.content = response as LibraryLetter[];
-                    this.content.forEach(libraryLetter => libraryLetter.artists.forEach(artist =>
-                        artist.audioTracks.forEach(audioTrack => audioTrack.mode = "view")))
+                    let letters = response as string[];
+                    this.content = letters.map(l => ({letter: l, artists: []}));
                 },
                 error => {
                     console.error("Error fetching library: ", error);

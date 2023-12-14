@@ -1,16 +1,23 @@
 <mat-accordion id="container" *ngIf="content" [multi]="true" class="mb-3">
     <mat-expansion-panel *ngIf="latinContent" class="letter-range mb-3">
         <mat-expansion-panel-header>A - Z</mat-expansion-panel-header>
-        <mat-expansion-panel *ngFor="let letter of latinContent">
+        <mat-expansion-panel *ngFor="let letter of latinContent" (opened)="loadLetterArtists(letter)">
             <mat-expansion-panel-header>
                 {{ letter.letter }}
             </mat-expansion-panel-header>
+            <div *ngIf="artistsAreLoading" class="artists-spinner d-flex flex-row justify-content-center">
+                <p>Loading artists...</p>
+                <mat-spinner></mat-spinner>
+            </div>
             <div *ngFor="let artist of letter.artists">
-                <mat-expansion-panel>
+                <mat-expansion-panel (opened)="loadArtistTracks(artist)">
                     <mat-expansion-panel-header>
                         {{ artist.artistName }}
                     </mat-expansion-panel-header>
-
+                    <div *ngIf="tracksAreLoading" class="artists-spinner d-flex flex-row justify-content-center">
+                        <p>Loading artists...</p>
+                        <mat-spinner></mat-spinner>
+                    </div>
                     <app-audio-controls *ngFor="let track of artist.audioTracks"
                                         [audio-track]="track">
 

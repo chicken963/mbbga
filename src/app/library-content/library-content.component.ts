@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LibraryLetter} from "../interfaces/library";
+import {Artist, LibraryLetter} from "../interfaces/library";
 import {NotificationService} from "../utils/notification.service";
+import {HttpClient} from "@angular/common/http";
+import {AudioTrack} from "../interfaces/audiotrack";
+import {LocalAudioTrack} from "../local-audio/local-audio-track";
 
 @Component({
   selector: 'app-library-content',
@@ -9,11 +12,13 @@ import {NotificationService} from "../utils/notification.service";
 })
 export class LibraryContentComponent{
 
-  constructor(private notificationService: NotificationService) {
+  constructor(private notificationService: NotificationService, private http: HttpClient) {
   }
   private index: number = 0;
   private latinRegex = /^[a-zA-Z]$/;
   private cyrillicRegex = /^[а-яА-Я]$/;
+  artistsAreLoading: boolean = false;
+  tracksAreLoading: boolean = false;
 
   @Input("content")
   content: LibraryLetter[];
@@ -43,4 +48,26 @@ export class LibraryContentComponent{
     );
   }
 
+  loadLetterArtists(letter: LibraryLetter) {
+    if (!letter.artists || letter.artists.length === 0) {
+      this.artistsAreLoading = true;
+      this.http.get(`/library/letters?value=${letter.letter}`)
+          .subscribe(result  => {
+            letter.artists = (result as string[]).map(artist => ({artistName: artist, audioTracks: []}));
+            this.artistsAreLoading = false;
+          })
+    }
+
+  }
+
+  loadArtistTracks(artist: Artist) {
+    if (!artist.audioTracks || artist.audioTracks.length === 0) {
+      this.tracksAreLoading = true;
+      this.http.get(`/library/artists?value=${artist.artistName}`)
+          .subscribe(result  => {
+            artist.audioTracks = result as LocalAudioTrack[];
+            this.tracksAreLoading = false;
+          })
+    }
+  }
 }
