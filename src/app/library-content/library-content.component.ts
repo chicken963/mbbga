@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Artist, LibraryLetter} from "../interfaces/library";
 import {NotificationService} from "../utils/notification.service";
 import {HttpClient} from "@angular/common/http";
@@ -10,7 +10,7 @@ import {LocalAudioTrack} from "../local-audio/local-audio-track";
   templateUrl: './library-content.component.html',
   styleUrls: ['./library-content.component.css']
 })
-export class LibraryContentComponent{
+export class LibraryContentComponent implements OnChanges {
 
   constructor(private notificationService: NotificationService, private http: HttpClient) {
   }
@@ -27,7 +27,14 @@ export class LibraryContentComponent{
   latinContent: LibraryLetter[];
   otherContent: LibraryLetter[];
 
-  ngOnInit(): void {
+  contentGroups: Map<GroupLabel, LibraryLetter[]> = new Map<GroupLabel, LibraryLetter[]>();
+
+/*  ngOnInit(): void {
+    this.contentGroups = new Map([
+        ["A-Z", this.latinContent],
+        ["А-Я", this.slavicContent],
+        ["0-9!@#$%^&*():\"?<>|\\,.", this.otherContent]
+    ])*/
 /*    setInterval(() => {
       if (this.index % 2 == 0) {
         this.notificationService.pushNotification(
@@ -38,14 +45,19 @@ export class LibraryContentComponent{
       }
 
     }, 2000)*/
-  }
+  // }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     this.slavicContent = this.content?.filter(libraryLetter => this.cyrillicRegex.test(libraryLetter.letter));
     this.latinContent = this.content?.filter(libraryLetter => this.latinRegex.test(libraryLetter.letter));
     this.otherContent = this.content?.filter(libraryLetter =>
         !this.latinRegex.test(libraryLetter.letter) && !this.cyrillicRegex.test(libraryLetter.letter)
     );
+    if (this.content) {
+      this.contentGroups.set(new GroupLabel("A-Z"), this.latinContent);
+      this.contentGroups.set(new GroupLabel("А-Я"), this.slavicContent);
+      this.contentGroups.set(new GroupLabel("0-9!@#$%^&*():\"?<>|\\,."), this.otherContent);
+    }
   }
 
   loadLetterArtists(letter: LibraryLetter) {
@@ -69,5 +81,13 @@ export class LibraryContentComponent{
             this.tracksAreLoading = false;
           })
     }
+  }
+}
+
+class GroupLabel {
+  label: string;
+
+  constructor(label: string) {
+    this.label = label;
   }
 }

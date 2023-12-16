@@ -18,6 +18,7 @@ export class LibraryComponent {
         this.http.get("/library/all")
             .subscribe(response => {
                     let letters = response as string[];
+                    letters.sort((a, b) => a.localeCompare(b));
                     this.content = letters.map(l => ({letter: l, artists: []}));
                 },
                 error => {
