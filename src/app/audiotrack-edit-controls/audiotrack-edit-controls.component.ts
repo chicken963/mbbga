@@ -40,6 +40,7 @@ export class AudiotrackEditControlsComponent implements OnInit {
     currentVersionIsPlaying: boolean = false;
     audioTrackId?: string;
     trackIsLoading: boolean = false;
+    loadPercents: number = 0;
 
 
     constructor(private libraryPlayerService: LibraryPlayerService,
@@ -60,7 +61,16 @@ export class AudiotrackEditControlsComponent implements OnInit {
     play() {
         if (!this.audioTrack.url && this.audioTrackId) {
             this.trackIsLoading = true;
-            this.downloadService.loadAudioFromRemote(this.audioTrackId, this.audioTrack.audioEl, () => this.onDownload())
+            this.downloadService.loadAudioFromRemote(this.audioTrackId).subscribe(result => {
+                if (typeof result === 'number') {
+                    this.loadPercents = result;
+                } else if (typeof result === 'string') {
+                    this.audioTrack.audioEl.src = result;
+                    this.audioTrack.url = `audio-tracks/binary?id=${this.audioTrackId}`;
+                    this.libraryPlayerService.play(this.audioTrack, this.audioTrackVersion);
+                    this.trackIsLoading = false;
+                }
+            })
             return;
         }
         this.libraryPlayerService.play(this.audioTrack, this.audioTrackVersion);
@@ -106,11 +116,5 @@ export class AudiotrackEditControlsComponent implements OnInit {
         return this.audioTrackVersion === this.libraryPlayerService.activeVersion
             ? this.libraryPlayerService.getProgressInSeconds()
             : new BehaviorSubject(this.audioTrackVersion.progressInSeconds).asObservable();
-    }
-
-    onDownload() {
-        this.audioTrack.url = `audio-tracks/binary?id=${this.audioTrackId}`;
-        this.libraryPlayerService.play(this.audioTrack, this.audioTrackVersion);
-        this.trackIsLoading = false;
     }
 }

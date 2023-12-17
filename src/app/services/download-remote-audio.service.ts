@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Subscription} from "rxjs";
+import {HttpClient, HttpEvent, HttpEventType, HttpRequest} from "@angular/common/http";
+import {map, Observable, Subscription} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -14,24 +14,23 @@ export class DownloadRemoteAudioService {
     }
 
 
-    loadAudioFromRemote(audioTrackId: string, htmlAudioElement: HTMLAudioElement, callback: () => void) {
-        for (const audioTrackId of this.subscriptionMap.keys()) {
-            this.cancelDownload(audioTrackId);
-        }
-        let downloadSubscription = this.http.get(`audio-tracks/binary?id=${audioTrackId}`, {
-            headers: {'Content-Type': 'audio/mpeg'},
-            responseType: 'arraybuffer' as 'json'
-        })
-            .subscribe((response) => {
-                let bufferedResponse: ArrayBuffer = response as ArrayBuffer;
-                let blob = new Blob([bufferedResponse]);
-                htmlAudioElement.src = URL.createObjectURL(blob);
-                callback();
-                this.subscriptionMap.delete(audioTrackId);
-            }, error => {
-                console.error('Error fetching media:', error);
-            });
-        this.subscriptionMap.set(audioTrackId, downloadSubscription);
+    loadAudioFromRemote(audioTrackId: string): Observable<string | number | null> {
+        const req = new HttpRequest('GET', `audio-tracks/binary?id=${audioTrackId}`, {
+            responseType: 'blob',
+            reportProgress: true,
+        });
+
+        return  this.http.request(req).pipe(
+            map((event) => {
+                if (event.type === HttpEventType.DownloadProgress && event.total) {
+                    return  Math.round((100 * event.loaded) / event.total);
+                } else if (event.type === HttpEventType.Response) {
+                    let blob = event.body as Blob;
+                    return URL.createObjectURL(blob);
+                }
+                return null;
+            })
+        )
     }
 
     cancelDownload(audioTrackId: string) {

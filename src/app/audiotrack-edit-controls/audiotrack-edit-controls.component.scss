@@ -27,8 +27,15 @@ app-range-slider {
 }
 
 ::ng-deep .mat-mdc-progress-spinner {
-  width: 25px !important;
-  height: 25px !important;
-  margin-left: 10px;
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.load-percentage {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
