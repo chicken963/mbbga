@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {LocalAudioTrack} from "./local-audio-track";
-import {from, Observable} from "rxjs";
+import {AudioTrack} from "../interfaces/audio-track";
 
 @Injectable({
     providedIn: 'root',
@@ -9,24 +8,27 @@ export class LocalAudioService {
 
     private audioExtensions: string[] = ["wav", "mp3", "flac", "ogg", "aac", "m4a"]
 
-    toLocalAudioTrack(file: File, mode: string): Promise<LocalAudioTrack> {
+    toLocalAudioTrack(file: File, mode: string): Promise<AudioTrack> {
         const audioUrl = URL.createObjectURL(file);
         const audio = new Audio();
-        return new Promise<LocalAudioTrack>((resolve, reject) => {
+        return new Promise<AudioTrack>((resolve, reject) => {
             audio.src = audioUrl;
             audio.addEventListener('loadedmetadata', () => {
-                let audiotrack = {
-                    url:audioUrl,
+                let audioTrack = {
+                    url: audioUrl,
                     name: this.initiateName(file.name),
                     artist: this.initiateArtist(file.name),
-                    startTime: 0,
-                    endTime: audio.duration,
                     length: audio.duration,
                     audioEl: audio,
                     file: file,
-                    mode: mode
-                } as LocalAudioTrack
-                resolve(audiotrack);
+                    mode: mode,
+                    versions: [{
+                        active: true,
+                        startTime: 0,
+                        endTime: audio.duration
+                    }]
+                } as AudioTrack
+                resolve(audioTrack);
             });
             audio.addEventListener('error', (error) => {
                 reject(error);

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {LibraryLetter} from "../interfaces/library";
 import {LibraryService} from "../library-content/library.service";
-import {LocalAudioTrack} from "../local-audio/local-audio-track";
+import {AudioTrack} from "../interfaces/audio-track";
 
 @Component({
     selector: 'app-library',
@@ -24,7 +24,7 @@ export class LibraryComponent {
                 error => {
                     console.error("Error fetching library: ", error);
                 });
-        this.libraryService.event$.subscribe((audioTrack: LocalAudioTrack) => {
+        this.libraryService.event$.subscribe((audioTrack: AudioTrack) => {
             this.libraryService.add(this.content, audioTrack);
         });
     }

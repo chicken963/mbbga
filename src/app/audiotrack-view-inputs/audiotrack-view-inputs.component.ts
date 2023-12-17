@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {AudioTrack} from "../interfaces/audiotrack";
+import {AudioTrack} from "../interfaces/audio-track";
 
 @Component({
   selector: 'app-audiotrack-view-inputs',

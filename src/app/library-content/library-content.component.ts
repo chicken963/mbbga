@@ -2,8 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {Artist, LibraryLetter} from "../interfaces/library";
 import {NotificationService} from "../utils/notification.service";
 import {HttpClient} from "@angular/common/http";
-import {AudioTrack} from "../interfaces/audiotrack";
-import {LocalAudioTrack} from "../local-audio/local-audio-track";
+import {AudioTrack} from "../interfaces/audio-track";
 
 @Component({
   selector: 'app-library-content',
@@ -77,7 +76,8 @@ export class LibraryContentComponent implements OnChanges {
       this.tracksAreLoading = true;
       this.http.get(`/library/artists?value=${artist.artistName}`)
           .subscribe(result  => {
-            artist.audioTracks = result as LocalAudioTrack[];
+            artist.audioTracks = result as AudioTrack[];
+            artist.audioTracks.forEach(audioTrack => audioTrack.mode = "view")
             this.tracksAreLoading = false;
           })
     }

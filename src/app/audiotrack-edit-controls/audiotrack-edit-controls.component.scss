@@ -26,3 +26,9 @@ app-range-slider {
   min-width: 110px;
 }
 
+::ng-deep .mat-mdc-progress-spinner {
+  width: 25px !important;
+  height: 25px !important;
+  margin-left: 10px;
+}
+

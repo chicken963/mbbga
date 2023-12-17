@@ -10,7 +10,7 @@
     </div>
 
     <div class="library-cards p-1" mat-dialog-content>
-        <app-audio-controls *ngFor="let audiotrack of audiotracks"
+        <app-audio-controls *ngFor="let audiotrack of audioTracks"
                             [audio-track]="audiotrack"
                             (onDelete)="deleteFromWorkbench($event)"
                             (onModeChange)="checkAllAudioTracksConfirmed()">

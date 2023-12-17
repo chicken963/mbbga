@@ -1,47 +1,47 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {AudioTrack} from "./interfaces/audiotrack";
+import {AudioTrackVersion} from "./interfaces/audio-track-version";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RangeSliderService {
 
-  private subjectMap = new Map<AudioTrack, Subject<number>[]>();
+  private subjectMap = new Map<AudioTrackVersion, Subject<number>[]>();
 
   constructor() { }
 
-  setStartTime(audioTrack: AudioTrack, startTime: number) {
+  setStartTime(audioTrack: AudioTrackVersion, startTime: number) {
     this.startObservingTrackIfNotExists(audioTrack);
     this.getStartTimeSubject(audioTrack).next(startTime);
   }
 
-  getStartTime(audioTrack: AudioTrack): Observable<number> {
+  getStartTime(audioTrack: AudioTrackVersion): Observable<number> {
     this.startObservingTrackIfNotExists(audioTrack);
     return this.getStartTimeSubject(audioTrack).asObservable();
   }
 
-  setEndTime(audioTrack: AudioTrack, endTime: number) {
+  setEndTime(audioTrack: AudioTrackVersion, endTime: number) {
     this.startObservingTrackIfNotExists(audioTrack);
     this.getEndTimeSubject(audioTrack).next(endTime);
   }
 
-  getEndTime(audioTrack: AudioTrack): Observable<number> {
+  getEndTime(audioTrack: AudioTrackVersion): Observable<number> {
     this.startObservingTrackIfNotExists(audioTrack);
     return this.getEndTimeSubject(audioTrack).asObservable();
   }
 
-  private startObservingTrackIfNotExists(audioTrack: AudioTrack) {
+  private startObservingTrackIfNotExists(audioTrack: AudioTrackVersion) {
     if (!this.subjectMap.has(audioTrack)) {
       this.subjectMap.set(audioTrack, [new BehaviorSubject<number>(audioTrack.startTime), new BehaviorSubject<number>(audioTrack.endTime)])
     }
   }
 
-  private getStartTimeSubject(audioTrack: AudioTrack): Subject<number>  {
+  private getStartTimeSubject(audioTrack: AudioTrackVersion): Subject<number>  {
     return this.subjectMap.get(audioTrack)![0]
   }
 
-  private getEndTimeSubject(audioTrack: AudioTrack): Subject<number>  {
+  private getEndTimeSubject(audioTrack: AudioTrackVersion): Subject<number>  {
     return this.subjectMap.get(audioTrack)![1]
   }
 }

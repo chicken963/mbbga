@@ -1,6 +1,15 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {LocalAudioTrack} from "../local-audio/local-audio-track";
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    Output,
+    ViewChild
+} from '@angular/core';
 import {AudiotrackEditInputsComponent} from "../audiotrack-edit-inputs/audiotrack-edit-inputs.component";
+import {AudioTrack} from "../interfaces/audio-track";
 /*import {animate, style, transition, trigger} from "@angular/animations";
 
 
@@ -19,20 +28,26 @@ export const slideInOut = trigger('slideInOut', [
     templateUrl: './audio-controls.component.html',
     styleUrls: ['./audio-controls.component.scss']
 })
-export class AudioControlsComponent {
+export class AudioControlsComponent implements AfterViewInit {
 
     @Input("audio-track")
-    audioTrack: LocalAudioTrack;
+    audioTrack: AudioTrack;
 
     @ViewChild("editInputs")
     editInputsComponent: AudiotrackEditInputsComponent;
 
-    @Output() onDelete = new EventEmitter<LocalAudioTrack>();
+    @ViewChild("defaultAudio")
+    private defaultAudio: ElementRef<HTMLAudioElement>;
+
+    @Output() onDelete = new EventEmitter<AudioTrack>();
     @Output() onModeChange = new EventEmitter<string>();
 
-    inputsAreValid: boolean = false;
 
     constructor(private cdr: ChangeDetectorRef) {
+    }
+
+    ngAfterViewInit(): void {
+        this.audioTrack.audioEl = this.defaultAudio.nativeElement;
     }
 
 
@@ -48,5 +63,9 @@ export class AudioControlsComponent {
     onFormValidityChanged(isValid: boolean) {
         this.audioTrack.inputsAreValid = isValid;
         this.cdr.detectChanges();
+    }
+
+    updateUrl(value: string) {
+        this.audioTrack.url = value;
     }
 }

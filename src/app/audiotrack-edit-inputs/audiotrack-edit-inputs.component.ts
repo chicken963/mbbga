@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {AudioTrack} from "../interfaces/audiotrack";
+import {AudioTrack} from "../interfaces/audio-track";
 import {TimeConversionService} from "../time-conversion.service";
 import {LibraryPlayerService} from "../audio-controls/library-player.service";
-import {ProgressService} from "../range-slider/progress.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AudiotrackValidateService} from "../audiotrack-validate.service";
 import {LibraryService} from "../library-content/library.service";
+import {AudioTrackVersion} from "../interfaces/audio-track-version";
 
 @Component({
     selector: 'app-audiotrack-edit-inputs',
@@ -18,6 +18,8 @@ export class AudiotrackEditInputsComponent implements OnChanges {
     audioTrack: AudioTrack;
 
     audioInputs: FormGroup;
+
+    activeVersion: AudioTrackVersion;
 
     @Output()
     inputsValidityChanged = new EventEmitter<boolean>();
@@ -50,50 +52,51 @@ export class AudiotrackEditInputsComponent implements OnChanges {
                 artist: changes.audioTrack.currentValue.artist,
                 name: changes.audioTrack.currentValue.name
             });
+            this.activeVersion = changes.audioTrack.currentValue.versions.find((version: AudioTrackVersion) => version.active);
         }
     }
 
     updateStartTime($event: any) {
         let newValue = this.timeConversionService.stringToSeconds($event.target.value);
-        this.audioTrack.startTime = this.audiotrackValidateService.validateStartTime(this.audioTrack, newValue);
+        this.activeVersion.startTime = this.audiotrackValidateService.validateStartTime(this.activeVersion, newValue);
         if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setStartTime(this.audioTrack.startTime);
+            this.libraryPlayerService.setStartTime(this.activeVersion.startTime);
         }
     }
 
     updateEndTime($event: any) {
         let newValue = this.timeConversionService.stringToSeconds($event.target.value);
-        this.audioTrack.endTime = this.audiotrackValidateService.validateEndTime(this.audioTrack, newValue);
+        this.activeVersion.endTime = this.audiotrackValidateService.validateEndTime(this.audioTrack, this.activeVersion, newValue);
         if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setEndTime(this.audioTrack.endTime);
+            this.libraryPlayerService.setEndTime(this.activeVersion.endTime);
         }
     }
 
     incrementStartTime() {
-        this.audioTrack.startTime = this.audiotrackValidateService.validateStartTime(this.audioTrack, this.audioTrack.startTime + 0.1);
+        this.activeVersion.startTime = this.audiotrackValidateService.validateStartTime(this.activeVersion, this.activeVersion.startTime + 0.1);
         if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setStartTime(this.audioTrack.startTime);
+            this.libraryPlayerService.setStartTime(this.activeVersion.startTime);
         }
     }
 
     decrementStartTime() {
-        this.audioTrack.startTime = this.audiotrackValidateService.validateStartTime(this.audioTrack, this.audioTrack.startTime - 0.1);
+        this.activeVersion.startTime = this.audiotrackValidateService.validateStartTime(this.activeVersion, this.activeVersion.startTime - 0.1);
         if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setStartTime(this.audioTrack.startTime);
+            this.libraryPlayerService.setStartTime(this.activeVersion.startTime);
         }
     }
 
     incrementEndTime() {
-        this.audioTrack.endTime = this.audiotrackValidateService.validateEndTime(this.audioTrack, this.audioTrack.endTime + 0.1);
+        this.activeVersion.endTime = this.audiotrackValidateService.validateEndTime(this.audioTrack, this.activeVersion, this.activeVersion.endTime + 0.1);
         if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setEndTime(this.audioTrack.endTime);
+            this.libraryPlayerService.setEndTime(this.activeVersion.endTime);
         }
     }
 
     decrementEndTime() {
-        this.audioTrack.endTime = this.audiotrackValidateService.validateEndTime(this.audioTrack, this.audioTrack.endTime - 0.1);
+        this.activeVersion.endTime = this.audiotrackValidateService.validateEndTime(this.audioTrack, this.activeVersion, this.activeVersion.endTime - 0.1);
         if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setEndTime(this.audioTrack.endTime);
+            this.libraryPlayerService.setEndTime(this.activeVersion.endTime);
         }
     }
 }

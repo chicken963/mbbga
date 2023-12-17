@@ -1,4 +1,8 @@
 <mat-card class="mat-elevation-z8">
+    <audio #defaultAudio>
+        <source [src]="audioTrack.url" type="audio/mp3">
+        Your browser does not support the audio tag.
+    </audio>
     <mat-card-content>
         <div class="controls-container d-flex flex-row justify-content-between">
             <div class="d-flex flex-column editable-fields col-11">
@@ -13,7 +17,11 @@
                         *ngIf="audioTrack.mode === 'view'"
                         [audio-track]="audioTrack">
                 </app-audiotrack-view-inputs>
-                <app-audiotrack-edit-controls [audio-track]="audioTrack"></app-audiotrack-edit-controls>
+                <app-audiotrack-edit-controls *ngFor="let version of audioTrack.versions; let i = index"
+                                              [audio-track]="audioTrack"
+                                              [version]="version"
+                                              [mode]="audioTrack.mode"
+                ></app-audiotrack-edit-controls>
             </div>
             <div class="menu-buttons-container d-flex flex-column align-items-center px-3 col-1" >
                 <button mat-mini-fab class="m-2 panel-button"

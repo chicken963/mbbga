@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {AudioTrack} from "./interfaces/audiotrack";
+import {AudioTrack} from "./interfaces/audio-track";
+import {AudioTrackVersion} from "./interfaces/audio-track-version";
 
 @Injectable({
     providedIn: 'root'
@@ -8,19 +9,19 @@ export class AudiotrackValidateService {
 
     constructor() { }
 
-    validateEndTime(audioTrack: AudioTrack, endTime: number) : number {
+    validateEndTime(audioTrack: AudioTrack, audioTrackVersion: AudioTrackVersion, endTime: number) : number {
         if (endTime > audioTrack.length) {
             return audioTrack.length;
         }
-        if (endTime < audioTrack.startTime + 0.5) {
-            return audioTrack.startTime + 0.5;
+        if (endTime < audioTrackVersion.startTime + 0.5) {
+            return audioTrackVersion.startTime + 0.5;
         }
         return endTime;
     }
 
-    validateStartTime(audioTrack: AudioTrack, startTime: number) : number {
-        if (startTime > audioTrack.endTime - 0.5) {
-            return audioTrack.endTime - 0.5;
+    validateStartTime(audioTrackVersion: AudioTrackVersion, startTime: number) : number {
+        if (startTime > audioTrackVersion.endTime - 0.5) {
+            return audioTrackVersion.endTime - 0.5;
         }
         if (startTime < 0) {
             return 0;

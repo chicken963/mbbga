@@ -6,8 +6,9 @@ import {NgIf} from "@angular/common";
 import {Observable, Subscription} from "rxjs";
 import {RangeSliderService} from "../range-slider.service";
 import {LibraryPlayerService} from "../audio-controls/library-player.service";
-import {LocalAudioTrack} from "../local-audio/local-audio-track";
 import {AudiotrackValidateService} from "../audiotrack-validate.service";
+import {AudioTrackVersion} from "../interfaces/audio-track-version";
+import {AudioTrack} from "../interfaces/audio-track";
 
 @Component({
     selector: 'app-range-slider',
@@ -25,13 +26,16 @@ export class RangeSliderComponent implements AfterViewInit {
 
     constructor(private rangeSliderService: RangeSliderService,
                 private playerService: LibraryPlayerService,
-                private audiotrackValidateService: AudiotrackValidateService,
+                private audioTrackValidateService: AudiotrackValidateService,
                 private renderer: Renderer2,
                 private el: ElementRef) {
     }
 
     @Input("audio-track")
-    audioTrack: LocalAudioTrack;
+    audioTrack: AudioTrack;
+
+    @Input("version")
+    audioTrackVersion: AudioTrackVersion;
 
     @Input("mode")
     mode: string;
@@ -53,8 +57,8 @@ export class RangeSliderComponent implements AfterViewInit {
 
         this.updateProgressSlider(0);
 
-        this.getCurrentTrack().subscribe(audioTrack => {
-            if (audioTrack === this.audioTrack) {
+        this.getCurrentVersion().subscribe(audioTrackVersion => {
+            if (audioTrackVersion === this.audioTrackVersion) {
                 this.progressPercentageSubscription = this.getProgressPercentage().subscribe(value => {
                     this.updateProgressSlider(value);
                 })
@@ -65,16 +69,16 @@ export class RangeSliderComponent implements AfterViewInit {
     }
 
     onStartTimeChanged(event: any) {
-        this.audioTrack.startTime = this.audiotrackValidateService.validateStartTime(this.audioTrack, event.target.value);
-        if (this.playerService.currentTrack === this.audioTrack) {
-            this.playerService.setStartTime(this.audioTrack.startTime);
+        this.audioTrackVersion.startTime = this.audioTrackValidateService.validateStartTime(this.audioTrackVersion, event.target.value);
+        if (this.playerService.activeVersion === this.audioTrackVersion) {
+            this.playerService.setStartTime(this.audioTrackVersion.startTime);
         }
     }
 
     onEndTimeChanged(event: any) {
-        this.audioTrack.endTime = this.audiotrackValidateService.validateEndTime(this.audioTrack, event.target.value);
-        if (this.playerService.currentTrack === this.audioTrack) {
-            this.playerService.setEndTime(this.audioTrack.endTime);
+        this.audioTrackVersion.endTime = this.audioTrackValidateService.validateEndTime(this.audioTrack, this.audioTrackVersion, event.target.value);
+        if (this.playerService.activeVersion === this.audioTrackVersion) {
+            this.playerService.setEndTime(this.audioTrackVersion.endTime);
         }
     }
 
@@ -86,8 +90,8 @@ export class RangeSliderComponent implements AfterViewInit {
         );
     }
 
-    getCurrentTrack(): Observable<LocalAudioTrack> {
-        return this.playerService.getCurrentTrack();
+    getCurrentVersion(): Observable<AudioTrackVersion> {
+        return this.playerService.getCurrentVersion();
     }
 
     private getProgressPercentage() {

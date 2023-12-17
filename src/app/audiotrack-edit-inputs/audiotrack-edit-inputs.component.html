@@ -4,7 +4,7 @@
         <input matInput
                timeMask="00:00.0"
                placeholder="mm:ss.S"
-               value="{{ audioTrack.startTime | timeFormat:'string' }}"
+               value="{{ (activeVersion? activeVersion.startTime : 0) | timeFormat:'string' }}"
                (change)="updateStartTime($event)">
         <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix (click)="incrementStartTime()">
             <mat-icon>keyboard_arrow_up</mat-icon>
@@ -28,7 +28,7 @@
         <input matInput
                timeMask="00:00.0"
                placeholder="mm:ss.S"
-               value="{{ audioTrack.endTime | timeFormat:'string' }}"
+               value="{{ (activeVersion? activeVersion.endTime : 0) | timeFormat:'string' }}"
                (change)="updateEndTime($event)">
         <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix (click)="incrementEndTime()">
             <mat-icon>keyboard_arrow_up</mat-icon>

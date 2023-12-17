@@ -1,14 +1,11 @@
 <div class="container d-flex flex-row justify-content-between">
-    <audio #defaultAudio>
-        <source [src]="audioTrack.url" type="audio/mp3">
-        Your browser does not support the audio tag.
-    </audio>
     <div class="range-slider-and-buttons d-flex flex-row justify-content-start align-items-center">
         <div class="d-flex flex-row justify-content-start align-items-center">
-            <button mat-button class="play-control-button" (click)="play()" *ngIf="!(currentTrackIsPlaying)">
+            <mat-spinner *ngIf="trackIsLoading"></mat-spinner>
+            <button mat-button class="play-control-button" (click)="play()" *ngIf="!(trackIsLoading) && !(currentVersionIsPlaying)">
                 <mat-icon>play_arrow</mat-icon>
             </button>
-            <button mat-button class="play-control-button" (click)="pause()" *ngIf="currentTrackIsPlaying">
+            <button mat-button class="play-control-button" (click)="pause()" *ngIf="!trackIsLoading && currentVersionIsPlaying">
                 <mat-icon>pause</mat-icon>
             </button>
             <button mat-button class="play-control-button" (click)="stop()">
@@ -21,7 +18,11 @@
                 <mat-icon>forward_5</mat-icon>
             </button>
         </div>
-        <app-range-slider #rangeSlider class="mx-3" [audio-track]="audioTrack" [mode]="mode"></app-range-slider>
-        <div class="current-progress">{{ getProgress() | async | timeFormat:'string' }} / {{ audioTrack.endTime - audioTrack.startTime | timeFormat:'string'}}</div>
+        <app-range-slider #rangeSlider class="mx-3"
+                          [audio-track]="audioTrack"
+                          [version]="audioTrackVersion"
+                          [mode]="mode">
+        </app-range-slider>
+        <div class="current-progress">{{ getProgress() | async | timeFormat:'string' }} / {{ audioTrackVersion.endTime - audioTrackVersion.startTime | timeFormat:'string'}}</div>
     </div>
 </div>
