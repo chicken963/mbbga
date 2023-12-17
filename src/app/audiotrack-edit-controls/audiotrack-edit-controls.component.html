@@ -31,4 +31,30 @@
         <div class="current-progress">{{ getProgress() | async | timeFormat:'string' }}
             / {{ audioTrackVersion.endTime - audioTrackVersion.startTime | timeFormat:'string'}}</div>
     </div>
+    <div class="menu-buttons-container d-flex flex-row align-items-center" >
+        <button mat-mini-fab class="m-2 panel-button"
+                (click)="delete()"
+                color="primary"
+                matTooltip="Delete track from workbench">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button *ngIf="audioTrack.mode === 'view'"
+                mat-mini-fab class="m-2 panel-button"
+                (click)="setMode('edit')"
+                matTooltip="Edit draft">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button *ngIf="audioTrack.mode === 'edit' && audioTrack?.inputsAreValid"
+                mat-mini-fab class="m-2 done-all panel-button"
+                (click)="setMode('view')"
+                matTooltip="Save draft">
+            <mat-icon>done</mat-icon>
+        </button>
+        <button *ngIf="audioTrack.mode === 'edit'  && !audioTrack?.inputsAreValid"
+                matTooltip="Fill all field properly to be able to save track"
+                mat-mini-fab class="m-2 warning panel-button"
+                color="warn">
+            <mat-icon>warning</mat-icon>
+        </button>
+    </div>
 </div>

@@ -10,6 +10,10 @@ import {
 } from '@angular/core';
 import {AudiotrackEditInputsComponent} from "../audiotrack-edit-inputs/audiotrack-edit-inputs.component";
 import {AudioTrack} from "../interfaces/audio-track";
+import {AudioTrackVersion} from "../interfaces/audio-track-version";
+import {HttpClient} from "@angular/common/http";
+import {OkPopupComponent} from "../ok-popup/ok-popup.component";
+import {DialogService} from "../utils/dialog.service";
 /*import {animate, style, transition, trigger} from "@angular/animations";
 
 
@@ -43,16 +47,13 @@ export class AudioControlsComponent implements AfterViewInit {
     @Output() onModeChange = new EventEmitter<string>();
 
 
-    constructor(private cdr: ChangeDetectorRef) {
+    constructor(private cdr: ChangeDetectorRef,
+                private http: HttpClient,
+                private dialogService: DialogService) {
     }
 
     ngAfterViewInit(): void {
         this.audioTrack.audioEl = this.defaultAudio.nativeElement;
-    }
-
-
-    delete() {
-        this.onDelete.emit(this.audioTrack);
     }
 
     setMode(mode: string) {
@@ -67,5 +68,30 @@ export class AudioControlsComponent implements AfterViewInit {
 
     updateUrl(value: string) {
         this.audioTrack.url = value;
+    }
+
+    handleDeleteVersion(versionToDelete: AudioTrackVersion) {
+        if (!versionToDelete.createdByCurrentUser) {
+            this.dialogService.showOkPopup("Permission denied", "You have no rights to remove the version");
+            return;
+        }
+        if (this.audioTrack.versions.length == 1) {
+            this.onDelete.emit(this.audioTrack);
+            return;
+        }
+        const index = this.audioTrack.versions.indexOf(versionToDelete, 0);
+        if (versionToDelete.active) {
+            if (index == 0) {
+                this.audioTrack.versions[1].active = true;
+            } else {
+                this.audioTrack.versions[0].active = true;
+            }
+            this.http.delete(`/audio-tracks/version?id=${versionToDelete.id}`).subscribe(
+                response => {
+                this.audioTrack.versions.splice(index, 1);
+            }, error => {
+                    this.dialogService.showOkPopup("Error", "Failed to delete audio track version from library.")
+            })
+        }
     }
 }

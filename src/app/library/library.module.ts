@@ -25,6 +25,7 @@ import { AudiotrackEditInputsComponent } from '../audiotrack-edit-inputs/audiotr
 import { AudiotrackEditControlsComponent } from '../audiotrack-edit-controls/audiotrack-edit-controls.component';
 import { AudiotrackViewInputsComponent } from '../audiotrack-view-inputs/audiotrack-view-inputs.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { LibraryArtistComponent } from '../library-artist/library-artist.component';
 
 
 
@@ -40,7 +41,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     VolumeSliderComponent,
     AudiotrackEditInputsComponent,
     AudiotrackEditControlsComponent,
-    AudiotrackViewInputsComponent
+    AudiotrackViewInputsComponent,
+    LibraryArtistComponent
   ],
     imports: [
         CommonModule,

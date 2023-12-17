@@ -34,6 +34,9 @@ export class AudiotrackEditControlsComponent implements OnInit {
     @Input("mode")
     mode: string;
 
+    @Output() modeChange: EventEmitter<string> = new EventEmitter<string>();
+    @Output() onDeleteVersion = new EventEmitter<AudioTrackVersion>();
+
     @ViewChild("rangeSlider")
     private rangeSlider: RangeSliderComponent;
 
@@ -116,5 +119,13 @@ export class AudiotrackEditControlsComponent implements OnInit {
         return this.audioTrackVersion === this.libraryPlayerService.activeVersion
             ? this.libraryPlayerService.getProgressInSeconds()
             : new BehaviorSubject(this.audioTrackVersion.progressInSeconds).asObservable();
+    }
+
+    setMode(value: string) {
+        this.modeChange.emit(value)
+    }
+
+    delete() {
+        this.onDeleteVersion.emit(this.audioTrackVersion);
     }
 }

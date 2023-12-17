@@ -4,4 +4,5 @@ export interface AudioTrackVersion {
     endTime: number;
     active: boolean;
     progressInSeconds: number;
+    createdByCurrentUser: boolean;
 }

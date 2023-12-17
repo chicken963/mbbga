@@ -39,3 +39,19 @@ app-range-slider {
   align-items: center;
 }
 
+.warning {
+  color: #F4CA16;
+  .white-icon svg {
+    fill: #F4CA16;
+  }
+}
+
+.tooltip-enabled-button {
+  pointer-events: auto !important;
+}
+
+.panel-button {
+  max-width: 30px;
+  max-height: 30px;
+}
+

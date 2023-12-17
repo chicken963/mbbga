@@ -1,8 +1,7 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Artist, LibraryLetter} from "../interfaces/library";
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {LibraryLetter} from "../interfaces/library";
 import {NotificationService} from "../utils/notification.service";
 import {HttpClient} from "@angular/common/http";
-import {AudioTrack} from "../interfaces/audio-track";
 
 @Component({
   selector: 'app-library-content',
@@ -13,11 +12,9 @@ export class LibraryContentComponent implements OnChanges {
 
   constructor(private notificationService: NotificationService, private http: HttpClient) {
   }
-  private index: number = 0;
   private latinRegex = /^[a-zA-Z]$/;
   private cyrillicRegex = /^[а-яА-Я]$/;
   artistsAreLoading: boolean = false;
-  tracksAreLoading: boolean = false;
 
   @Input("content")
   content: LibraryLetter[];
@@ -27,24 +24,6 @@ export class LibraryContentComponent implements OnChanges {
   otherContent: LibraryLetter[];
 
   contentGroups: Map<GroupLabel, LibraryLetter[]> = new Map<GroupLabel, LibraryLetter[]>();
-
-/*  ngOnInit(): void {
-    this.contentGroups = new Map([
-        ["A-Z", this.latinContent],
-        ["А-Я", this.slavicContent],
-        ["0-9!@#$%^&*():\"?<>|\\,.", this.otherContent]
-    ])*/
-/*    setInterval(() => {
-      if (this.index % 2 == 0) {
-        this.notificationService.pushNotification(
-            `Track ${this.index++} was not added to library.`, "error", 5000);
-      } else {
-        this.notificationService.pushNotification(
-            `Track ${this.index++} was successfully added to library.`, "success", 5000);
-      }
-
-    }, 2000)*/
-  // }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.slavicContent = this.content?.filter(libraryLetter => this.cyrillicRegex.test(libraryLetter.letter));
@@ -69,18 +48,6 @@ export class LibraryContentComponent implements OnChanges {
           })
     }
 
-  }
-
-  loadArtistTracks(artist: Artist) {
-    if (!artist.audioTracks || artist.audioTracks.length === 0) {
-      this.tracksAreLoading = true;
-      this.http.get(`/library/artists?value=${artist.artistName}`)
-          .subscribe(result  => {
-            artist.audioTracks = result as AudioTrack[];
-            artist.audioTracks.forEach(audioTrack => audioTrack.mode = "view")
-            this.tracksAreLoading = false;
-          })
-    }
   }
 }
 
