@@ -11,7 +11,8 @@
                     <mat-spinner></mat-spinner>
                 </div>
                 <div *ngFor="let artist of letter.artists">
-                    <app-library-artist [artist]="artist"></app-library-artist>
+                    <app-library-artist [artist]="artist"
+                    (onArtistDelete)="removeArtist($event)"></app-library-artist>
                 </div>
             </mat-expansion-panel>
         </mat-expansion-panel>

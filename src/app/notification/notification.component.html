@@ -1,8 +1,8 @@
 <div *ngFor="let notification of notifications" class="custom-snack-bar d-flex flex-column">
     <div class="custom-snack-bar d-flex flex-row justify-content-between">
         <div class="notification-content d-flex  align-items-center">
-            <mat-icon  *ngIf="notification.icon == 'error'" class="error">error</mat-icon>
-            <mat-icon *ngIf="notification.icon == 'success'" class="done-all">done_all</mat-icon>
+            <mat-icon  *ngIf="notification.icon == 'error'" class="error message-icon">error</mat-icon>
+            <mat-icon *ngIf="notification.icon == 'success'" class="done-all message-icon">done_all</mat-icon>
             <span class="message-container">{{ notification.message }}</span>
         </div>
         <button mat-icon-button (click)="removeMessage(notification)" color="accent">

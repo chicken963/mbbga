@@ -60,7 +60,7 @@ export class AddAudiotracksWorkbenchComponent {
             const formData = new FormData();
             formData.append('file', audiotrack.file, audiotrack.name);
             this.selfDialogRef.close();
-            this.http.post("/audiotracks/add", audiotrack.file, {
+            this.http.post("/audio-tracks/add", audiotrack.file, {
                 params:
                     {
                         artist: audiotrack.artist,
@@ -77,6 +77,11 @@ export class AddAudiotracksWorkbenchComponent {
                 },
                 error => {
                     counter += 1;
+                    anyTrackFailed = true;
+                    if (error.status === 409) {
+                        this.notificationService.pushNotification(`Error happened while adding '${audiotrack.artist} - ${audiotrack.name}' to library. Reason: audio track with the same artist and name already exists.`);
+                        return;
+                    }
                     this.notificationService.pushNotification(`Error happened while adding '${audiotrack.artist} - ${audiotrack.name}' to library. Reason: ${error.message}`);
                 }).add(() => {
                 if (counter == this.audioTracks.length) {

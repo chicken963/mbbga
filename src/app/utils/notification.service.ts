@@ -13,7 +13,7 @@ export class NotificationService {
     constructor(private snackBar: MatSnackBar) {
     }
 
-    public pushNotification(message: string, type?: NotificationType, duration: number = 5000): void {
+    public pushNotification(message: string, type?: NotificationType, duration: number = 500000): void {
         let notification = {message: message, icon: type ? type : "info"};
         this.notifications.push(notification);
         if (!this.snackBarIsDisplayed) {
