@@ -11,14 +11,17 @@ export class DialogService {
     constructor(private dialog: MatDialog) {
     }
 
-    public showOkPopup(header: string = "", message: string) {
-        this.dialog.open(OkPopupComponent,
+    public showOkPopup(header: string = "", message: string, callback?: () => void) {
+        const okPopupDialogRef = this.dialog.open(OkPopupComponent,
             {
                 data: {
                     header: header,
                     content: message
                 }
             });
+        if (callback) {
+            okPopupDialogRef.afterClosed().subscribe(callback);
+        }
     }
 
     openYesNoPopup(message: string, callback: (confirmed: boolean) => void) {

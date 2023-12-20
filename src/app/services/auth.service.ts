@@ -1,14 +1,21 @@
-import {Injectable} from "@angular/core";
+import {Injectable, OnInit} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {Router} from "@angular/router";
+import {User} from "../interfaces/user";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
+    private userSubject = new Subject<User>;
+    user: User;
+
     constructor(private httpClient: HttpClient, private router: Router) {
+        if (this.isAuthorized()) {
+            this.fetchCurrentUser();
+        }
     }
 
     isAuthorized(): boolean {
@@ -16,16 +23,31 @@ export class AuthService {
     }
 
     login(credentials: any): Observable<any> {
-        return this.httpClient.post<any>("/auth", credentials);
-    }
-
-    getUser(): string {
-        return localStorage.getItem("user") as string;
+        return this.httpClient.post<any>("/users/login", credentials);
     }
 
     logout() {
         localStorage.setItem("mbbg_token", "");
         localStorage.setItem("user", "");
         this.router.navigate(['/']);
+    }
+
+    register(registrationData: { password: string; login: string; email: string }): Observable<any> {
+        return this.httpClient.post<any>("/users/register", registrationData);
+    }
+
+    setUser(user: User): void {
+        this.userSubject.next(user);
+    }
+
+    getUser(): Observable<User> {
+        return this.userSubject.asObservable();
+    }
+
+    fetchCurrentUser() {
+        this.httpClient.get<User>("/users/current").subscribe(user => {
+            this.user = user;
+            this.setUser(user);
+        })
     }
 }

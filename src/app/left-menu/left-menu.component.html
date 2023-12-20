@@ -7,7 +7,11 @@
         <mat-icon matListItemIcon>library_music</mat-icon>
         Music Library
     </mat-list-item>
-    <mat-list-item>
+    <mat-list-item *ngIf="isAuthorized() && isAdmin" routerLink="/audio-library">
+        <mat-icon matListItemIcon>group</mat-icon>
+        Users
+    </mat-list-item>
+    <mat-list-item *ngIf="isAuthorized()" routerLink="/audio-library">
         <mat-icon matListItemIcon>settings</mat-icon>
         Settings
     </mat-list-item>

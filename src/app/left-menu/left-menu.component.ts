@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import {animate, state, style, transition, trigger} from "@angular/animations";
-import {ToggleLeftServiceService} from "../services/toggle-left-service.service";
+import {Component} from '@angular/core';
 import {AuthService} from "../services/auth.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-left-menu',
@@ -10,10 +9,16 @@ import {AuthService} from "../services/auth.service";
 })
 export class LeftMenuComponent {
 
+  isAdmin: boolean;
+
   constructor(private authService: AuthService) {
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.getUser().subscribe(user => {
+      this.isAdmin = user.roles.includes("ADMIN");
+    })
+  }
 
   isAuthorized(): boolean {
     return this.authService.isAuthorized();

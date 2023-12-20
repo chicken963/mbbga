@@ -5,9 +5,12 @@
             <input matInput formControlName="login" type="string" required>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" (change)="resetErrors()">
             <mat-label>Password</mat-label>
             <input matInput formControlName="password" type="password" required>
+            <mat-error>
+                <div class="error-container" *ngIf="f.password.errors?.wrongCredentials">Invalid login or password</div>
+            </mat-error>
         </mat-form-field>
 
         <button mat-raised-button color="primary" type="submit">Login</button>

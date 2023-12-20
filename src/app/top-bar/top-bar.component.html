@@ -10,14 +10,18 @@
             <mat-icon>notifications</mat-icon>
         </button>
         <button mat-button [matMenuTriggerFor]="adminMenu" class="d-flex flex-row-reverse">
-            <span id="hello-user">Hello, {{getCurrentUser()}}</span>
+            <span id="hello-user">Hello, {{userLogin}}</span>
             <mat-icon>account_circle</mat-icon>
         </button>
     </div>
     <div *ngIf="!isAuthorized()">
         <button routerLink="/login" mat-raised-button class="login-button">
-            <mat-icon aria-hidden="false">login</mat-icon>
-            Login
+            <mat-icon aria-hidden="false">person</mat-icon>
+            Sign in
+        </button>
+        <button routerLink="/registration" mat-raised-button class="login-button">
+            <mat-icon aria-hidden="false">person_add</mat-icon>
+            Sign up
         </button>
     </div>
 

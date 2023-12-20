@@ -6,6 +6,10 @@
     background-color: #a0a0a0;
 }
 
+.login-button {
+    margin-left: 10px;
+}
+
 #hello-user {
     margin-right: 5px;
 }

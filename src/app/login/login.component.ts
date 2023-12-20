@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {AuthService} from "../services/auth.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {DialogService} from "../utils/dialog.service";
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,10 @@ export class LoginComponent {
         login: '',
         password: '',
     };
-    constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {}
+    constructor(private authService: AuthService,
+                private router: Router,
+                private fb: FormBuilder,
+                private dialogService: DialogService) {}
 
     loginForm: FormGroup;
 
@@ -26,21 +30,35 @@ export class LoginComponent {
 
     onSubmit() {
         if (this.loginForm.valid) {
-            // @ts-ignore
-            this.credentials.login = this.loginForm.get('login').value;
-            // @ts-ignore
-            this.credentials.password = this.loginForm.get('password').value;
+            this.credentials.login = this.loginForm.get('login')?.value;
+            this.credentials.password = this.loginForm.get('password')?.value;
 
             this.authService.login(this.credentials).subscribe(
                 (response) => {
                     localStorage.setItem("mbbg_token", response.token);
                     localStorage.setItem("user", response.username);
+                    this.authService.fetchCurrentUser();
                     this.router.navigate(["player"]);
                 },
                 (error) => {
-                    console.error('Login error', error);
+                    if (error.status === 400) {
+                        this.dialogService.showOkPopup("Login failed", error.error);
+                    } else if (error.status === 401) {
+                        this.loginForm.get("password")?.setErrors({wrongCredentials: true});
+                    }
                 }
             );
+        }
+    }
+
+    get f() {
+        return this.loginForm.controls;
+    }
+
+    resetErrors() {
+        if (this.loginForm.get("password")?.errors) {
+            // @ts-ignore
+            this.loginForm.get("password").errors.wrongCredentials = null;
         }
     }
 }

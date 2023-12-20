@@ -10,7 +10,6 @@ import { MaterialModule } from './material.module';
 import { PlayerComponent } from './pages/player/player.component';
 import {AuthInterceptor} from "./services/auth-interceptor.service";
 import { LoginComponent } from './login/login.component';
-import { WelcomeComponent } from './welcome/welcome.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { LeftMenuComponent } from './left-menu/left-menu.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
@@ -25,17 +24,18 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NotificationComponent } from './notification/notification.component';
 import {TimeFormatModule} from "./time-format/time-format.module";
 import {MatLineModule} from "@angular/material/core";
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         PlayerComponent,
         LoginComponent,
-        WelcomeComponent,
         LeftMenuComponent,
         TopBarComponent,
         OkPopupComponent,
-        NotificationComponent
+        NotificationComponent,
+        RegistrationComponent
     ],
     imports: [
         BrowserModule,

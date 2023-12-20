@@ -1,0 +1,44 @@
+<div class="registration-container">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>E-mail</mat-label>
+            <input matInput formControlName="email" type="email" required>
+            <mat-error *ngIf="f.email.touched && f.email.errors">
+                <div class="error-container" *ngIf="f.email.errors.required">Email is required.</div>
+                <div class="error-container" *ngIf="f.email.errors.email">Invalid email format.</div>
+                <div class="error-container" *ngIf="f.email.errors?.exists">{{registrationFailedMessage}}</div>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Login</mat-label>
+            <input matInput formControlName="login" type="string" required>
+            <mat-error *ngIf="f.login.touched && f.login.errors">
+                <div class="error-container" *ngIf="f.login.errors.required">Login is required.</div>
+                <div class="error-container" *ngIf="f.login.errors.minlength">Login must be at least 3 characters.</div>
+                <div class="error-container" *ngIf="f.login.errors?.exists">{{registrationFailedMessage}}</div>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" required>
+            <mat-error *ngIf="f.password.touched && f.password.errors">
+                <div class="error-container" *ngIf="f.password.errors.required">Password is required.</div>
+                <div class="error-container" *ngIf="f.password.errors.minlength">
+                    Password must be at least 6 characters.
+                </div>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Repeat password</mat-label>
+            <input matInput formControlName="confirmPassword" type="password" required>
+            <mat-error *ngIf="f.confirmPassword.touched">
+                <div class="error-container" *ngIf="f.confirmPassword.errors?.required">Confirm Password is required.</div>
+                <div class="error-container" *ngIf="f.confirmPassword.errors?.mismatch">Passwords do not match.</div>
+            </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Register</button>
+    </form>
+</div>
