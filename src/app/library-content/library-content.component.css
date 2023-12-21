@@ -1,30 +1,3 @@
-#container {
-    max-height: 80vh;
-    overflow-y: auto;
-    display: block;
-}
-
-::-webkit-scrollbar {
-    width: 12px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    border-radius: 5px;
-
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #c2185b;
-    border-radius: 5px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #c92563;
-}
-
 ::ng-deep .mat-mdc-progress-spinner {
     width: 25px !important;
     height: 25px !important;

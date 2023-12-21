@@ -36,7 +36,6 @@ export class LoginComponent {
             this.authService.login(this.credentials).subscribe(
                 (response) => {
                     localStorage.setItem("mbbg_token", response.token);
-                    localStorage.setItem("user", response.username);
                     this.authService.fetchCurrentUser();
                     this.router.navigate(["player"]);
                 },

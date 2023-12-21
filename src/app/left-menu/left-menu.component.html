@@ -1,13 +1,13 @@
 <mat-list >
-    <mat-list-item *ngIf="isAuthorized()" class="d-flex flex-row">
+    <mat-list-item *ngIf="isAuthorized()" class="d-flex flex-row" routerLink="/game-dashboard">
         <mat-icon matListItemIcon>dashboard</mat-icon>
-        Dashboard
+        Games
     </mat-list-item>
     <mat-list-item *ngIf="isAuthorized()" routerLink="/audio-library">
         <mat-icon matListItemIcon>library_music</mat-icon>
         Music Library
     </mat-list-item>
-    <mat-list-item *ngIf="isAuthorized() && isAdmin" routerLink="/audio-library">
+    <mat-list-item *ngIf="isAuthorized() && isAdmin" routerLink="/user-dashboard">
         <mat-icon matListItemIcon>group</mat-icon>
         Users
     </mat-list-item>

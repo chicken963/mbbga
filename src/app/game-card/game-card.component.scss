@@ -1,0 +1,23 @@
+.entity-card {
+    border-radius: 12px;
+    overflow: hidden;
+    width: 250px;
+    height: 200px;
+    &:hover {
+        transform: scale(1.01);
+        cursor: pointer;
+        background-color: #464646;
+    }
+}
+
+.game-metadata-key {
+    color: #c92563;
+}
+
+.game-metadata-value {
+    font-size: small;
+}
+
+mat-card-content {
+    height: 100%;
+}

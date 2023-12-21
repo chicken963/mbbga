@@ -6,7 +6,8 @@ import {HttpClient} from "@angular/common/http";
 @Component({
     selector: 'app-library-content',
     templateUrl: './library-content.component.html',
-    styleUrls: ['./library-content.component.css']
+    styleUrls: ['./library-content.component.css',
+                '../common-styles/scrollbar.css']
 })
 export class LibraryContentComponent implements OnChanges {
 

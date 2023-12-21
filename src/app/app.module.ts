@@ -25,6 +25,14 @@ import { NotificationComponent } from './notification/notification.component';
 import {TimeFormatModule} from "./time-format/time-format.module";
 import {MatLineModule} from "@angular/material/core";
 import { RegistrationComponent } from './registration/registration.component';
+import { GamesDashboardComponent } from './games-dashboard/games-dashboard.component';
+import { UsersDashboardComponent } from './users-dashboard/users-dashboard.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import { GamesTableComponent } from './games-table/games-table.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { GameCardComponent } from './game-card/game-card.component';
+import {FlexLayoutModule} from "@angular/flex-layout";
+import { CreateGameComponent } from './create-game/create-game.component';
 
 @NgModule({
     declarations: [
@@ -35,7 +43,12 @@ import { RegistrationComponent } from './registration/registration.component';
         TopBarComponent,
         OkPopupComponent,
         NotificationComponent,
-        RegistrationComponent
+        RegistrationComponent,
+        GamesDashboardComponent,
+        UsersDashboardComponent,
+        GamesTableComponent,
+        GameCardComponent,
+        CreateGameComponent
     ],
     imports: [
         BrowserModule,
@@ -54,7 +67,10 @@ import { RegistrationComponent } from './registration/registration.component';
         MatDialogModule,
         MatSnackBarModule,
         TimeFormatModule,
-        MatLineModule
+        MatLineModule,
+        MatTabsModule,
+        MatProgressSpinnerModule,
+        FlexLayoutModule
     ],
     providers: [
         MatSnackBarModule,

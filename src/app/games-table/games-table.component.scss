@@ -1,0 +1,15 @@
+.entity-card {
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 8px;
+    box-sizing: border-box;
+}
+
+.new-game {
+    border: 2px dashed #c92563;
+    color: #c92563;
+}
+
+mat-icon {
+    transform: scale(3);
+}

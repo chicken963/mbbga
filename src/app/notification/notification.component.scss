@@ -5,17 +5,9 @@
 .done-all {
     color: #499C54;
 }
-/* Note: If you're using an SVG icon, you should make the class target the `<svg>` element */
+
 .white-icon svg {
     fill: #499C54;
-}
-
-.error {
-    color: #c2185b;
-}
-/* Note: If you're using an SVG icon, you should make the class target the `<svg>` element */
-.error svg {
-    fill: #c2185b;
 }
 
 ::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface {

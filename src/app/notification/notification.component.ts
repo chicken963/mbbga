@@ -5,7 +5,7 @@ import {NotificationMessage} from "../utils/notification.service";
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss']
+  styleUrls: ['./notification.component.scss','../common-styles/accent-icons.css']
 })
 export class NotificationComponent {
 

@@ -38,7 +38,6 @@ export class AuthInterceptor implements HttpInterceptor {
                 (error) => {
                     if (error.status === 401 || error.status === 403) {
                         localStorage.setItem("mbbg_token", "");
-                        localStorage.setItem("user", "");
                         this.router.navigate(['/login']);
                     }
                 }

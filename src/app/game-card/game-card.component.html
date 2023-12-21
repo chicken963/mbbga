@@ -1,0 +1,28 @@
+<mat-card class="entity-card m-2">
+    <mat-card-header>
+        <mat-card-title>{{ game.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="d-flex flex-column pt-3">
+        <div class="d-flex flex-row justify-content-between">
+            <span class="game-metadata-key">Created by:</span>
+            <span class="game-metadata-value">{{ game.author.username }}</span>
+        </div>
+        <div class="d-flex flex-row justify-content-between">
+            <span class="game-metadata-key">Created at:</span>
+            <span class="game-metadata-value">{{ game.createdAt }}</span>
+        </div>
+        <div *ngIf="game.lastContributor" class="d-flex flex-row justify-content-between">
+            <span class="game-metadata-key">Last modified by:</span>
+            <span class="game-metadata-value">{{ game.lastContributor.username }}</span>
+        </div>
+        <div *ngIf="game.lastContributor" class="d-flex flex-row justify-content-between">
+            <span class="game-metadata-key">Modified at:</span>
+            <span class="game-metadata-value">{{ game.modifiedAt }}</span>
+        </div>
+    </mat-card-content>
+    <!--<mat-card-actions>
+        &lt;!&ndash; Buttons here &ndash;&gt;
+        <button mat-button (click)="onButtonClick('edit')">Edit</button>
+        <button mat-button (click)="onButtonClick('delete')">Delete</button>
+    </mat-card-actions>-->
+</mat-card>

@@ -28,7 +28,6 @@ export class AuthService {
 
     logout() {
         localStorage.setItem("mbbg_token", "");
-        localStorage.setItem("user", "");
         this.router.navigate(['/']);
     }
 
