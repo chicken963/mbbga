@@ -1,0 +1,90 @@
+::ng-deep .arrow-button.mdc-button {
+  min-width: 20%;
+  margin-right: 5px;
+
+  mat-icon {
+    margin-right: 0;
+  }
+}
+
+
+::ng-deep .mat-mdc-button .mat-mdc-button-touch-target {
+  height: 24px;
+}
+
+.arrows-container {
+  width: 25px;
+}
+
+.lines-count {
+  width: 120px;
+  position: relative;
+  margin-right: 10px;
+  top: -2.5px;
+  ::ng-deep .mdc-text-field {
+    padding-left: 8px;
+    height: 46px;
+    top: 6px;
+  }
+  & ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+    padding-top: 8px;
+  }
+  & ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 46px;
+  }
+   mat-error {
+     white-space: nowrap; /* Prevents text from wrapping to the next line */
+/*     position: absolute;  !* Position the mat-error absolutely *!
+     right: 0;            !* Align the mat-error to the right *!
+     transform: translateX(100%);*/
+  }
+}
+
+.win-type {
+  ::ng-deep .mdc-text-field {
+    padding-left: 8px;
+    height: 46px;
+    top: 6px;
+  }
+  margin-right: 10px;
+}
+
+.lines-strike-input {
+  text-align: center;
+}
+
+.round-controls-field {
+  height: 36px;
+  & ::ng-deep label {
+    top: 25px !important;
+  }
+  & ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+    padding-top: 8px;
+  }
+  & ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 36px;
+  }
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  display: none;
+}
+
+/*::ng-deep .mat-input-number-wrapper .mat-input-number-arrow {
+  background-color: #3498db; !* Change the background color as desired *!
+  color: #fff; !* Change the text color as desired *!
+}
+
+::ng-deep .mat-input-number-wrapper .mat-input-number-arrow:hover {
+  background-color: #2980b9; !* Change the hover background color as desired *!
+}*/
+
+.remove-condition-button {
+  top: 8px;
+}
+
+.error-container {
+  margin-top: -18px;
+}
+

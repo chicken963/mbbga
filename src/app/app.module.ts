@@ -33,6 +33,10 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { GameCardComponent } from './game-card/game-card.component';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import { CreateGameComponent } from './create-game/create-game.component';
+import { DatePipe } from './date.pipe';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import { CreateRoundComponent } from './create-round/create-round.component';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
     declarations: [
@@ -48,7 +52,9 @@ import { CreateGameComponent } from './create-game/create-game.component';
         UsersDashboardComponent,
         GamesTableComponent,
         GameCardComponent,
-        CreateGameComponent
+        CreateGameComponent,
+        DatePipe,
+        CreateRoundComponent
     ],
     imports: [
         BrowserModule,
@@ -70,7 +76,9 @@ import { CreateGameComponent } from './create-game/create-game.component';
         MatLineModule,
         MatTabsModule,
         MatProgressSpinnerModule,
-        FlexLayoutModule
+        FlexLayoutModule,
+        MatTooltipModule,
+        MatSelectModule
     ],
     providers: [
         MatSnackBarModule,

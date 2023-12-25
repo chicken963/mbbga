@@ -24,26 +24,10 @@ export class GamesTableComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         if (this.type == "all") {
             this.http.get<Game[]>("/games/all").subscribe(response => {
-                response.forEach(game => {
-                    game.createdAt = this.toFormattedDate(game.createdAt);
-                    game.modifiedAt = this.toFormattedDate(game.modifiedAt);
-                })
                 this.games = response;
                 this.gamesAreLoaded = true;
             })
         }
-    }
-
-    private toFormattedDate(date: string): string {
-        const localDateTime = new Date(date);
-        return localDateTime.toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: false
-        });
     }
 
 }

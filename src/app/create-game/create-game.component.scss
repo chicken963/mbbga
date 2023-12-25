@@ -1,0 +1,120 @@
+#game-name-field {
+  width: 80%;
+  height: 36px;
+  & ::ng-deep label {
+    top: 25px;
+  }
+  & ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 100% !important;
+  }
+}
+
+/*::ng-deep .mat-mdc-form-field .mat-mdc-text-field-wrapper .mat-mdc-floating-label {
+  top: 25px;
+}*/
+
+
+/*::ng-deep .mat-mdc-text-field-wrapper {
+  height: 100% !important;
+}*/
+
+::ng-deep label {
+  height: 100%;
+}
+
+#game-name-input {
+  position: relative !important;
+  top: -7px !important;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab {
+  opacity: 1 !important;
+  max-width: 150px;
+  background-color: #464646;
+  border-radius: 5px 5px 0 0;
+  margin-right: 10px;
+  display: flex;
+  align-items: baseline;
+  padding: 5px;
+}
+
+::ng-deep .mat-mdc-tab:last-child.mdc-tab {
+  max-width: 30px;
+  & .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
+    display: none;
+  }
+}
+
+::ng-deep .tab-label-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 130px;
+}
+
+::ng-deep .mat-mdc-tab-header {
+  //border: 1px solid red;
+}
+
+.remove-round-button {
+  transform: scale(0.8);
+  max-height: 24px;
+  max-width: 24px;
+  padding: 0;
+  pointer-events: auto;
+
+}
+
+
+
+.add-round-button {
+  pointer-events: auto;
+}
+
+
+
+.game-button {
+  width: 80px;
+}
+
+.add-round {
+  & ::ng-deep .mat-mdc-tab.mdc-tab {
+    max-width: 50px;
+  }
+}
+
+::ng-deep mat-tab-label {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-icon-button .mat-mdc-button-touch-target {
+  height: 24px;
+  width: 24px;
+}
+
+.round-name-label {
+  display: flex;
+  align-items: center;
+  font-size: large;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__content {
+  top: -3px;
+}
+
+.round-name-input-field {
+  & ::ng-deep .mat-mdc-form-field-bottom-align {
+   display: none;
+  }
+}
+
+::ng-deep mat-tab-body {
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 5px;
+  background-color: #464646;
+  height: 680px;
+}
+
+::ng-deep mat-tab-group {
+}

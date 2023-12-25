@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LibraryPlayerService} from "../audio-controls/library-player.service";
-import {VolumeService} from "../volume.service";
+import {VolumeService} from "../services/volume.service";
 
 @Component({
   selector: 'app-volume-slider',

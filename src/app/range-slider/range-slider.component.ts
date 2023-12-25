@@ -4,7 +4,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {Observable, Subscription} from "rxjs";
-import {RangeSliderService} from "../range-slider.service";
+import {RangeSliderService} from "../services/range-slider.service";
 import {LibraryPlayerService} from "../audio-controls/library-player.service";
 import {AudiotrackValidateService} from "../audiotrack-validate.service";
 import {AudioTrackVersion} from "../interfaces/audio-track-version";

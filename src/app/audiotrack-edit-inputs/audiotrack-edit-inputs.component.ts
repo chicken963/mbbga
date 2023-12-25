@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {AudioTrack} from "../interfaces/audio-track";
-import {TimeConversionService} from "../time-conversion.service";
+import {TimeConversionService} from "../services/time-conversion.service";
 import {LibraryPlayerService} from "../audio-controls/library-player.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AudiotrackValidateService} from "../audiotrack-validate.service";

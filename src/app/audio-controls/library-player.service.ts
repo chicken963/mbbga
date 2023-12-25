@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy} from "@angular/core";
 import {BehaviorSubject, distinctUntilChanged, interval, Observable, Subject, Subscription, takeUntil} from "rxjs";
-import {VolumeService} from "../volume.service";
+import {VolumeService} from "../services/volume.service";
 import {ProgressService} from "../range-slider/progress.service";
 import {AudioTrackVersion} from "../interfaces/audio-track-version";
 import {AudioTrack} from "../interfaces/audio-track";

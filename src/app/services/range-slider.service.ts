@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {AudioTrackVersion} from "./interfaces/audio-track-version";
+import {AudioTrackVersion} from "../interfaces/audio-track-version";
 
 @Injectable({
   providedIn: 'root'
