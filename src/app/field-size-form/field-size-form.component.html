@@ -1,0 +1,19 @@
+<form [formGroup]="fieldSizeForm">
+    <div class="round-group-container">
+        <mat-label class="round-group-label">Field size</mat-label>
+        <div class="d-flex flex-row justify-content-around ">
+            <mat-form-field appearance="outline" class="group-item-field">
+                <mat-label>Rows</mat-label>
+                <mat-select formControlName="height" class="dimensions-select">
+                    <mat-option *ngFor="let number of sizeOptions" [value]="number">{{ number }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="group-item-field">
+                <mat-label>Columns</mat-label>
+                <mat-select formControlName="width" class="dimensions-select">
+                    <mat-option *ngFor="let number of sizeOptions" [value]="number">{{ number }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</form>

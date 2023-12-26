@@ -1,0 +1,25 @@
+.round-group-container {
+  border: 1px solid #c2185b;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  width: 414px;
+
+  .round-group-label {
+    position: relative;
+    bottom: 21px;
+    height: 20px;
+    color: #c2185b;
+    font-weight: 900;
+    background-color: rgb(70, 70, 70);
+  }
+}
+
+.group-item-field {
+  ::ng-deep .mdc-text-field {
+    padding-left: 8px;
+    height: 46px;
+    top: 6px;
+  }
+  margin-right: 10px;
+}

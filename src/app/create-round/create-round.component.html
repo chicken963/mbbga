@@ -5,77 +5,8 @@
             <input matInput formControlName="name" type="string">
         </mat-form-field>
 
-        <div class="round-group-container">
-            <mat-label class="round-group-label">Field size</mat-label>
-            <div class="d-flex flex-row justify-content-around ">
-                <mat-form-field appearance="outline" class="win-type">
-                    <mat-label>Rows</mat-label>
-                    <mat-select formControlName="height" class="dimensions-select">
-                        <mat-option *ngFor="let number of sizeOptions" [value]="number">{{ number }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="win-type">
-                    <mat-label>Columns</mat-label>
-                    <mat-select formControlName="width" class="dimensions-select">
-                        <mat-option *ngFor="let number of sizeOptions" [value]="number">{{ number }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-
-        <div class="round-group-container">
-            <mat-label class="round-group-label">Win conditions</mat-label>
-            <div formArrayName="winConditionFormItems">
-                <div *ngFor="let item of winConditionFormItems.controls; let i = index">
-                    <div [formGroupName]="i">
-                        <mat-form-field appearance="outline" class="win-type">
-                            <mat-label>Win condition type #{{i + 1}}</mat-label>
-                            <mat-select formControlName="type">
-                                <mat-option *ngFor="let type of winConditionTypes" [value]="type">{{ type }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field class="lines-count"
-                                        appearance="outline"
-                                        [ngStyle]="{'display': winConditions[i].type == winConditionTypes[1] ? 'none' : 'inline-flex'}">
-                            <mat-label>Lines to strike</mat-label>
-                            <div class="d-flex flex-row">
-                                <input matInput
-                                       formControlName="linesCount"
-                                       class="lines-strike-input"
-                                       value="{{winConditions[i].linesCount}}"
-                                       placeholder="Lines to strike"
-                                       type="number">
-                                <div class="d-flex flex-column arrows-container">
-                                    <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix
-                                            (click)="incrementLinesCount(i)">
-                                        <mat-icon>keyboard_arrow_up</mat-icon>
-                                    </button>
-                                    <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix
-                                            (click)="decrementLinesCount(i)">
-                                        <mat-icon>keyboard_arrow_down</mat-icon>
-                                    </button>
-                                </div>
-                            </div>
-                            <mat-error *ngIf="item.get('linesCount')?.errors">
-                                <div *ngIf="item.get('linesCount')?.hasError('harderThanNext')" class="error-container easier-than-next">Condition must be easier than the next</div>
-                                <div *ngIf="item.get('linesCount')?.hasError('easierThanPrevious')" class="error-container harder-than-previous">Condition must be harder than the previous</div>
-                            </mat-error>
-                        </mat-form-field>
-
-                        <button mat-icon-button (click)="removeItem(i)" class="remove-condition-button">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <button mat-raised-button (click)="addItem({type: this.winConditionTypes[0], linesCount: 0})">
-                Add win condition
-                <mat-icon>add</mat-icon>
-            </button>
-            <mat-error *ngIf="attemptToCreateHarderThanFull">
-                <div class="error-container">You cannot create condition harder that 'Full field'</div>
-            </mat-error>
-        </div>
+        <app-field-size-form [fieldSizeForm] = "fieldSizeForm" [round]="round"></app-field-size-form>
+        <app-win-conditions-form [winConditionsForm]="winConditionForm" [round]="round"></app-win-conditions-form>
 
     </form>
 </div>

@@ -37,6 +37,8 @@ import { DatePipe } from './date.pipe';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { CreateRoundComponent } from './create-round/create-round.component';
 import {MatSelectModule} from "@angular/material/select";
+import { WinConditionsFormComponent } from './win-conditions-form/win-conditions-form.component';
+import { FieldSizeFormComponent } from './field-size-form/field-size-form.component';
 
 @NgModule({
     declarations: [
@@ -54,7 +56,9 @@ import {MatSelectModule} from "@angular/material/select";
         GameCardComponent,
         CreateGameComponent,
         DatePipe,
-        CreateRoundComponent
+        CreateRoundComponent,
+        WinConditionsFormComponent,
+        FieldSizeFormComponent
     ],
     imports: [
         BrowserModule,

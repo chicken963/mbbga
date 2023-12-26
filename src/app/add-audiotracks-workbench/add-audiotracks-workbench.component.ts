@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, HostListener, Inject, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {LocalAudioService} from "../local-audio/local-audio-service";
 import {HttpClient} from "@angular/common/http";
@@ -10,7 +10,8 @@ import {LibraryService} from "../library-content/library.service";
 @Component({
     selector: 'app-add-audiotracks-workbench',
     templateUrl: './add-audiotracks-workbench.component.html',
-    styleUrls: ['./add-audiotracks-workbench.components.scss']
+    styleUrls: ['./add-audiotracks-workbench.components.scss',
+                './../common-styles/scrollbar.css']
 })
 export class AddAudiotracksWorkbenchComponent {
 
