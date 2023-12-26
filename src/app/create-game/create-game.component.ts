@@ -42,10 +42,11 @@ export class CreateGameComponent implements OnInit {
     prepareEmptyRound(): Round {
         return {
             name: "",
+            fieldSize: [5, 5],
             winConditions: [
-                {type: WinConditionType.LINES, weight: 1},
-                {type: WinConditionType.LINES, weight: 3},
-                {type: WinConditionType.FULL, weight: 0},
+                {type: WinConditionType.LINES, linesCount: 1},
+                {type: WinConditionType.LINES, linesCount: 3},
+                {type: WinConditionType.FULL, linesCount: 0},
             ],
             audioTracks: [],
             tickets: []

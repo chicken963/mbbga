@@ -38,6 +38,19 @@
      right: 0;            !* Align the mat-error to the right *!
      transform: translateX(100%);*/
   }
+  & ::ng-deep .mat-mdc-form-field-error-wrapper {
+    padding-left: 0;
+  }
+
+  .harder-than-previous {
+    position: relative;
+    left: -127px;
+  }
+
+  .easier-than-next {
+    position: relative;
+    left: -102px;
+  }
 }
 
 .win-type {
@@ -47,6 +60,10 @@
     top: 6px;
   }
   margin-right: 10px;
+
+  .dimensions-select {
+    text-align: center;
+  }
 }
 
 .lines-strike-input {
@@ -55,6 +72,7 @@
 
 .round-controls-field {
   height: 36px;
+  width: 414px;
   & ::ng-deep label {
     top: 25px !important;
   }
@@ -86,5 +104,22 @@ input[type=number]::-webkit-inner-spin-button {
 
 .error-container {
   margin-top: -18px;
+}
+
+.round-group-container {
+  border: 1px solid #c2185b;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  width: 414px;
+
+  .round-group-label {
+    position: relative;
+    bottom: 21px;
+    height: 20px;
+    color: #c2185b;
+    font-weight: 900;
+    background-color: rgb(70, 70, 70);
+  }
 }
 

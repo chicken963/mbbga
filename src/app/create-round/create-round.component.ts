@@ -15,7 +15,7 @@ export class CreateRoundComponent {
     round: Round;
     roundForm: FormGroup;
 
-    controls: AbstractControl[] = [];
+    linesCountControls: AbstractControl[] = [];
     winConditions: WinCondition[] = [];
     subscriptions: Subscription[] = [];
 
@@ -23,84 +23,103 @@ export class CreateRoundComponent {
     winConditionTypes: WinConditionType[] = Object.values(WinConditionType);
     attemptToCreateHarderThanFull: boolean = false;
 
+    sizeOptions: number[] = Array.from({ length: 15 }, (_, index) => index + 1);
+
     constructor(private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.roundForm = this.fb.group({
             name: [this.round.name],
+            height: [this.round.fieldSize[0]],
+            width: [this.round.fieldSize[1]],
             winConditionFormItems: this.fb.array([]),
         });
         this.round.winConditions.forEach(winCondition => this.addItem(winCondition));
-        this.subscribeToFormArrayChanges();
+        this.subscribeToRoundFormChanges();
     }
 
     get winConditionFormItems(): FormArray {
         return this.roundForm.get('winConditionFormItems') as FormArray;
     }
 
-    createItem(item: WinCondition, index: number): FormGroup {
-        return this.fb.group({
-            type: new FormControl(item.type),
-            weight: new FormControl(item.weight, [this.neighbourWeightsMatcher.bind(this, index)])
-        });
-    }
-
     addItem(newWinCondition: WinCondition): void {
-        if (this.winConditions[this.winConditions.length - 1]?.type === this.winConditionTypes[1]) {
+        if (this.lastWinConditionIsFull()) {
             this.attemptToCreateHarderThanFull = true;
             return;
         }
         this.attemptToCreateHarderThanFull = false;
         this.winConditions.push(newWinCondition)
 
-        let control = this.createItem(newWinCondition, this.winConditions.length - 1);
-        this.winConditionFormItems.push(control);
+        let winConditionFormControl = this.createItem(newWinCondition, this.winConditions.length - 1);
 
-        let subscription = control.valueChanges.subscribe((newValue) => {
-            this.attemptToCreateHarderThanFull = false;
-            let index = this.subscriptions.indexOf(subscription);
-            if (this.winConditions[index].type === WinConditionType.LINES && newValue.type === WinConditionType.FULL) {
-                for(let i = this.winConditions.length - 1; i > index; i--) {
-                    this.removeItem(i);
-                }
-            }
-            this.winConditions[index] = newValue;
+        let subscription = winConditionFormControl.valueChanges.subscribe((newValue) => {
+            this.handleWinConditionChange(subscription, newValue);
         });
-        this.controls.push(control);
         this.subscriptions.push(subscription);
+    }
 
+    private lastWinConditionIsFull() {
+        return this.winConditions[this.winConditions.length - 1]?.type === this.winConditionTypes[1];
+    }
 
+    private handleWinConditionChange(subscription: Subscription, newValue: WinCondition) {
+        this.attemptToCreateHarderThanFull = false;
+        let index = this.subscriptions.indexOf(subscription);
+        if (this.winConditions[index].type === WinConditionType.LINES && newValue.type === WinConditionType.FULL) {
+            for (let i = this.winConditions.length - 1; i > index; i--) {
+                this.removeItem(i);
+            }
+        }
+        this.winConditions[index] = newValue;
+    }
+
+    createItem(item: WinCondition, index: number): FormGroup {
+        let linesCountFormControl = new FormControl(item.linesCount, [Validators.required, this.neighbourLinesCountsMatcher.bind(this, index)])
+        this.linesCountControls.push(linesCountFormControl);
+        let winConditionFormGroup =  this.fb.group({
+            type: new FormControl(item.type),
+            linesCount: linesCountFormControl
+        });
+        this.winConditionFormItems.push(winConditionFormGroup);
+        return winConditionFormGroup;
     }
 
     removeItem(index: number): void {
         this.attemptToCreateHarderThanFull = false;
         this.subscriptions[index].unsubscribe();
         this.subscriptions.splice(index, 1);
-        this.controls.splice(index, 1);
+        this.linesCountControls.splice(index, 1);
         this.winConditions.splice(index, 1);
         this.winConditionFormItems.removeAt(index);
     }
 
     incrementLinesCount(i: number) {
-        this.winConditions[i].weight! += 1;
-        this.controls[i].setValue(this.winConditions[i]);
+        this.winConditions[i].linesCount! += 1;
+        this.linesCountControls[i].setValue(this.winConditions[i].linesCount);
     }
 
     decrementLinesCount(i: number) {
-        if (this.winConditions[i].weight && this.winConditions[i].weight! > 1) {
-            this.winConditions[i].weight! -= 1;
-            this.controls[i].setValue(this.winConditions[i]);
+        if (this.winConditions[i].linesCount && this.winConditions[i].linesCount! > 1) {
+            this.winConditions[i].linesCount! -= 1;
+            this.linesCountControls[i].setValue(this.winConditions[i].linesCount);
         }
     }
 
-    subscribeToFormArrayChanges(): void {
+    subscribeToRoundFormChanges(): void {
         this.roundForm.get('name')?.valueChanges.subscribe(newValue => {
             this.round.name = newValue;
         })
+        this.roundForm.get('height')?.valueChanges.subscribe(newValue => {
+            console.log(newValue)
+            this.round.fieldSize[0] = newValue;
+        })
+        this.roundForm.get('width')?.valueChanges.subscribe(newValue => {
+            this.round.fieldSize[1] = newValue;
+        })
     }
 
-    neighbourWeightsMatcher(index: number, weightControl: AbstractControl) {
+    neighbourLinesCountsMatcher(index: number, linesCountControl: AbstractControl) {
         if (this?.winConditions[index]?.type === WinConditionType.FULL) {
             return null;
         }
@@ -117,18 +136,18 @@ export class CreateRoundComponent {
         if (this?.winConditions[index + 1]?.type === WinConditionType.FULL) {
             return null;
         }
-        const currentWeight = this?.winConditions[index]?.weight;
-        const nextWeight = this?.winConditions[index + 1]?.weight;
-        return nextWeight <= currentWeight;
+        const currentLinesCount = this?.winConditions[index]?.linesCount;
+        const nextLinesCount = this?.winConditions[index + 1]?.linesCount;
+        return nextLinesCount <= currentLinesCount;
     }
 
     easierThanPreviousMatcher(index: number): boolean | null {
         if (index === 0) {
             return null;
         }
-        const currentWeight = this?.winConditions[index]?.weight;
-        const previousWeight = this?.winConditions[index - 1]?.weight;
-        return previousWeight >= currentWeight;
+        const currentLinesCount = this?.winConditions[index]?.linesCount;
+        const previousLinesCount = this?.winConditions[index - 1]?.linesCount;
+        return previousLinesCount >= currentLinesCount;
     }
 
 }

@@ -5,5 +5,5 @@ export enum WinConditionType {
 
 export class WinCondition {
     type: WinConditionType;
-    weight: number;
+    linesCount: number;
 }
