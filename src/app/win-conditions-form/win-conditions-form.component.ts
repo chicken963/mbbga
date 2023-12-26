@@ -28,7 +28,6 @@ export class WinConditionsFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.round.winConditions)
     this.round?.winConditions.forEach(winCondition => this.addControlAndSubscription(winCondition));
   }
 
@@ -40,7 +39,6 @@ export class WinConditionsFormComponent implements OnInit {
     let winConditionFormControl = this.createItem(newWinCondition, this.round.winConditions.length - 1);
 
     let subscription = winConditionFormControl.valueChanges.subscribe((newValue) => {
-      console.log(this.round)
       this.handleWinConditionChange(subscription, newValue);
     });
     this.subscriptions.push(subscription);

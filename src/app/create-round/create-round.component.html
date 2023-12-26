@@ -1,4 +1,4 @@
-<div class="d-flex flex-row">
+<div class="d-flex flex-row justify-content-between">
     <form [formGroup]="roundForm">
         <mat-form-field appearance="outline" class="round-controls-field mt-2 mb-4">
             <mat-label>Round name</mat-label>
@@ -7,6 +7,13 @@
 
         <app-field-size-form [fieldSizeForm] = "fieldSizeForm" [round]="round"></app-field-size-form>
         <app-win-conditions-form [winConditionsForm]="winConditionForm" [round]="round"></app-win-conditions-form>
-
     </form>
+    <div class="d-flex flex-column playlist-group-container">
+        <button mat-raised-button color="primary" class="mb-2">
+            <mat-icon>add</mat-icon>
+            Add audio track(s) from library
+        </button>
+        <app-round-playlist [audio-tracks]="round.audioTracks"></app-round-playlist>
+    </div>
+
 </div>

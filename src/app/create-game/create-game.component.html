@@ -3,7 +3,7 @@
         <mat-label>Enter game title:</mat-label>
         <input id="game-name-input" [(ngModel)]="game.name" matInput placeholder="Game {{currentDate() | date}}" required>
     </mat-form-field>
-    <div class="ml-2 create-game-button-container d-flex flex-row">
+    <div class="create-game-button-container d-flex flex-row">
         <button mat-raised-button color="primary" class="game-button">Save</button>
         <button mat-raised-button color="primary" class="mx-1 game-button">Cancel</button>
     </div>
