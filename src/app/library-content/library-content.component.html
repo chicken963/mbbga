@@ -1,8 +1,8 @@
 <mat-accordion id="container" *ngIf="content" [multi]="true" class="mb-3">
     <div *ngFor="let contentGroup of contentGroups | keyvalue">
-        <mat-expansion-panel *ngIf="contentGroup.value" class="letter-range mb-3">
+        <mat-expansion-panel *ngIf="contentGroup.value" class="letter-range mb-3" [expanded]="expanded">
             <mat-expansion-panel-header>{{contentGroup.key.label}}</mat-expansion-panel-header>
-            <mat-expansion-panel *ngFor="let letter of contentGroup.value" (opened)="loadLetterArtists(letter)">
+            <mat-expansion-panel *ngFor="let letter of contentGroup.value" (opened)="loadLetterArtists(letter)" [expanded]="expanded">
                 <mat-expansion-panel-header>
                     {{ letter.letter }}
                 </mat-expansion-panel-header>
@@ -11,7 +11,10 @@
                     <mat-spinner></mat-spinner>
                 </div>
                 <div *ngFor="let artist of letter.artists">
-                    <app-library-artist [artist]="artist"
+                    <app-library-artist
+                            [artist]="artist"
+                            [expanded]="expanded"
+                            [searchQuery]="searchQuery"
                     (onArtistDelete)="removeArtist($event)"></app-library-artist>
                 </div>
             </mat-expansion-panel>

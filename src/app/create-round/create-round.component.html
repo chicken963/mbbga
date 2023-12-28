@@ -9,7 +9,7 @@
         <app-win-conditions-form [winConditionsForm]="winConditionForm" [round]="round"></app-win-conditions-form>
     </form>
     <div class="d-flex flex-column playlist-group-container">
-        <button mat-raised-button color="primary" class="mb-2">
+        <button mat-raised-button color="primary" class="mb-2" (click)="openLibrary()">
             <mat-icon>add</mat-icon>
             Add audio track(s) from library
         </button>

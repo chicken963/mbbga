@@ -9,4 +9,25 @@
 .library-controls-container {
     display: flex;
     justify-content: flex-start;
+    margin-left: 10px;
+    min-width: 205px;
+}
+
+.filter-field {
+    height: 58px;
+    width: 100%;
+    input {
+        position: relative;
+        bottom: 10px;
+    }
+}
+
+.error-container {
+    position: relative;
+    bottom: 22px;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
 }

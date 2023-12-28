@@ -11,7 +11,7 @@ export class LibraryService {
     private libraryChangedEventSource = new Subject<AudioTrack>();
     private inputsValiditySubject: Subject<boolean> = new Subject<boolean>();
 
-    event$ = this.libraryChangedEventSource.asObservable();
+    tracklistAltered$ = this.libraryChangedEventSource.asObservable();
 
     emitLibraryChangedEvent(event: AudioTrack) {
         this.libraryChangedEventSource.next(event);

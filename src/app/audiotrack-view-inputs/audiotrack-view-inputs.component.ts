@@ -10,4 +10,14 @@ export class AudiotrackViewInputsComponent {
 
   @Input("audio-track")
   audioTrack: AudioTrack;
+
+
+  @Input("searchQuery")
+  searchQuery: string;
+
+  label: string;
+
+  ngOnInit() {
+    this.label = this.audioTrack.artist + " - " + this.audioTrack.name;
+  }
 }

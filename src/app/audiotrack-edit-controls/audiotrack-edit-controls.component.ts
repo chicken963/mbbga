@@ -1,19 +1,8 @@
-import {
-    AfterViewInit,
-    Component,
-    ElementRef, EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    SimpleChanges,
-    ViewChild
-} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {LibraryPlayerService} from "../audio-controls/library-player.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {RangeSliderComponent} from "../range-slider/range-slider.component";
 import {ProgressService} from "../range-slider/progress.service";
-import {HttpClient} from "@angular/common/http";
 import {AudioTrackVersion} from "../interfaces/audio-track-version";
 import {AudioTrack} from "../interfaces/audio-track";
 import {DownloadRemoteAudioService} from "../services/download-remote-audio.service";

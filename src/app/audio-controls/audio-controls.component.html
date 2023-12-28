@@ -13,8 +13,9 @@
                 </app-audiotrack-edit-inputs>
                 <app-audiotrack-view-inputs
                         class="d-flex flex-row justify-content-center align-items-center"
-                        *ngIf="audioTrack.mode === 'view'"
-                        [audio-track]="audioTrack">
+                        *ngIf="audioTrack.mode !== 'edit'"
+                        [audio-track]="audioTrack"
+                        [searchQuery]="searchQuery">
                 </app-audiotrack-view-inputs>
                 <app-audiotrack-edit-controls *ngFor="let version of audioTrack.versions; let i = index"
                                               [audio-track]="audioTrack"

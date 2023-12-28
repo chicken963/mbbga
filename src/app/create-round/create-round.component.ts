@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Round} from "../interfaces/round";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {MatDialog} from "@angular/material/dialog";
+import {LibraryComponent} from "../library/library.component";
 
 @Component({
     selector: 'app-create-round',
@@ -18,7 +20,7 @@ export class CreateRoundComponent implements OnInit {
     winConditionForm: FormGroup;
     fieldSizeForm: FormGroup;
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -42,4 +44,11 @@ export class CreateRoundComponent implements OnInit {
         })
     }
 
+    openLibrary() {
+        this.dialog.open(LibraryComponent, {
+            disableClose: true,
+            width: '90%',
+            data: {mode: 'select'}
+        })
+    }
 }

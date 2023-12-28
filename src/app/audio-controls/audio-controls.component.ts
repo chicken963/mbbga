@@ -37,6 +37,9 @@ export class AudioControlsComponent implements AfterViewInit {
     @Input("audio-track")
     audioTrack: AudioTrack;
 
+    @Input("searchQuery")
+    searchQuery: string;
+
     @ViewChild("editInputs")
     editInputsComponent: AudiotrackEditInputsComponent;
 

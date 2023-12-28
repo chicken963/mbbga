@@ -15,6 +15,12 @@ export class LibraryArtistComponent {
     @Input("artist")
     artist: Artist;
 
+    @Input("searchQuery")
+    searchQuery: string;
+
+    @Input("expanded")
+    expanded: boolean;
+
     @Output() onArtistDelete = new EventEmitter<Artist>();
 
     tracksAreLoading: boolean = false;

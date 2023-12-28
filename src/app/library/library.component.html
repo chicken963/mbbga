@@ -1,8 +1,18 @@
-<div class="library-controls-container mb-3">
-    <app-file-dialog></app-file-dialog>
+<div class="d-flex flex-row">
+    <form [formGroup]="filterForm" class="w-100">
+        <mat-form-field class="filter-field">
+            <input matInput formControlName="filterLibrary" placeholder="Filter by artist/title">
+            <mat-error *ngIf="f.filterLibrary.touched && f.filterLibrary.errors">
+                <div class="error-container" *ngIf="f.filterLibrary.errors.minlength">Please enter at least 3 characters.</div>
+            </mat-error>
+        </mat-form-field>
+    </form>
+    <div class="library-controls-container mb-3">
+        <app-file-dialog></app-file-dialog>
+    </div>
 </div>
 <div class="library-container">
-    <app-library-content [content]="content"></app-library-content>
+    <app-library-content [content]="content" [expanded]="expanded" [searchQuery]="searchQuery"></app-library-content>
     <div *ngIf="!content" class="spinner-container">
         <p>Loading library...</p>
         <mat-spinner></mat-spinner>

@@ -7,7 +7,7 @@ import {HttpClient} from "@angular/common/http";
     selector: 'app-library-content',
     templateUrl: './library-content.component.html',
     styleUrls: ['./library-content.component.css',
-                '../common-styles/scrollbar.css']
+        '../common-styles/scrollbar.css']
 })
 export class LibraryContentComponent implements OnChanges {
 
@@ -25,7 +25,17 @@ export class LibraryContentComponent implements OnChanges {
     latinContent: LibraryLetter[];
     otherContent: LibraryLetter[];
 
+    private latinGroupLabel = new GroupLabel("A-Z");
+    private slavicGroupLabel = new GroupLabel("А-Я");
+    private otherGroupLabel = new GroupLabel("0-9!@#$%^&*():\"?<>|\\,.");
+
     contentGroups: Map<GroupLabel, LibraryLetter[]> = new Map<GroupLabel, LibraryLetter[]>();
+
+    @Input("expanded")
+    expanded: boolean;
+
+    @Input("searchQuery")
+    searchQuery: string;
 
     ngOnChanges(changes: SimpleChanges): void {
         this.slavicContent = this.content?.filter(libraryLetter => this.cyrillicRegex.test(libraryLetter.letter));
@@ -34,9 +44,9 @@ export class LibraryContentComponent implements OnChanges {
             !this.latinRegex.test(libraryLetter.letter) && !this.cyrillicRegex.test(libraryLetter.letter)
         );
         if (this.content) {
-            this.contentGroups.set(new GroupLabel("A-Z"), this.latinContent);
-            this.contentGroups.set(new GroupLabel("А-Я"), this.slavicContent);
-            this.contentGroups.set(new GroupLabel("0-9!@#$%^&*():\"?<>|\\,."), this.otherContent);
+            this.contentGroups.set(this.latinGroupLabel, this.latinContent);
+            this.contentGroups.set(this.slavicGroupLabel, this.slavicContent);
+            this.contentGroups.set(this.otherGroupLabel, this.otherContent);
         }
     }
 
