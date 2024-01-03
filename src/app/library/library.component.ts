@@ -24,14 +24,16 @@ export class LibraryComponent implements OnInit {
     @ViewChild("libraryContent")
     libraryContent: LibraryContentComponent;
 
+    @Input("mode")
+    mode: string;
+
     private filterChanged = new Subject<string>();
     private ngUnsubscribe = new Subject<void>();
     expanded: boolean = false;
 
     constructor(private http: HttpClient,
                 private libraryService: LibraryService,
-                private fb: FormBuilder,
-                @Optional() @Inject(MAT_DIALOG_DATA) public mode: string) {
+                private fb: FormBuilder) {
         this.http.get("/library/all")
             .subscribe(response => {
                     let letters = response as string[];

@@ -5,7 +5,7 @@
                 <mat-spinner></mat-spinner>
                 <div class="load-percentage">{{loadPercents}}%</div>
             </div>
-            <div class="d-flex flex-row justify-content-center align-items-center"*ngIf="!trackIsLoading">
+            <div class="d-flex flex-row justify-content-center align-items-center" *ngIf="!trackIsLoading">
                 <button mat-button class="play-control-button" (click)="play()" *ngIf="!(currentVersionIsPlaying)">
                     <mat-icon>play_arrow</mat-icon>
                 </button>
@@ -23,20 +23,32 @@
                 <mat-icon>forward_5</mat-icon>
             </button>
         </div>
-        <app-range-slider #rangeSlider class="mx-3"
-                          [audio-track]="audioTrack"
-                          [version]="audioTrackVersion"
-                          [mode]="mode">
-        </app-range-slider>
-        <div class="current-progress">{{ getProgress() | async | timeFormat:'string' }}
-            / {{ audioTrackVersion.endTime - audioTrackVersion.startTime | timeFormat:'string'}}</div>
+        <div class="d-flex flex-column justify-content-center slider-and-progress">
+            <div class="current-progress">{{ getProgress() | async | timeFormat:'string' }}
+                / {{ audioTrackVersion.endTime - audioTrackVersion.startTime | timeFormat:'string'}}
+            </div>
+            <app-range-slider #rangeSlider class="mx-1"
+                              [audio-track]="audioTrack"
+                              [version]="audioTrackVersion"
+                              [mode]="mode">
+            </app-range-slider>
+        </div>
+
     </div>
-    <div class="menu-buttons-container d-flex flex-row align-items-center" >
-        <button mat-mini-fab class="m-2 panel-button"
+    <div class="menu-buttons-container d-flex flex-row align-items-center">
+        <button *ngIf="audioTrack.mode === 'view'"
+                mat-mini-fab class="m-2 panel-button"
                 (click)="delete()"
                 color="primary"
                 matTooltip="Delete track from workbench">
             <mat-icon>delete</mat-icon>
+        </button>
+        <button *ngIf="audioTrack.mode === 'edit'"
+                mat-mini-fab class="m-2 panel-button"
+                (click)="cancel()"
+                color="primary"
+                matTooltip="Discard changes">
+            <mat-icon>undo</mat-icon>
         </button>
         <button *ngIf="audioTrack.mode === 'view'"
                 mat-mini-fab class="m-2 panel-button"

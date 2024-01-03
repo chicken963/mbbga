@@ -3,6 +3,7 @@ import {Round} from "../interfaces/round";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {LibraryComponent} from "../library/library.component";
+import {RoundAudiotracksWorkbenchComponent} from "../round-audiotracks-workbench/round-audiotracks-workbench.component";
 
 @Component({
     selector: 'app-create-round',
@@ -45,10 +46,10 @@ export class CreateRoundComponent implements OnInit {
     }
 
     openLibrary() {
-        this.dialog.open(LibraryComponent, {
+        this.dialog.open(RoundAudiotracksWorkbenchComponent, {
             disableClose: true,
             width: '90%',
-            data: {mode: 'select'}
+            data: {round: this.round}
         })
     }
 }

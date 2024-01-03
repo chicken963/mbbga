@@ -39,8 +39,8 @@ import { CreateRoundComponent } from './create-round/create-round.component';
 import {MatSelectModule} from "@angular/material/select";
 import { WinConditionsFormComponent } from './win-conditions-form/win-conditions-form.component';
 import { FieldSizeFormComponent } from './field-size-form/field-size-form.component';
-import { RoundPlaylistComponent } from './round-playlist/round-playlist.component';
 import {MatTableModule} from "@angular/material/table";
+import {RoundTableWorkbenchModule} from "./round-table-workbench/round-table-workbench.module";
 
 @NgModule({
     declarations: [
@@ -60,8 +60,7 @@ import {MatTableModule} from "@angular/material/table";
         DatePipe,
         CreateRoundComponent,
         WinConditionsFormComponent,
-        FieldSizeFormComponent,
-        RoundPlaylistComponent
+        FieldSizeFormComponent
     ],
     imports: [
         BrowserModule,
@@ -86,7 +85,8 @@ import {MatTableModule} from "@angular/material/table";
         FlexLayoutModule,
         MatTooltipModule,
         MatSelectModule,
-        MatTableModule
+        MatTableModule,
+        RoundTableWorkbenchModule
     ],
     providers: [
         MatSnackBarModule,

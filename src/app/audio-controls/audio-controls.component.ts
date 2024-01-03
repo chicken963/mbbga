@@ -59,7 +59,11 @@ export class AudioControlsComponent implements AfterViewInit {
         this.audioTrack.audioEl = this.defaultAudio.nativeElement;
     }
 
-    setMode(mode: string) {
+    setMode(mode: string, i: number) {
+        this.audioTrack.versions.forEach(version => {
+            version.active = false;
+        })
+        this.audioTrack.versions[i].active = true;
         this.audioTrack.mode = mode;
         this.onModeChange.emit(mode);
     }
@@ -96,5 +100,14 @@ export class AudioControlsComponent implements AfterViewInit {
                     this.dialogService.showOkPopup("Error", "Failed to delete audio track version from library.")
             })
         }
+    }
+
+    setPreviousValues(stateToRestore: any, index: number) {
+        this.audioTrack.artist = stateToRestore.artist;
+        this.audioTrack.name = stateToRestore.name;
+
+        this.audioTrack.versions[index].startTime = stateToRestore.startTime;
+        this.audioTrack.versions[index].endTime = stateToRestore.endTime;
+        this.cdr.detectChanges();
     }
 }

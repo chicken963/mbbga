@@ -24,10 +24,13 @@ export class AudiotrackEditControlsComponent implements OnInit {
     mode: string;
 
     @Output() modeChange: EventEmitter<string> = new EventEmitter<string>();
+    @Output() onCancelChanges = new EventEmitter<any>();
     @Output() onDeleteVersion = new EventEmitter<AudioTrackVersion>();
 
     @ViewChild("rangeSlider")
     private rangeSlider: RangeSliderComponent;
+
+    private audioSnapshot: { artist: string, name: string, startTime: number, endTime: number };
 
     currentVersionIsPlaying: boolean = false;
     audioTrackId?: string;
@@ -111,7 +114,17 @@ export class AudiotrackEditControlsComponent implements OnInit {
     }
 
     setMode(value: string) {
+        this.audioSnapshot = {
+            artist: this.audioTrack.artist,
+            name: this.audioTrack.name,
+            startTime: this.audioTrackVersion.startTime,
+            endTime: this.audioTrackVersion.endTime
+        };
         this.modeChange.emit(value)
+    }
+
+    cancel() {
+        this.onCancelChanges.emit(this.audioSnapshot);
     }
 
     delete() {

@@ -1,0 +1,9 @@
+.playlist-group-container {
+    width: 100%;
+    margin-top: 0.5rem;
+    margin-left: 2rem;
+}
+
+app-library {
+    width: 70%;
+}

@@ -6,10 +6,18 @@
                placeholder="mm:ss.S"
                value="{{ (activeVersion? activeVersion.startTime : 0) | timeFormat:'string' }}"
                (change)="updateStartTime($event)">
-        <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix (click)="incrementStartTime()">
+        <button class="min-width-50 h-50 p-0 arrow-button"
+                appParentWidth [threshold]="numericArrowThreshold"
+                mat-button
+                matSuffix
+                (click)="incrementStartTime()">
             <mat-icon>keyboard_arrow_up</mat-icon>
         </button>
-        <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix (click)="decrementStartTime()">
+        <button class="min-width-50 h-50 p-0 arrow-button"
+                appParentWidth [threshold]="numericArrowThreshold"
+                mat-button
+                matSuffix
+                (click)="decrementStartTime()">
             <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
     </mat-form-field>
@@ -30,10 +38,18 @@
                placeholder="mm:ss.S"
                value="{{ (activeVersion? activeVersion.endTime : 0) | timeFormat:'string' }}"
                (change)="updateEndTime($event)">
-        <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix (click)="incrementEndTime()">
+        <button class="min-width-50 h-50 p-0 arrow-button"
+                appParentWidth [threshold]="numericArrowThreshold"
+                mat-button
+                matSuffix
+                (click)="incrementEndTime()">
             <mat-icon>keyboard_arrow_up</mat-icon>
         </button>
-        <button class="min-width-50 h-50 p-0 arrow-button" mat-button matSuffix (click)="decrementEndTime()">
+        <button class="min-width-50 h-50 p-0 arrow-button"
+                appParentWidth [threshold]="numericArrowThreshold"
+                mat-button
+                matSuffix
+                (click)="decrementEndTime()">
             <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
     </mat-form-field>

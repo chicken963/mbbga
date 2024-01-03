@@ -21,8 +21,9 @@
                                               [audio-track]="audioTrack"
                                               [version]="version"
                                               [mode]="audioTrack.mode"
-                                              (modeChange)="setMode($event)"
+                                              (modeChange)="setMode($event, i)"
                                               (onDeleteVersion)="handleDeleteVersion($event)"
+                                              (onCancelChanges)="setPreviousValues($event, i)"
                 ></app-audiotrack-edit-controls>
             </div>
     </mat-card-content>

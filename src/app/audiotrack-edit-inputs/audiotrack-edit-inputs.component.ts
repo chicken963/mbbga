@@ -21,6 +21,8 @@ export class AudiotrackEditInputsComponent implements OnChanges {
 
     activeVersion: AudioTrackVersion;
 
+    numericArrowThreshold: number = 78;
+
     @Output()
     inputsValidityChanged = new EventEmitter<boolean>();
 

@@ -28,6 +28,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {LibraryArtistComponent} from '../library-artist/library-artist.component';
 import {HighlightPipe} from "../highlight.pipe";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {RoundAudiotracksWorkbenchComponent} from "../round-audiotracks-workbench/round-audiotracks-workbench.component";
+import {RoundPlaylistComponent} from "../round-playlist/round-playlist.component";
+import {MatTableModule} from "@angular/material/table";
+import {ParentWidthDirective} from "../parent-width.directive";
 
 
 @NgModule({
@@ -44,7 +48,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         AudiotrackEditControlsComponent,
         AudiotrackViewInputsComponent,
         LibraryArtistComponent,
-        HighlightPipe
+        HighlightPipe,
+        ParentWidthDirective
     ],
     imports: [
         CommonModule,
@@ -62,11 +67,14 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         MatCardModule,
         ReactiveFormsModule,
         MatTooltipModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatTableModule
     ],
     entryComponents: [AddAudiotracksWorkbenchComponent],
     exports: [
-        HighlightPipe
+        HighlightPipe,
+        LibraryComponent,
+        ParentWidthDirective
     ]
 })
 export class LibraryModule {
