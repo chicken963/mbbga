@@ -114,7 +114,7 @@ export class LibraryPlayerService implements OnDestroy {
         if (this.activeVersion !== audioTrackVersion) {
             this.currentTrack?.audioEl?.pause();
             if (this.activeVersion) {
-                this.activeVersion.active = false;
+                this.activeVersion.inputsEditable = false;
             }
             this.setIsPlaying(false);
         }
@@ -155,7 +155,7 @@ export class LibraryPlayerService implements OnDestroy {
     setCurrentTrack(audioTrack: AudioTrack, audioTrackVersion: AudioTrackVersion): void {
         this.setCurrentVersion(audioTrackVersion);
         this.activeVersion = audioTrackVersion;
-        audioTrackVersion.active = true;
+        audioTrackVersion.inputsEditable = true;
         this.currentTrackSubject.next(audioTrack);
     }
 

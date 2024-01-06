@@ -1,9 +1,21 @@
-.playlist-group-container {
+app-round-playlist {
     width: 100%;
     margin-top: 0.5rem;
     margin-left: 2rem;
 }
 
 app-library {
-    width: 70%;
+    width: 136%;
+}
+
+.popup-control-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 0;
+    max-height: 0;
+}
+
+.close-button {
+    transform: scale(0.8);
 }

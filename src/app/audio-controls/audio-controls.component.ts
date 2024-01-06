@@ -6,26 +6,16 @@ import {
     EventEmitter,
     Input,
     Output,
-    ViewChild
+    ViewChild, ViewChildren
 } from '@angular/core';
 import {AudiotrackEditInputsComponent} from "../audiotrack-edit-inputs/audiotrack-edit-inputs.component";
 import {AudioTrack} from "../interfaces/audio-track";
 import {AudioTrackVersion} from "../interfaces/audio-track-version";
 import {HttpClient} from "@angular/common/http";
-import {OkPopupComponent} from "../ok-popup/ok-popup.component";
 import {DialogService} from "../utils/dialog.service";
-/*import {animate, style, transition, trigger} from "@angular/animations";
+import {AddAudioToRoundService} from "../services/add-audio-to-round.service";
+import {AudiotrackEditControlsComponent} from "../audiotrack-edit-controls/audiotrack-edit-controls.component";
 
-
-export const slideInOut = trigger('slideInOut', [
-    transition(':enter', [
-        style({ height: 0, opacity: 0 }),
-        animate('300ms ease-out', style({ height: '*', opacity: 1 })),
-    ]),
-    transition(':leave', [
-        animate('300ms ease-in', style({ height: 0, opacity: 0 })),
-    ]),
-]);*/
 
 @Component({
     selector: 'app-audio-controls',
@@ -40,8 +30,14 @@ export class AudioControlsComponent implements AfterViewInit {
     @Input("searchQuery")
     searchQuery: string;
 
+    @Input("mode")
+    mode: string;
+
     @ViewChild("editInputs")
     editInputsComponent: AudiotrackEditInputsComponent;
+
+    @ViewChildren(AudiotrackEditControlsComponent)
+    versionControls: AudiotrackEditControlsComponent[];
 
     @ViewChild("defaultAudio")
     private defaultAudio: ElementRef<HTMLAudioElement>;
@@ -52,19 +48,31 @@ export class AudioControlsComponent implements AfterViewInit {
 
     constructor(private cdr: ChangeDetectorRef,
                 private http: HttpClient,
-                private dialogService: DialogService) {
+                private dialogService: DialogService,
+                private addAudioToRoundService: AddAudioToRoundService) {
     }
 
     ngAfterViewInit(): void {
         this.audioTrack.audioEl = this.defaultAudio.nativeElement;
     }
 
-    setMode(mode: string, i: number) {
+    onVersionModeChange(mode: string, i: number) {
         this.audioTrack.versions.forEach(version => {
-            version.active = false;
+            version.inputsEditable = false;
         })
-        this.audioTrack.versions[i].active = true;
+        this.audioTrack.versions[i].inputsEditable = true;
         this.audioTrack.mode = mode;
+        if (mode === 'selected') {
+            this.addAudioToRoundService.addAudioToRound({
+                audioTrack: this.audioTrack,
+                versionIndex: i
+            });
+        } else if (mode === 'select') {
+            this.addAudioToRoundService.removeAudioFromRound({
+                audioTrack: this.audioTrack,
+                versionIndex: i
+            })
+        }
         this.onModeChange.emit(mode);
     }
 
@@ -87,11 +95,11 @@ export class AudioControlsComponent implements AfterViewInit {
             return;
         }
         const index = this.audioTrack.versions.indexOf(versionToDelete, 0);
-        if (versionToDelete.active) {
+        if (versionToDelete.inputsEditable) {
             if (index == 0) {
-                this.audioTrack.versions[1].active = true;
+                this.audioTrack.versions[1].inputsEditable = true;
             } else {
-                this.audioTrack.versions[0].active = true;
+                this.audioTrack.versions[0].inputsEditable = true;
             }
             this.http.delete(`/audio-tracks/version?id=${versionToDelete.id}`).subscribe(
                 response => {

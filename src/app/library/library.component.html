@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="library-container">
-    <app-library-content [content]="content" [expanded]="expanded" [searchQuery]="searchQuery"></app-library-content>
+    <app-library-content [content]="content" [expanded]="expanded" [searchQuery]="searchQuery" [mode]="mode"></app-library-content>
     <div *ngIf="!content" class="spinner-container">
         <p>Loading library...</p>
         <mat-spinner></mat-spinner>

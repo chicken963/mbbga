@@ -130,4 +130,18 @@ export class AudiotrackEditControlsComponent implements OnInit {
     delete() {
         this.onDeleteVersion.emit(this.audioTrackVersion);
     }
+
+    isSelectRelated(): boolean {
+        return this.mode === 'select' || this.mode === 'selected';
+    }
+
+    addAudioTrackToRoundTable() {
+        this.mode = 'selected'
+        this.modeChange.emit("selected");
+    }
+
+    removeAudioTrackFromRoundTable() {
+        this.mode = 'select'
+        this.modeChange.emit("select");
+    }
 }

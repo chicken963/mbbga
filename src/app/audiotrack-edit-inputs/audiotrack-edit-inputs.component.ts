@@ -54,7 +54,7 @@ export class AudiotrackEditInputsComponent implements OnChanges {
                 artist: changes.audioTrack.currentValue.artist,
                 name: changes.audioTrack.currentValue.name
             });
-            this.activeVersion = changes.audioTrack.currentValue.versions.find((version: AudioTrackVersion) => version.active);
+            this.activeVersion = changes.audioTrack.currentValue.versions.find((version: AudioTrackVersion) => version.inputsEditable);
         }
     }
 

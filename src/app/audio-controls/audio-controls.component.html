@@ -1,31 +1,31 @@
-<mat-card class="mat-elevation-z8">
+<mat-card class="mat-elevation-z8 d-flex flex-row">
     <audio #defaultAudio>
         <source [src]="audioTrack.url" type="audio/mp3">
         Your browser does not support the audio tag.
     </audio>
-    <mat-card-content>
-            <div class="d-flex flex-column editable-fields col-12">
-                <app-audiotrack-edit-inputs
-                        #editInputs
-                        *ngIf="audioTrack.mode === 'edit'"
-                        [audio-track]="audioTrack"
-                        (inputsValidityChanged)="onFormValidityChanged($event)">
-                </app-audiotrack-edit-inputs>
-                <app-audiotrack-view-inputs
-                        class="d-flex flex-row justify-content-center align-items-center"
-                        *ngIf="audioTrack.mode !== 'edit'"
-                        [audio-track]="audioTrack"
-                        [searchQuery]="searchQuery">
-                </app-audiotrack-view-inputs>
-                <app-audiotrack-edit-controls *ngFor="let version of audioTrack.versions; let i = index"
-                                              [audio-track]="audioTrack"
-                                              [version]="version"
-                                              [mode]="audioTrack.mode"
-                                              (modeChange)="setMode($event, i)"
-                                              (onDeleteVersion)="handleDeleteVersion($event)"
-                                              (onCancelChanges)="setPreviousValues($event, i)"
-                ></app-audiotrack-edit-controls>
-            </div>
+    <mat-card-content class="w-100">
+        <div class="d-flex flex-column editable-fields col-12">
+            <app-audiotrack-edit-inputs
+                #editInputs
+                *ngIf="audioTrack.mode === 'edit'"
+                [audio-track]="audioTrack"
+                (inputsValidityChanged)="onFormValidityChanged($event)">
+            </app-audiotrack-edit-inputs>
+            <app-audiotrack-view-inputs
+                    class="d-flex flex-row justify-content-center align-items-center"
+                    *ngIf="audioTrack.mode !== 'edit'"
+                    [audio-track]="audioTrack"
+                    [searchQuery]="searchQuery">
+            </app-audiotrack-view-inputs>
+            <app-audiotrack-edit-controls *ngFor="let version of audioTrack.versions; let i = index"
+                                          [audio-track]="audioTrack"
+                                          [version]="version"
+                                          [mode]="mode"
+                                          (modeChange)="onVersionModeChange($event, i)"
+                                          (onDeleteVersion)="handleDeleteVersion($event)"
+                                          (onCancelChanges)="setPreviousValues($event, i)"
+            ></app-audiotrack-edit-controls>
+        </div>
     </mat-card-content>
 </mat-card>
 <br>

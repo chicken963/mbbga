@@ -8,7 +8,8 @@
     <app-audio-controls *ngFor="let track of artist.audioTracks"
                         [audio-track]="track"
                         (onDelete)="deleteFromLibrary($event)"
-                        [searchQuery]="searchQuery">
+                        [searchQuery]="searchQuery"
+                        [mode]="mode">
 
     </app-audio-controls>
 </mat-expansion-panel>

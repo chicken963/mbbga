@@ -1,10 +1,10 @@
 import {WinCondition} from "./win-condition";
-import {AudioTrack} from "./audio-track";
+import {RoundTableItem} from "./round-table-item";
 
 export interface Round {
     fieldSize: [number, number];
     name: string;
     winConditions: WinCondition[];
     tickets?: any;
-    audioTracks: AudioTrack[]
+    audioTracks: RoundTableItem[]
 }

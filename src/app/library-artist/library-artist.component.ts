@@ -21,6 +21,9 @@ export class LibraryArtistComponent {
     @Input("expanded")
     expanded: boolean;
 
+    @Input("mode")
+    mode: string;
+
     @Output() onArtistDelete = new EventEmitter<Artist>();
 
     tracksAreLoading: boolean = false;

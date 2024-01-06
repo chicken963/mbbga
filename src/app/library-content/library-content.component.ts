@@ -21,6 +21,9 @@ export class LibraryContentComponent implements OnChanges {
     @Input("content")
     content: LibraryLetter[];
 
+    @Input("mode")
+    mode: string;
+
     slavicContent: LibraryLetter[];
     latinContent: LibraryLetter[];
     otherContent: LibraryLetter[];

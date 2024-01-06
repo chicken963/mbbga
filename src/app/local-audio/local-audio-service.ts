@@ -23,7 +23,7 @@ export class LocalAudioService {
                     file: file,
                     mode: mode,
                     versions: [{
-                        active: true,
+                        inputsEditable: true,
                         startTime: 0,
                         endTime: audio.duration
                     }]

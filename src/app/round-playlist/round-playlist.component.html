@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="audioTracks" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <!-- Position Column -->
     <ng-container matColumnDef="position">
@@ -9,19 +9,19 @@
     <!-- Name Column -->
     <ng-container matColumnDef="artist">
         <th mat-header-cell *matHeaderCellDef> Artist</th>
-        <td mat-cell *matCellDef="let element"> {{element.artist}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.audioTrack.artist}} </td>
     </ng-container>
 
     <!-- Weight Column -->
     <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef> Title</th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.audioTrack.name}} </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="duration">
         <th mat-header-cell *matHeaderCellDef> Duration</th>
-        <td mat-cell *matCellDef="let element"> {{element.versions[0]}} </td>
+        <td mat-cell *matCellDef="let element"> {{(element.audioTrack.versions[element.versionIndex].endTime - element.audioTrack.versions[element.versionIndex].startTime) | timeFormat:'string' }} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

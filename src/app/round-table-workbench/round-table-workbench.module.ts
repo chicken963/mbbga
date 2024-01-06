@@ -4,6 +4,11 @@ import {RoundAudiotracksWorkbenchComponent} from "../round-audiotracks-workbench
 import {RoundPlaylistComponent} from "../round-playlist/round-playlist.component";
 import {LibraryModule} from "../library/library.module";
 import {MatTableModule} from "@angular/material/table";
+import {MatIconModule} from "@angular/material/icon";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatButtonModule} from "@angular/material/button";
+import {TimeFormatModule} from "../time-format/time-format.module";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 
@@ -15,10 +20,15 @@ import {MatTableModule} from "@angular/material/table";
   exports: [
     RoundPlaylistComponent
   ],
-  imports: [
-    CommonModule,
-    LibraryModule,
-    MatTableModule
-  ]
+    imports: [
+        CommonModule,
+        LibraryModule,
+        MatTableModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatButtonModule,
+        TimeFormatModule,
+        MatDialogModule
+    ]
 })
 export class RoundTableWorkbenchModule { }

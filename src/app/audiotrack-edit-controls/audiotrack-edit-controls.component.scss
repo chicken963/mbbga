@@ -1,5 +1,11 @@
 .container {
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 5px;
+  padding-right: 0;
+  height: 55px;
 }
 
 .range-slider-and-buttons {
@@ -68,3 +74,58 @@ app-range-slider {
   bottom: 2px;
 }
 
+.round-toggle {
+  height: inherit;
+  width: 6%;
+  border-radius: 0 5px 5px 0;
+  border: none;
+  padding: 0;
+  transition: transform 0.15s ease-out;
+
+  mat-icon {
+    transform: scale(0.8);
+  }
+
+  ::ng-deep .mat-mdc-button-persistent-ripple {
+    display: none;
+  }
+
+
+  &:active {
+    transform: translateX(5px);
+  }
+}
+
+.add-to-round {
+  background-color: #499C54;
+  &:hover {
+    background-color: #55A25A;
+  }
+}
+
+.remove-from-round {
+  background-color: rgb(244, 67, 54);
+  &:hover {
+    background-color: rgb(254, 77, 64);
+  }
+}
+
+
+.with-round-button {
+  width: 94%;
+}
+
+.without-round-button {
+  width: 100%;
+}
+
+.revoke-from-playlist-icon {
+  position: relative;
+  left: 2px;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+}
