@@ -56,6 +56,10 @@ export class CreateGameComponent implements OnInit {
 
     removeRound(index: number) {
         this.game.rounds.splice(index, 1);
+        if (this.game.rounds.length === 0) {
+            this.addRound();
+            return;
+        }
         setTimeout(() => this.selectedTabIndex = this.game.rounds.length - 1);
     }
 
