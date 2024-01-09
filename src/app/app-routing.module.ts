@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: "game-dashboard", component: GamesDashboardComponent},
   { path: "user-dashboard", component: UsersDashboardComponent},
   { path: "game/new", component: CreateGameComponent},
+  { path: 'game/:id', component: CreateGameComponent},
   { path: "**", redirectTo: "" }
 ];
 

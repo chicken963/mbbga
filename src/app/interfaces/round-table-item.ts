@@ -1,6 +1,9 @@
-import {AudioTrack} from "./audio-track";
-
 export interface RoundTableItem {
-    audioTrack: AudioTrack,
-    versionIndex: number
+    audioFileId: string,
+    artist: string,
+    title: string,
+    versionId: string,
+    startTime: number,
+    endTime: number,
+    duration: number
 }

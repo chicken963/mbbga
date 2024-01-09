@@ -4,8 +4,8 @@
         <input id="game-name-input" [(ngModel)]="game.name" matInput placeholder="Game {{currentDate() | date}}" required>
     </mat-form-field>
     <div class="create-game-button-container d-flex flex-row">
-        <button mat-raised-button color="primary" class="game-button">Save</button>
-        <button mat-raised-button color="primary" class="mx-1 game-button">Cancel</button>
+        <button mat-raised-button color="primary" class="game-button" (click)="save(game)">Save</button>
+        <button mat-raised-button color="primary" class="mx-1 game-button" (click)="backToMenu()">Cancel</button>
     </div>
 </div>
 

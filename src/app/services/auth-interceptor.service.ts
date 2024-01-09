@@ -8,11 +8,12 @@ import {
 } from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
 import {Router} from "@angular/router";
+import {NotificationService} from "../utils/notification.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private notificationService: NotificationService) {
   }
 
 
@@ -40,6 +41,9 @@ export class AuthInterceptor implements HttpInterceptor {
                         localStorage.setItem("mbbg_token", "");
                         this.router.navigate(['/login']);
                     }
+                    this.notificationService.pushNotification(
+                        "Failed to process data. Reason: " + error.error,
+                        "error");
                 }
             )
         );

@@ -18,7 +18,7 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
     @Input("round")
     round: Round;
 
-    displayedColumns: string[] = ['position', 'artist', 'title', 'duration'];
+    displayedColumns: string[] = ['position', 'artist', 'title', 'duration', 'remove'];
     addToTableSubscription: Subscription;
     removeFromTableSubscription: Subscription;
     private setAudioTracksSubscription: Subscription;
@@ -44,23 +44,23 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.addToTableSubscription.unsubscribe();
-        this.removeFromTableSubscription.unsubscribe();
-        this.setAudioTracksSubscription.unsubscribe();
+        this.addToTableSubscription?.unsubscribe();
+        this.removeFromTableSubscription?.unsubscribe();
+        this.setAudioTracksSubscription?.unsubscribe();
     }
 
 
     private addToTable(item: RoundTableItem) {
-        let audioTrackWithTheSameId = this.audioTracks.find(audiotrack => audiotrack.audioTrack.id === item.audioTrack.id);
+        let audioTrackWithTheSameId = this.audioTracks.find(audiotrack => audiotrack.audioFileId === item.audioFileId);
         if (!audioTrackWithTheSameId) {
             this.audioTracks?.push(item);
         }
         this.dataSource.data = this.audioTracks;
     }
 
-    private removeFromTable(item: RoundTableItem) {
-        let audioTrackWithTheSameId = this.audioTracks.find(audiotrack => audiotrack.audioTrack.id === item.audioTrack.id);
-        if (audioTrackWithTheSameId) {
+    removeFromTable(item: RoundTableItem) {
+        let index = this.audioTracks.indexOf(item);
+        if (index !== -1) {
             let index = this.audioTracks.indexOf(item);
             this.audioTracks.splice(index, 1);
         }

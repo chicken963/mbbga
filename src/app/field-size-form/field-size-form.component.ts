@@ -23,14 +23,14 @@ export class FieldSizeFormComponent {
 
   ngOnInit() {
     this.fieldSizeForm = this.fb.group({
-      height: [this.round.fieldSize[0]],
-      width: [this.round.fieldSize[1]]
+      height: [this.round.rowsCount],
+      width: [this.round.columnsCount]
     });
     this.fieldSizeForm.get('height')?.valueChanges.subscribe(newValue => {
-      this.round.fieldSize[0] = newValue;
+      this.round.rowsCount = newValue;
     })
     this.fieldSizeForm.get('width')?.valueChanges.subscribe(newValue => {
-      this.round.fieldSize[1] = newValue;
+      this.round.columnsCount = newValue;
     })
   }
 

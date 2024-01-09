@@ -60,11 +60,11 @@ export class WinConditionsFormComponent implements OnInit {
   }
 
   createItem(item: WinCondition, index: number): FormGroup {
-    let linesCountFormControl = new FormControl(item.linesCount, [Validators.required, this.neighbourLinesCountsMatcher.bind(this, index)])
+    let linesCountFormControl = new FormControl(item.linesToStrike, [Validators.required, this.neighbourLinesCountsMatcher.bind(this, index)])
     this.linesCountControls.push(linesCountFormControl);
     let winConditionFormGroup =  this.fb.group({
       type: new FormControl(item.type),
-      linesCount: linesCountFormControl
+      linesToStrike: linesCountFormControl
     });
     this.winConditionFormItems.push(winConditionFormGroup);
     return winConditionFormGroup;
@@ -80,14 +80,14 @@ export class WinConditionsFormComponent implements OnInit {
   }
 
   incrementLinesCount(i: number) {
-    this.round.winConditions[i].linesCount! += 1;
-    this.linesCountControls[i].setValue(this.round.winConditions[i].linesCount);
+    this.round.winConditions[i].linesToStrike! += 1;
+    this.linesCountControls[i].setValue(this.round.winConditions[i].linesToStrike);
   }
 
   decrementLinesCount(i: number) {
-    if (this.round.winConditions[i].linesCount && this.round.winConditions[i].linesCount! > 1) {
-      this.round.winConditions[i].linesCount! -= 1;
-      this.linesCountControls[i].setValue(this.round.winConditions[i].linesCount);
+    if (this.round.winConditions[i].linesToStrike && this.round.winConditions[i].linesToStrike! > 1) {
+      this.round.winConditions[i].linesToStrike! -= 1;
+      this.linesCountControls[i].setValue(this.round.winConditions[i].linesToStrike);
     }
   }
 
@@ -108,8 +108,8 @@ export class WinConditionsFormComponent implements OnInit {
     if (this?.round.winConditions[index + 1]?.type === WinConditionType.FULL) {
       return null;
     }
-    const currentLinesCount = this?.round.winConditions[index]?.linesCount;
-    const nextLinesCount = this?.round.winConditions[index + 1]?.linesCount;
+    const currentLinesCount = this?.round.winConditions[index]?.linesToStrike;
+    const nextLinesCount = this?.round.winConditions[index + 1]?.linesToStrike;
     return nextLinesCount <= currentLinesCount;
   }
 
@@ -117,8 +117,8 @@ export class WinConditionsFormComponent implements OnInit {
     if (index === 0) {
       return null;
     }
-    const currentLinesCount = this?.round.winConditions[index]?.linesCount;
-    const previousLinesCount = this?.round.winConditions[index - 1]?.linesCount;
+    const currentLinesCount = this?.round.winConditions[index]?.linesToStrike;
+    const previousLinesCount = this?.round.winConditions[index - 1]?.linesToStrike;
     return previousLinesCount >= currentLinesCount;
   }
 

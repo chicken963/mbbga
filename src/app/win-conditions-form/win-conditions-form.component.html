@@ -16,9 +16,9 @@
                         <mat-label>Lines to strike</mat-label>
                         <div class="d-flex flex-row">
                             <input matInput
-                                   formControlName="linesCount"
+                                   formControlName="linesToStrike"
                                    class="lines-strike-input"
-                                   value="{{round.winConditions[i].linesCount}}"
+                                   value="{{round.winConditions[i].linesToStrike}}"
                                    placeholder="Lines to strike"
                                    type="number">
                             <div class="d-flex flex-column arrows-container">
@@ -32,9 +32,9 @@
                                 </button>
                             </div>
                         </div>
-                        <mat-error *ngIf="item.get('linesCount')?.errors">
-                            <div *ngIf="item.get('linesCount')?.hasError('harderThanNext')" class="error-container easier-than-next">Condition must be easier than the next</div>
-                            <div *ngIf="item.get('linesCount')?.hasError('easierThanPrevious')" class="error-container harder-than-previous">Condition must be harder than the previous</div>
+                        <mat-error *ngIf="item.get('linesToStrike')?.errors">
+                            <div *ngIf="item.get('linesToStrike')?.hasError('harderThanNext')" class="error-container easier-than-next">Condition must be easier than the next</div>
+                            <div *ngIf="item.get('linesToStrike')?.hasError('easierThanPrevious')" class="error-container harder-than-previous">Condition must be harder than the previous</div>
                         </mat-error>
                     </mat-form-field>
 
@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <button mat-raised-button (click)="addItemIfPossible({type: this.winConditionTypes[0], linesCount: 0})">
+        <button mat-raised-button (click)="addItemIfPossible({type: this.winConditionTypes[0], linesToStrike: 0})">
             Add win condition
             <mat-icon>add</mat-icon>
         </button>

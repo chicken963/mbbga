@@ -2,7 +2,6 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Round} from "../interfaces/round";
 import {CreateRoundCloseService} from "../services/create-round-close.service";
-import {RoundPlaylistComponent} from "../round-playlist/round-playlist.component";
 import {RoundTableItem} from "../interfaces/round-table-item";
 import {AddAudioToRoundService} from "../services/add-audio-to-round.service";
 

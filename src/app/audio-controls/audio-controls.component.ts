@@ -60,17 +60,28 @@ export class AudioControlsComponent implements AfterViewInit {
         this.audioTrack.versions.forEach(version => {
             version.inputsEditable = false;
         })
-        this.audioTrack.versions[i].inputsEditable = true;
+        let version = this.audioTrack.versions[i];
+        version.inputsEditable = true;
         this.audioTrack.mode = mode;
         if (mode === 'selected') {
             this.addAudioToRoundService.addAudioToRound({
-                audioTrack: this.audioTrack,
-                versionIndex: i
+                audioFileId: this.audioTrack.id!,
+                artist: this.audioTrack.artist,
+                title: this.audioTrack.name,
+                versionId: version.id!,
+                startTime: version.startTime,
+                endTime: version.endTime,
+                duration: this.audioTrack.length
             });
         } else if (mode === 'select') {
             this.addAudioToRoundService.removeAudioFromRound({
-                audioTrack: this.audioTrack,
-                versionIndex: i
+                audioFileId: this.audioTrack.id!,
+                artist: this.audioTrack.artist,
+                title: this.audioTrack.name,
+                versionId: version.id!,
+                startTime: version.startTime,
+                endTime: version.endTime,
+                duration: this.audioTrack.length
             })
         }
         this.onModeChange.emit(mode);
