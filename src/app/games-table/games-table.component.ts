@@ -30,4 +30,8 @@ export class GamesTableComponent implements AfterViewInit {
         }
     }
 
+    removeGameFromList(game: Game) {
+        let index = this.games.indexOf(game);
+        this.games.splice(index, 1);
+    }
 }

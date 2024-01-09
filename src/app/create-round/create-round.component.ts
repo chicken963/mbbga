@@ -48,7 +48,7 @@ export class CreateRoundComponent implements OnInit {
 
         this.createRoundCloseService.getCloseRoundPopupState().subscribe(state => {
             if (state) {
-                this.workbenchPopupDialogRef.close();
+                this.workbenchPopupDialogRef?.close();
                 this.audioTracksTable.refresh();
             }
         })

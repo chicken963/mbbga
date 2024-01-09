@@ -16,7 +16,7 @@
     </mat-card>
 
     <div *ngFor="let game of games">
-        <app-game-card [game]="game"></app-game-card>
+        <app-game-card [game]="game" (gameDeleted)="removeGameFromList($event)"></app-game-card>
     </div>
 </div>
 

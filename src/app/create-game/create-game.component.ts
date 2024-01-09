@@ -20,6 +20,11 @@ export class CreateGameComponent implements OnInit {
     @ViewChildren(CreateRoundComponent)
     createRoundComponents: CreateRoundComponent[];
 
+    game: Game;
+    mode: string = 'create';
+    gameId: string;
+    selectedTabIndex: number;
+
     constructor(private authService: AuthService,
                 private http: HttpClient,
                 private router: Router,
@@ -35,16 +40,13 @@ export class CreateGameComponent implements OnInit {
         }
         this.gameId = this.route.snapshot.params["id"];
         if (this.gameId) {
-            /*this.gameService.gameToRender().subscribe(
-                game => this.game = game
-            );*/
-            this.http.get<any>(`/games/${this.gameId}`).subscribe(response => this.game = response);
+            this.http.get<any>(`/games/${this.gameId}`).subscribe(response => {
+                this.game = response;
+                this.game.mode = 'edit';
+                this.mode = 'edit';
+            });
         }
     }
-
-    game: Game;
-    gameId: string;
-    selectedTabIndex: number;
 
     currentDate(): Date {
         return new Date();
@@ -84,21 +86,20 @@ export class CreateGameComponent implements OnInit {
     }
 
     save(game: Game) {
-        if (game.mode === 'create') {
-            this.http.post("/games/add", game).subscribe(response => {
-                this.router.navigate(["/game-dashboard"]);
-                this.notificationService.pushNotification("Game successfully saved");
-            }, error => {
-                this.notificationService.pushNotification("Error happened while saving game. Reason: " + error.error);
-            })
-        }
+        this.http.post("/games/add", game).subscribe(response => {
+            this.router.navigate(["/game-dashboard"]);
+            this.notificationService.pushNotification("Game successfully saved");
+        })
     }
 
     backToMenu() {
         this.router.navigate(["/game-dashboard"]);
     }
 
-    onRoundChanged($event: MatTabChangeEvent) {
-        let clickedIndex = $event.index;
+    update(game: Game) {
+        this.http.put("/games/update", game).subscribe(response => {
+            this.router.navigate(["/game-dashboard"]);
+            this.notificationService.pushNotification("Game successfully updated");
+        })
     }
 }
