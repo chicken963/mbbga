@@ -8,7 +8,7 @@
         </button>
     </div>
     <div class="d-flex flex-row p-5">
-        <app-library [mode]="'select'"></app-library>
+        <app-library [mode]="'select'" (versionSelected)="onVersionSelected($event)"></app-library>
         <app-round-playlist [round]="round"></app-round-playlist>
     </div>
     <mat-dialog-actions>

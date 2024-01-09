@@ -16,7 +16,8 @@
                             [expanded]="expanded"
                             [searchQuery]="searchQuery"
                             [mode]="mode"
-                    (onArtistDelete)="removeArtist($event)"></app-library-artist>
+                    (onArtistDelete)="removeArtist($event)"
+                    (versionSelected)="onVersionSelected($event)"></app-library-artist>
                 </div>
             </mat-expansion-panel>
         </mat-expansion-panel>

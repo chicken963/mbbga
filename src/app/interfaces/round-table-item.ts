@@ -5,5 +5,6 @@ export interface RoundTableItem {
     versionId: string,
     startTime: number,
     endTime: number,
-    duration: number
+    duration: number,
+    mode: string
 }

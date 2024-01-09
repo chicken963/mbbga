@@ -2,7 +2,6 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Round} from "../interfaces/round";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {LibraryComponent} from "../library/library.component";
 import {RoundAudiotracksWorkbenchComponent} from "../round-audiotracks-workbench/round-audiotracks-workbench.component";
 import {CreateRoundCloseService} from "../services/create-round-close.service";
 import {RoundPlaylistComponent} from "../round-playlist/round-playlist.component";
@@ -50,6 +49,7 @@ export class CreateRoundComponent implements OnInit {
         this.createRoundCloseService.getCloseRoundPopupState().subscribe(state => {
             if (state) {
                 this.workbenchPopupDialogRef.close();
+                this.audioTracksTable.refresh();
             }
         })
     }

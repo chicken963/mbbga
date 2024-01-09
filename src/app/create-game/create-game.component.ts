@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewChildren, ViewEncapsulation} from '@angular/core';
 import {Game} from "../interfaces/game";
 import {AuthService} from "../services/auth.service";
 import {Round} from "../interfaces/round";
@@ -6,13 +6,19 @@ import {WinConditionType} from "../interfaces/win-condition";
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NotificationService} from "../utils/notification.service";
+import {MatTabChangeEvent, MatTabGroup} from "@angular/material/tabs";
+import {CreateRoundComponent} from "../create-round/create-round.component";
 
 @Component({
     selector: 'app-create-game',
     templateUrl: './create-game.component.html',
-    styleUrls: ['./create-game.component.scss']
+    styleUrls: ['./create-game.component.scss'],
+    encapsulation: ViewEncapsulation.Emulated
 })
 export class CreateGameComponent implements OnInit {
+
+    @ViewChildren(CreateRoundComponent)
+    createRoundComponents: CreateRoundComponent[];
 
     constructor(private authService: AuthService,
                 private http: HttpClient,
@@ -38,6 +44,7 @@ export class CreateGameComponent implements OnInit {
 
     game: Game;
     gameId: string;
+    selectedTabIndex: number;
 
     currentDate(): Date {
         return new Date();
@@ -47,13 +54,14 @@ export class CreateGameComponent implements OnInit {
 
     }
 
-    removeRound(round: Round) {
-        const index = this.game.rounds.indexOf(round, 0);
-        this.removeTab(index);
+    removeRound(index: number) {
+        this.game.rounds.splice(index, 1);
+        setTimeout(() => this.selectedTabIndex = this.game.rounds.length - 1);
     }
 
     addRound() {
         this.game.rounds.push(this.prepareEmptyRound());
+        setTimeout(() => this.selectedTabIndex = this.game.rounds.length - 1);
     }
 
     prepareEmptyRound(): Round {
@@ -71,10 +79,6 @@ export class CreateGameComponent implements OnInit {
         }
     }
 
-    removeTab(index: number) {
-        this.game.rounds.splice(index, 1);
-    }
-
     save(game: Game) {
         if (game.mode === 'create') {
             this.http.post("/games/add", game).subscribe(response => {
@@ -88,5 +92,9 @@ export class CreateGameComponent implements OnInit {
 
     backToMenu() {
         this.router.navigate(["/game-dashboard"]);
+    }
+
+    onRoundChanged($event: MatTabChangeEvent) {
+        let clickedIndex = $event.index;
     }
 }

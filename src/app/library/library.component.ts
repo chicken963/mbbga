@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit, Optional, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Optional, Output, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Artist, LibraryLetter} from "../interfaces/library";
 import {LibraryService} from "../library-content/library.service";
@@ -7,6 +7,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {debounceTime, Subject, takeUntil} from "rxjs";
 import {LibraryContentComponent} from "../library-content/library-content.component";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {RoundTableItem} from "../interfaces/round-table-item";
 
 @Component({
     selector: 'app-library',
@@ -26,6 +27,9 @@ export class LibraryComponent implements OnInit {
 
     @Input("mode")
     mode: string;
+
+    @Output()
+    versionSelected: EventEmitter<RoundTableItem> = new EventEmitter<RoundTableItem>();
 
     private filterChanged = new Subject<string>();
     private ngUnsubscribe = new Subject<void>();
@@ -99,4 +103,7 @@ export class LibraryComponent implements OnInit {
         return flattenedAudioTracks;
     }
 
+    onVersionSelected(version: RoundTableItem) {
+        this.versionSelected.emit(version);
+    }
 }

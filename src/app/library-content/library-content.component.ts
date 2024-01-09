@@ -1,7 +1,8 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Artist, LibraryLetter} from "../interfaces/library";
 import {NotificationService} from "../utils/notification.service";
 import {HttpClient} from "@angular/common/http";
+import {RoundTableItem} from "../interfaces/round-table-item";
 
 @Component({
     selector: 'app-library-content',
@@ -24,6 +25,15 @@ export class LibraryContentComponent implements OnChanges {
     @Input("mode")
     mode: string;
 
+    @Input("expanded")
+    expanded: boolean;
+
+    @Input("searchQuery")
+    searchQuery: string;
+
+    @Output()
+    versionSelected: EventEmitter<RoundTableItem> = new EventEmitter<RoundTableItem>();
+
     slavicContent: LibraryLetter[];
     latinContent: LibraryLetter[];
     otherContent: LibraryLetter[];
@@ -33,12 +43,6 @@ export class LibraryContentComponent implements OnChanges {
     private otherGroupLabel = new GroupLabel("0-9!@#$%^&*():\"?<>|\\,.");
 
     contentGroups: Map<GroupLabel, LibraryLetter[]> = new Map<GroupLabel, LibraryLetter[]>();
-
-    @Input("expanded")
-    expanded: boolean;
-
-    @Input("searchQuery")
-    searchQuery: string;
 
     ngOnChanges(changes: SimpleChanges): void {
         this.slavicContent = this.content?.filter(libraryLetter => this.cyrillicRegex.test(libraryLetter.letter));
@@ -75,6 +79,10 @@ export class LibraryContentComponent implements OnChanges {
                 }
             })
         })
+    }
+
+    onVersionSelected(version: RoundTableItem) {
+        this.versionSelected.emit(version);
     }
 }
 

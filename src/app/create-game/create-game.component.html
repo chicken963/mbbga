@@ -10,13 +10,13 @@
 </div>
 
 <div class="rounds-tabs mt-5">
-    <mat-tab-group>
+    <mat-tab-group [(selectedIndex)]="selectedTabIndex">
         <mat-tab *ngFor="let round of game.rounds; let i = index">
             <ng-template mat-tab-label>
                 <div class="tab-label-content">
                     <span class="round-name-label">{{ round.name ? round.name : 'Round ' + (i + 1)}}</span>
                     <button class="remove-round-button"
-                            (click)="removeTab(i); $event.stopPropagation()" mat-icon-button>
+                            (click)="removeRound(i)" mat-icon-button>
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
@@ -25,7 +25,7 @@
         </mat-tab>
         <mat-tab class="add-round" matTooltip="Add round" >
             <ng-template mat-tab-label>
-                <button mat-icon-button class="add-round-button" (click)="addRound(); $event.stopPropagation()">
+                <button mat-icon-button class="add-round-button" (click)="addRound()">
                     <mat-icon>add</mat-icon>
                 </button>
             </ng-template>

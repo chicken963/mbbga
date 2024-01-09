@@ -4,6 +4,7 @@ import {AudioTrack} from "../interfaces/audio-track";
 import {HttpClient} from "@angular/common/http";
 import {DialogService} from "../utils/dialog.service";
 import {NotificationService} from "../utils/notification.service";
+import {RoundTableItem} from "../interfaces/round-table-item";
 
 @Component({
     selector: 'app-library-artist',
@@ -25,6 +26,9 @@ export class LibraryArtistComponent {
     mode: string;
 
     @Output() onArtistDelete = new EventEmitter<Artist>();
+
+    @Output()
+    versionSelected: EventEmitter<RoundTableItem> = new EventEmitter<RoundTableItem>();
 
     tracksAreLoading: boolean = false;
 
@@ -61,5 +65,9 @@ export class LibraryArtistComponent {
           this.dialogServide.showOkPopup("Error", "Failed to delete audio track from library.")
       })
 
+    }
+
+    onVersionSelected(version: RoundTableItem) {
+        this.versionSelected.emit(version);
     }
 }
