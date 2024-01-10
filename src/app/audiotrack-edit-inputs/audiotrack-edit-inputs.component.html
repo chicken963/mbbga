@@ -1,5 +1,5 @@
 <form class="d-flex flex-row justify-content-sm-between align-items-baseline" [formGroup]="audioInputs">
-    <mat-form-field class="time m-1 col-xs-2">
+    <mat-form-field class="time m-1 col-xs-2 edit-input-field">
         <mat-label>Start time</mat-label>
         <input matInput
                timeMask="00:00.0"
@@ -21,12 +21,12 @@
             <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
     </mat-form-field>
-    <mat-form-field class="m-1 col-md-3">
+    <mat-form-field class="m-1 col-md-3 edit-input-field">
         <mat-label>Artist</mat-label>
         <input matInput formControlName="artist">
         <mat-error *ngIf="audioInputs.get('artist')?.hasError('required')">Artist is required</mat-error>
     </mat-form-field>
-    <mat-form-field class="m-1 col-md-4">
+    <mat-form-field class="m-1 col-md-4 edit-input-field">
         <mat-label>Name</mat-label>
         <input matInput formControlName="name">
         <mat-error *ngIf="audioInputs.get('name')?.hasError('required')">Name is required</mat-error>

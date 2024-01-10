@@ -12,7 +12,7 @@ import {CreateRoundComponent} from "../create-round/create-round.component";
 @Component({
     selector: 'app-create-game',
     templateUrl: './create-game.component.html',
-    styleUrls: ['./create-game.component.scss'],
+    styleUrls: ['./create-game.component.scss', './../common-styles/inputs.scss'],
     encapsulation: ViewEncapsulation.Emulated
 })
 export class CreateGameComponent implements OnInit {

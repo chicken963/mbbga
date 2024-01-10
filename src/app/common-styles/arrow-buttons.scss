@@ -1,0 +1,10 @@
+.arrow-button {
+  min-width: 20%;
+  margin-right: 5px;
+  mat-icon {
+    margin-right: 0;
+  }
+  ::ng-deep .mat-mdc-button-touch-target {
+    height: 24px;
+  }
+}

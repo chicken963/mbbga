@@ -3,7 +3,7 @@
     <div class="overlay" *ngIf="mode === 'selected'"></div>
     <div class="range-slider-and-buttons d-flex flex-row justify-content-start align-items-center">
         <div class="d-flex flex-row justify-content-start align-items-center">
-            <div class="d-flex flex-row justify-content-center align-items-center" *ngIf="trackIsLoading">
+            <div class="d-flex flex-row justify-content-center align-items-center spinner-container" *ngIf="trackIsLoading">
                 <mat-spinner></mat-spinner>
                 <div class="load-percentage">{{loadPercents}}%</div>
             </div>

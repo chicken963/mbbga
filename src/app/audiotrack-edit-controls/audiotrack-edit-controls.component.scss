@@ -36,9 +36,11 @@ app-range-slider {
   text-align: center;
 }
 
-::ng-deep .mat-mdc-progress-spinner {
-  width: 30px !important;
-  height: 30px !important;
+.spinner-container {
+  ::ng-deep .mat-mdc-progress-spinner {
+    width: 30px !important;
+    height: 30px !important;
+  }
 }
 
 .load-percentage {

@@ -8,6 +8,7 @@ import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validat
   selector: 'app-win-conditions-form',
   templateUrl: './win-conditions-form.component.html',
   styleUrls: ['./win-conditions-form.component.scss',
+              './../common-styles/arrow-buttons.scss',
               './../common-styles/round-workbench-groups.scss']
 })
 export class WinConditionsFormComponent implements OnInit {

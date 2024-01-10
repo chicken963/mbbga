@@ -11,19 +11,6 @@ input[type=number]::-webkit-inner-spin-button {
   margin-top: -18px;
 }
 
-::ng-deep .arrow-button.mdc-button {
-  min-width: 20%;
-  margin-right: 5px;
-
-  mat-icon {
-    margin-right: 0;
-  }
-}
-
-
-::ng-deep .mat-mdc-button .mat-mdc-button-touch-target {
-  height: 24px;
-}
 
 .arrows-container {
   width: 25px;
@@ -46,10 +33,7 @@ input[type=number]::-webkit-inner-spin-button {
     height: 46px;
   }
   mat-error {
-    white-space: nowrap; /* Prevents text from wrapping to the next line */
-    /*     position: absolute;  !* Position the mat-error absolutely *!
-         right: 0;            !* Align the mat-error to the right *!
-         transform: translateX(100%);*/
+    white-space: nowrap;
   }
   & ::ng-deep .mat-mdc-form-field-error-wrapper {
     padding-left: 0;

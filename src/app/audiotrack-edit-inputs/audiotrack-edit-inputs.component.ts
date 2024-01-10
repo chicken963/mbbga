@@ -10,7 +10,7 @@ import {AudioTrackVersion} from "../interfaces/audio-track-version";
 @Component({
     selector: 'app-audiotrack-edit-inputs',
     templateUrl: './audiotrack-edit-inputs.component.html',
-    styleUrls: ['./audiotrack-edit-inputs.component.scss']
+    styleUrls: ['./audiotrack-edit-inputs.component.scss', './../common-styles/arrow-buttons.scss']
 })
 export class AudiotrackEditInputsComponent implements OnChanges {
 

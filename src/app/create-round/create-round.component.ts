@@ -11,6 +11,7 @@ import {RoundPlaylistComponent} from "../round-playlist/round-playlist.component
     templateUrl: './create-round.component.html',
     styleUrls: ['./create-round.component.scss',
                 './../common-styles/scrollbar.css',
+                './../common-styles/inputs.scss',
                 './../common-styles/round-workbench-groups.scss']
 })
 export class CreateRoundComponent implements OnInit {
