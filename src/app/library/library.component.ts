@@ -8,6 +8,7 @@ import {debounceTime, Subject, takeUntil} from "rxjs";
 import {LibraryContentComponent} from "../library-content/library-content.component";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {RoundTableItem} from "../interfaces/round-table-item";
+import {Round} from "../interfaces/round";
 
 @Component({
     selector: 'app-library',
@@ -27,6 +28,9 @@ export class LibraryComponent implements OnInit {
 
     @Input("mode")
     mode: string;
+
+    @Input("round")
+    round: Round;
 
     @Output()
     versionSelected: EventEmitter<RoundTableItem> = new EventEmitter<RoundTableItem>();

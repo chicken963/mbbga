@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {DialogService} from "../utils/dialog.service";
 import {NotificationService} from "../utils/notification.service";
 import {RoundTableItem} from "../interfaces/round-table-item";
+import {Round} from "../interfaces/round";
 
 @Component({
     selector: 'app-library-artist',
@@ -24,6 +25,9 @@ export class LibraryArtistComponent {
 
     @Input("mode")
     mode: string;
+
+    @Input("round")
+    round: Round;
 
     @Output() onArtistDelete = new EventEmitter<Artist>();
 

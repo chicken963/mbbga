@@ -3,6 +3,7 @@ import {Artist, LibraryLetter} from "../interfaces/library";
 import {NotificationService} from "../utils/notification.service";
 import {HttpClient} from "@angular/common/http";
 import {RoundTableItem} from "../interfaces/round-table-item";
+import {Round} from "../interfaces/round";
 
 @Component({
     selector: 'app-library-content',
@@ -24,6 +25,9 @@ export class LibraryContentComponent implements OnChanges {
 
     @Input("mode")
     mode: string;
+
+    @Input("round")
+    round: Round;
 
     @Input("expanded")
     expanded: boolean;

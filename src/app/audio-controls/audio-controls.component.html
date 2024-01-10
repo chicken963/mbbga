@@ -20,8 +20,10 @@
             <app-audiotrack-edit-controls *ngFor="let version of audioTrack.versions; let i = index"
                                           [audio-track]="audioTrack"
                                           [version]="version"
+                                          [round]="round"
                                           [mode]="mode"
                                           (modeChange)="onVersionModeChange($event, i)"
+                                          (selectedChange)="onSelectedChange($event, i)"
                                           (onDeleteVersion)="handleDeleteVersion($event)"
                                           (onCancelChanges)="setPreviousValues($event, i)"
             ></app-audiotrack-edit-controls>

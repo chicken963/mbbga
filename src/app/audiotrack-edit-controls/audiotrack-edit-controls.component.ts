@@ -6,6 +6,7 @@ import {ProgressService} from "../range-slider/progress.service";
 import {AudioTrackVersion} from "../interfaces/audio-track-version";
 import {AudioTrack} from "../interfaces/audio-track";
 import {DownloadRemoteAudioService} from "../services/download-remote-audio.service";
+import {Round} from "../interfaces/round";
 
 @Component({
     selector: 'app-audiotrack-edit-controls',
@@ -23,7 +24,13 @@ export class AudiotrackEditControlsComponent implements OnInit {
     @Input("mode")
     mode: string;
 
+    @Input("round")
+    round: Round;
+
+    selected: boolean;
+
     @Output() modeChange: EventEmitter<string> = new EventEmitter<string>();
+    @Output() selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() onCancelChanges = new EventEmitter<any>();
     @Output() onDeleteVersion = new EventEmitter<AudioTrackVersion>();
 
@@ -51,6 +58,7 @@ export class AudiotrackEditControlsComponent implements OnInit {
     ngOnInit(): void {
         this.audioTrackId = this.audioTrack.id
         this.audioTrackVersion.progressInSeconds = 0;
+        this.selected = !!this.round?.audioTracks.find(roundItem => roundItem.versionId === this.audioTrackVersion.id);
     }
 
     play() {
@@ -114,12 +122,15 @@ export class AudiotrackEditControlsComponent implements OnInit {
     }
 
     setMode(value: string) {
-        this.audioSnapshot = {
-            artist: this.audioTrack.artist,
-            name: this.audioTrack.name,
-            startTime: this.audioTrackVersion.startTime,
-            endTime: this.audioTrackVersion.endTime
-        };
+        if (value === 'edit') {
+            this.audioSnapshot = {
+                artist: this.audioTrack.artist.slice(),
+                name: this.audioTrack.name.slice(),
+                startTime: this.audioTrackVersion.startTime,
+                endTime: this.audioTrackVersion.endTime
+            };
+        }
+        this.mode = value;
         this.modeChange.emit(value)
     }
 
@@ -136,12 +147,12 @@ export class AudiotrackEditControlsComponent implements OnInit {
     }
 
     addAudioTrackToRoundTable() {
-        this.mode = 'selected'
-        this.modeChange.emit("selected");
+        this.selected = true;
+        this.selectedChange.emit(true);
     }
 
     removeAudioTrackFromRoundTable() {
-        this.mode = 'select'
-        this.modeChange.emit("select");
+        this.selected = false;
+        this.selectedChange.emit(false);
     }
 }

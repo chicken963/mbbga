@@ -72,7 +72,7 @@ export class CreateRoundComponent implements OnInit {
             width: '90%',
             data: {
                 round: this.round,
-                audioTracksInitialSnapshot: this.round.audioTracks
+                audioTracksInitialSnapshot: [...this.round.audioTracks]
             }
         })
     }

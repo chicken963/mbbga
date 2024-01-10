@@ -21,20 +21,25 @@ input[type=number]::-webkit-inner-spin-button {
   position: relative;
   margin-right: 10px;
   top: -2.5px;
+
   ::ng-deep .mdc-text-field {
     padding-left: 8px;
     height: 46px;
     top: 6px;
   }
+
   & ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
     padding-top: 8px;
   }
+
   & ::ng-deep .mat-mdc-text-field-wrapper {
     height: 46px;
   }
+
   mat-error {
     white-space: nowrap;
   }
+
   & ::ng-deep .mat-mdc-form-field-error-wrapper {
     padding-left: 0;
   }
@@ -55,6 +60,8 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .win-criterion-input {
+  width: 204px;
+
   ::ng-deep .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex {
     height: 46px;
   }

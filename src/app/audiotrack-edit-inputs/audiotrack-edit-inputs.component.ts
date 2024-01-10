@@ -49,6 +49,7 @@ export class AudiotrackEditInputsComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        //on version change?
         if (changes.audioTrack && changes.audioTrack.currentValue) {
             this.audioInputs.patchValue({
                 artist: changes.audioTrack.currentValue.artist,
@@ -100,5 +101,9 @@ export class AudiotrackEditInputsComponent implements OnChanges {
         if (this.libraryPlayerService.currentTrack === this.audioTrack) {
             this.libraryPlayerService.setEndTime(this.activeVersion.endTime);
         }
+    }
+
+    setValue(control: string, value: string) {
+        this.audioInputs.get(control)?.setValue(value);
     }
 }

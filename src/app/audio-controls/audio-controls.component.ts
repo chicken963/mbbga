@@ -16,6 +16,7 @@ import {DialogService} from "../utils/dialog.service";
 import {AddAudioToRoundService} from "../services/add-audio-to-round.service";
 import {AudiotrackEditControlsComponent} from "../audiotrack-edit-controls/audiotrack-edit-controls.component";
 import {RoundTableItem} from "../interfaces/round-table-item";
+import {Round} from "../interfaces/round";
 
 
 @Component({
@@ -33,6 +34,9 @@ export class AudioControlsComponent implements AfterViewInit {
 
     @Input("mode")
     mode: string;
+
+    @Input("round")
+    round: Round;
 
     @ViewChild("editInputs")
     editInputsComponent: AudiotrackEditInputsComponent;
@@ -67,17 +71,6 @@ export class AudioControlsComponent implements AfterViewInit {
         let version = this.audioTrack.versions[i];
         version.inputsEditable = true;
         this.audioTrack.mode = mode;
-        this.versionSelected.emit({
-            audioFileId: this.audioTrack.id!,
-            artist: this.audioTrack.artist,
-            title: this.audioTrack.name,
-            versionId: version.id!,
-            startTime: version.startTime,
-            endTime: version.endTime,
-            duration: this.audioTrack.length,
-            mode: mode
-        });
-
     }
 
     onFormValidityChanged(isValid: boolean) {
@@ -120,10 +113,27 @@ export class AudioControlsComponent implements AfterViewInit {
 
         this.audioTrack.versions[index].startTime = stateToRestore.startTime;
         this.audioTrack.versions[index].endTime = stateToRestore.endTime;
-        this.cdr.detectChanges();
+
+        this.editInputsComponent.setValue('artist', this.audioTrack.artist);
+        this.editInputsComponent.setValue('name', this.audioTrack.name);
     }
 
     onVersionSelected(version: RoundTableItem) {
         this.versionSelected.emit(version);
+    }
+
+    onSelectedChange($event: boolean, i: number) {
+        let version = this.audioTrack.versions[i];
+        version.inputsEditable = true;
+        this.versionSelected.emit({
+            audioFileId: this.audioTrack.id!,
+            artist: this.audioTrack.artist,
+            title: this.audioTrack.name,
+            versionId: version.id!,
+            startTime: version.startTime,
+            endTime: version.endTime,
+            duration: this.audioTrack.length,
+            mode: $event ? 'selected' : 'select'
+        });
     }
 }

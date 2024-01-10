@@ -72,14 +72,14 @@
         </button>
     </div>
     <button mat-icon-button
-            *ngIf="mode === 'select'"
+            *ngIf="round && !selected"
             class="round-toggle add-to-round col-1"
             matTooltip="Add audio track to round playlist"
             (click)="addAudioTrackToRoundTable()">
         <mat-icon>arrow_forward_ios</mat-icon>
     </button>
     <button mat-icon-button
-            *ngIf="mode === 'selected'"
+            *ngIf="round && selected"
             class="round-toggle remove-from-round col-1"
             matTooltip="Revoke audio track from round playlist"
             (click)="removeAudioTrackFromRoundTable()">
