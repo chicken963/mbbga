@@ -5,6 +5,7 @@ export interface Round {
     rowsCount: number;
     columnsCount: number;
     name: string;
+    winCriterion: string;
     winConditions: WinCondition[];
     tickets?: any;
     audioTracks: RoundTableItem[]

@@ -75,6 +75,7 @@ export class CreateGameComponent implements OnInit {
             name: "",
             rowsCount: 5,
             columnsCount: 5,
+            winCriterion: "Artist",
             winConditions: [
                 {type: WinConditionType.LINES, linesToStrike: 1},
                 {type: WinConditionType.LINES, linesToStrike: 3},

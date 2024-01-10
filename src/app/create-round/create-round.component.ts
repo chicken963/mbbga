@@ -36,6 +36,7 @@ export class CreateRoundComponent implements OnInit {
 
     ngOnInit() {
         this.winConditionForm = this.fb.group({
+            criterion: [this.round.winCriterion],
             winConditionFormItems: this.fb.array([])
         });
         this.fieldSizeForm = this.fb.group({})
@@ -59,6 +60,9 @@ export class CreateRoundComponent implements OnInit {
     subscribeToRoundFormChanges(): void {
         this.roundForm.get('name')?.valueChanges.subscribe(newValue => {
             this.round.name = newValue;
+        });
+        this.winConditionForm.get('criterion')?.valueChanges.subscribe(newValue => {
+            this.round.winCriterion = newValue;
         })
     }
 

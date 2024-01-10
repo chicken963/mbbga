@@ -1,6 +1,14 @@
 <form [formGroup]="winConditionsForm">
     <div class="round-group-container">
         <mat-label class="round-group-label">Win conditions</mat-label>
+        <div class="d-flex flex-row justify-content-start">
+            <mat-form-field appearance="outline" class="win-criterion-input">
+                <mat-label>Win Criterion</mat-label>
+                <mat-select formControlName="criterion" class="dimensions-select">
+                    <mat-option *ngFor="let criterion of criteria" [value]="criterion">{{ criterion }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
         <div formArrayName="winConditionFormItems">
             <div *ngFor="let item of winConditionFormItems.controls; let i = index">
                 <div [formGroupName]="i">
