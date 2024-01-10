@@ -6,6 +6,9 @@ app-round-playlist {
 
 app-library {
     width: 136%;
+    ::ng-deep .content-accordion {
+        height: 70vh;
+    }
 }
 
 .popup-control-container {
@@ -18,4 +21,14 @@ app-library {
 
 .close-button {
     transform: scale(0.8);
+}
+
+.container {
+    height: 90vh;
+}
+
+mat-dialog-actions {
+    position: static;
+    bottom: 0;
+    padding: 15px;
 }

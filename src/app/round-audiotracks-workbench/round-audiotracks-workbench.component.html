@@ -1,4 +1,4 @@
-<div class="d-flex flex-column">
+<div class="d-flex flex-column container">
     <div class="popup-control-container">
         <button mat-icon-button
                 (click)="openConfirmationDialog()"
@@ -7,7 +7,7 @@
             <mat-icon>close</mat-icon>
         </button>
     </div>
-    <div class="d-flex flex-row p-5">
+    <div class="d-flex flex-row pt-5 px-5">
         <app-library [mode]="'select'" [round]="round" (versionSelected)="onVersionSelected($event)"></app-library>
         <app-round-playlist [round]="round"></app-round-playlist>
     </div>

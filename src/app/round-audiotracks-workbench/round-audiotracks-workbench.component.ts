@@ -9,7 +9,7 @@ import {RoundPlaylistComponent} from "../round-playlist/round-playlist.component
 @Component({
   selector: 'app-round-audiotracks-workbench',
   templateUrl: './round-audiotracks-workbench.component.html',
-  styleUrls: ['./round-audiotracks-workbench.component.css']
+  styleUrls: ['./round-audiotracks-workbench.component.scss']
 })
 export class RoundAudiotracksWorkbenchComponent {
 

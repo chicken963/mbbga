@@ -28,6 +28,7 @@ export class FileDialogComponent {
       const dialogRef = this.dialog.open(AddAudiotracksWorkbenchComponent, {
         disableClose: true,
         width: '90%',
+        height: '85vh',
         data: Array.from(files)
       });
 

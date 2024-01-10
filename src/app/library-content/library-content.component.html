@@ -1,4 +1,4 @@
-<mat-accordion id="container" *ngIf="content" [multi]="true" class="mb-3">
+<mat-accordion id="container" *ngIf="content" [multi]="true" class="mb-3 content-accordion">
     <div *ngFor="let contentGroup of contentGroups | keyvalue">
         <mat-expansion-panel *ngIf="contentGroup.value" class="letter-range mb-3" [expanded]="expanded">
             <mat-expansion-panel-header>{{contentGroup.key.label}}</mat-expansion-panel-header>
