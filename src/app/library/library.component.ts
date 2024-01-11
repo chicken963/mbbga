@@ -42,6 +42,13 @@ export class LibraryComponent implements OnInit {
     constructor(private http: HttpClient,
                 private libraryService: LibraryService,
                 private fb: FormBuilder) {
+        this.loadContent();
+        this.libraryService.tracklistAltered$.subscribe((audioTrack: AudioTrack) => {
+            this.libraryService.add(this.content, audioTrack);
+        });
+    }
+
+    loadContent() {
         this.http.get("/library/all")
             .subscribe(response => {
                     let letters = response as string[];
@@ -52,9 +59,6 @@ export class LibraryComponent implements OnInit {
                 error => {
                     console.error("Error fetching library: ", error);
                 });
-        this.libraryService.tracklistAltered$.subscribe((audioTrack: AudioTrack) => {
-            this.libraryService.add(this.content, audioTrack);
-        });
     }
 
     ngOnInit(): void {

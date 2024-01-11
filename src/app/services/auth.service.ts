@@ -11,6 +11,7 @@ export class AuthService {
 
     private userSubject = new Subject<User>;
     user: User;
+    isAdmin: boolean;
 
     constructor(private httpClient: HttpClient, private router: Router) {
         if (this.isAuthorized()) {
@@ -46,6 +47,7 @@ export class AuthService {
     fetchCurrentUser() {
         this.httpClient.get<User>("/users/current").subscribe(user => {
             this.user = user;
+            this.isAdmin = user.roles.includes("ADMIN");
             this.setUser(user);
         })
     }

@@ -7,6 +7,7 @@ import {AudioTrackVersion} from "../interfaces/audio-track-version";
 import {AudioTrack} from "../interfaces/audio-track";
 import {DownloadRemoteAudioService} from "../services/download-remote-audio.service";
 import {Round} from "../interfaces/round";
+import {AuthService} from "../services/auth.service";
 
 @Component({
     selector: 'app-audiotrack-edit-controls',
@@ -43,10 +44,12 @@ export class AudiotrackEditControlsComponent implements OnInit {
     audioTrackId?: string;
     trackIsLoading: boolean = false;
     loadPercents: number = 0;
+    canDelete: boolean;
 
 
     constructor(private libraryPlayerService: LibraryPlayerService,
                 private progressService: ProgressService,
+                private authService: AuthService,
                 private downloadService: DownloadRemoteAudioService) {
         this.libraryPlayerService.isPlaying().subscribe(value => {
             if (this.libraryPlayerService.activeVersion === this.audioTrackVersion) {
@@ -59,6 +62,7 @@ export class AudiotrackEditControlsComponent implements OnInit {
         this.audioTrackId = this.audioTrack.id
         this.audioTrackVersion.progressInSeconds = 0;
         this.selected = !!this.round?.audioTracks.find(roundItem => roundItem.versionId === this.audioTrackVersion.id);
+        this.canDelete = this.audioTrackVersion.createdByCurrentUser || this.authService.isAdmin;
     }
 
     play() {

@@ -25,7 +25,7 @@ export class DatePipe implements PipeTransform {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
-      hour: 'numeric',
+      hour: '2-digit',
       minute: 'numeric',
       hour12: false
     });

@@ -8,7 +8,7 @@
         </mat-form-field>
     </form>
     <div class="library-controls-container mb-3">
-        <app-file-dialog></app-file-dialog>
+        <app-file-dialog (audioTracksAdded)="loadContent()"></app-file-dialog>
     </div>
 </div>
 <div class="library-container">

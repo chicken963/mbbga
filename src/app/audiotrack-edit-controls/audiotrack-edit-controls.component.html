@@ -38,7 +38,7 @@
 
     </div>
     <div class="menu-buttons-container d-flex flex-row align-items-center">
-        <button *ngIf="audioTrack.mode !== 'edit'"
+        <button *ngIf="audioTrack.mode !== 'edit' && canDelete"
                 mat-mini-fab class="m-2 panel-button"
                 (click)="delete()"
                 color="primary"

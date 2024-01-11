@@ -1,6 +1,7 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Game} from "../interfaces/game";
 import {HttpClient} from "@angular/common/http";
+import {AuthService} from "../services/auth.service";
 
 @Component({
     selector: 'app-games-table',
@@ -10,28 +11,25 @@ import {HttpClient} from "@angular/common/http";
         '../common-styles/accent-icons.css',
         '../game-card/game-card.component.scss']
 })
-export class GamesTableComponent implements AfterViewInit {
+export class GamesTableComponent {
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private authService: AuthService) {
     }
 
     @Input("type")
     type: string;
 
+    @Input("gamesAreLoaded")
     gamesAreLoaded: boolean;
+
+    @Input("games")
     games: Game[];
 
-    ngAfterViewInit(): void {
-        if (this.type == "all") {
-            this.http.get<Game[]>("/games/all").subscribe(response => {
-                this.games = response;
-                this.gamesAreLoaded = true;
-            })
-        }
-    }
+    @Output() gameRemoved: EventEmitter<Game> = new EventEmitter<Game>();
 
     removeGameFromList(game: Game) {
         let index = this.games.indexOf(game);
         this.games.splice(index, 1);
+        this.gameRemoved.emit(game);
     }
 }

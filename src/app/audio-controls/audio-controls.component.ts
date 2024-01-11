@@ -71,6 +71,7 @@ export class AudioControlsComponent implements AfterViewInit {
         let version = this.audioTrack.versions[i];
         version.inputsEditable = true;
         this.audioTrack.mode = mode;
+        this.onModeChange.emit(mode);
     }
 
     onFormValidityChanged(isValid: boolean) {

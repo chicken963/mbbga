@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {AddAudiotracksWorkbenchComponent} from "../add-audiotracks-workbench/add-audiotracks-workbench.component";
 
@@ -9,6 +9,8 @@ import {AddAudiotracksWorkbenchComponent} from "../add-audiotracks-workbench/add
 })
 export class FileDialogComponent {
   @ViewChild('fileInput') fileInput: ElementRef;
+
+  @Output() audioTracksAdded: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private dialog: MatDialog) {}
 
@@ -33,7 +35,7 @@ export class FileDialogComponent {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        dialogRef.close();
+        this.audioTracksAdded.emit(true);
       });
     }
   }

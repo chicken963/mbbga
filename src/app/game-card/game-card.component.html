@@ -1,7 +1,7 @@
 <mat-card class="entity-card m-2" (click)="navigateToGame()">
     <mat-card-header class="d-flex flex-row justify-content-between">
         <mat-card-title>{{ game.name }}</mat-card-title>
-        <button mat-icon-button class="delete-game" (click)="$event.stopPropagation(); delete()">
+        <button mat-icon-button *ngIf="isGameOwner" class="delete-game" (click)="$event.stopPropagation(); delete()">
             <mat-icon>delete_outline</mat-icon>
         </button>
     </mat-card-header>

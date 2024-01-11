@@ -1,7 +1,3 @@
-<div *ngIf="!gamesAreLoaded" class="spinner-container">
-    <p>Loading library...</p>
-    <mat-spinner></mat-spinner>
-</div>
 <div class="m-2" fxLayout="row wrap" id="container" fxLayoutAlign="start start">
 
     <mat-card class="entity-card
@@ -13,6 +9,13 @@
         <h2>Create new game</h2>
         <br/>
         <mat-icon class="accent-icon">add_box</mat-icon>
+    </mat-card>
+
+    <mat-card *ngIf="!gamesAreLoaded"
+              class="entity-card m-2 d-flex justify-content-center align-items-center spinner-container"
+              routerLink="/game/new">
+        <p>Loading library...</p>
+        <mat-spinner></mat-spinner>
     </mat-card>
 
     <div *ngFor="let game of games">

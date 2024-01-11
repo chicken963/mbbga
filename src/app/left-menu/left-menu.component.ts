@@ -16,7 +16,7 @@ export class LeftMenuComponent {
 
   ngOnInit() {
     this.authService.getUser().subscribe(user => {
-      this.isAdmin = user.roles.includes("ADMIN");
+      this.isAdmin = this.authService.isAdmin;
     })
   }
 
