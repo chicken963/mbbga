@@ -8,6 +8,14 @@
     width: 12px;
 }
 
+::-webkit-scrollbar:horizontal {
+    height: 12px;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: #464646; /* Set the background color to match the container */
+}
+
 /* Track */
 ::-webkit-scrollbar-track {
     border-radius: 5px;

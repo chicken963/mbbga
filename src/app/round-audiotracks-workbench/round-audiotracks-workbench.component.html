@@ -1,17 +1,17 @@
 <div class="d-flex flex-column container">
-    <div class="popup-control-container">
+    <mat-dialog-actions class="p-1 d-flex justify-content-end">
         <button mat-icon-button
                 (click)="openConfirmationDialog()"
                 class="close-button"
                 matTooltip="Discard all changes and exit">
             <mat-icon>close</mat-icon>
         </button>
-    </div>
-    <div class="d-flex flex-row pt-5 px-5">
+    </mat-dialog-actions>
+    <div class="d-flex flex-row px-5 library-and-table-wrapper">
         <app-library [mode]="'select'" [round]="round" (versionSelected)="onVersionSelected($event)"></app-library>
         <app-round-playlist [round]="round"></app-round-playlist>
     </div>
-    <mat-dialog-actions>
+    <mat-dialog-actions class="footer">
         <button mat-raised-button color="primary" (click)="saveRoundTracks()">Save</button>
     </mat-dialog-actions>
 </div>

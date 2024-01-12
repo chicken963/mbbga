@@ -27,8 +27,16 @@ app-library {
     height: 90vh;
 }
 
-mat-dialog-actions {
+.footer {
     position: static;
     bottom: 0;
-    padding: 15px;
+    padding-bottom: 15px;
+}
+
+.library-and-table-wrapper {
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: #424242 !important;
 }
