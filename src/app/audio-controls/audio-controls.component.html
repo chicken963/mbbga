@@ -7,13 +7,13 @@
         <div class="d-flex flex-column editable-fields col-12">
             <app-audiotrack-edit-inputs
                 #editInputs
-                *ngIf="audioTrack.mode === 'edit'"
+                *ngIf="audioTrack.mode !== 'view'"
                 [audio-track]="audioTrack"
                 (inputsValidityChanged)="onFormValidityChanged($event)">
             </app-audiotrack-edit-inputs>
             <app-audiotrack-view-inputs
                     class="d-flex flex-row justify-content-center align-items-center"
-                    *ngIf="audioTrack.mode !== 'edit'"
+                    *ngIf="audioTrack.mode === 'view'"
                     [audio-track]="audioTrack"
                     [searchQuery]="searchQuery">
             </app-audiotrack-view-inputs>
@@ -26,6 +26,7 @@
                                           (selectedChange)="onSelectedChange($event, i)"
                                           (onDeleteVersion)="handleDeleteVersion($event)"
                                           (onCancelChanges)="setPreviousValues($event, i)"
+                                          (onDraftVersionAdded)="addDraftVersion($event)"
             ></app-audiotrack-edit-controls>
         </div>
     </mat-card-content>

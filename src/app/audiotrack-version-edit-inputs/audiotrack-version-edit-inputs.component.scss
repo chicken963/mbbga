@@ -1,0 +1,36 @@
+.version-inputs-container {
+  padding-top: 16px;
+}
+
+.time-input {
+  width: 100px;
+  font-size: 14px;
+  ::ng-deep .mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
+    padding-top: 15px;
+    padding-bottom: 8px;
+  }
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 36px;
+  }
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+  ::ng-deep .mat-mdc-form-field-icon-suffix {
+    position: relative;
+    bottom: 10px;
+  }
+  ::ng-deep .mat-mdc-form-field-infix {
+    width: auto;
+    padding-top: 10px;
+    padding-bottom: 0;
+  }
+}
+
+.current-progress {
+  position: relative;
+  top: 12px;
+
+  color: white;
+  min-width: 110px;
+  text-align: center;
+}

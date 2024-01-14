@@ -1,0 +1,35 @@
+<div class="menu-buttons-container d-flex flex-row align-items-center justify-content-end">
+    <button *ngIf="version.createdByCurrentUser && audioTrack.versions.length > 1"
+            class="panel-button"
+            mat-button
+            (click)="delete()"
+            color="primary"
+            matTooltip="Delete track from workbench">
+        <mat-icon>delete</mat-icon>
+    </button>
+    <button *ngIf="version.mode === 'edit'"
+            mat-button class="panel-button color-danger"
+            (click)="reset()"
+            matTooltip="Undo changes">
+        <mat-icon>replay</mat-icon>
+    </button>
+<!--    <button *ngIf="version.mode === 'edit'"
+            mat-button class="panel-button"
+            (click)="cancel()"
+            color="primary"
+            matTooltip="Discard changes and exit edit mode">
+        <mat-icon>remove_red_eye</mat-icon>
+    </button>-->
+    <button *ngIf="version.mode !== 'edit' && version.createdByCurrentUser"
+            mat-button class="panel-button"
+            (click)="setMode('edit')"
+            matTooltip="Edit draft">
+        <mat-icon>edit</mat-icon>
+    </button>
+    <button *ngIf="version.mode === 'edit'"
+            mat-button class="panel-button color-success"
+            (click)="setMode('view')"
+            matTooltip="Save draft">
+        <mat-icon>check_box</mat-icon>
+    </button>
+</div>

@@ -11,4 +11,5 @@ export interface AudioTrack {
     inputsAreValid: boolean,
     mode: string;
     versions: AudioTrackVersion[];
+    createdByCurrentUser: boolean;
 }

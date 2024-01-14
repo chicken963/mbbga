@@ -1,11 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {AudioTrack} from "../interfaces/audio-track";
-import {TimeConversionService} from "../services/time-conversion.service";
-import {LibraryPlayerService} from "../audio-controls/library-player.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AudiotrackValidateService} from "../audiotrack-validate.service";
+import {FormBuilder, FormGroup, NgForm, Validators} from "@angular/forms";
 import {LibraryService} from "../library-content/library.service";
-import {AudioTrackVersion} from "../interfaces/audio-track-version";
 
 @Component({
     selector: 'app-audiotrack-edit-inputs',
@@ -19,17 +15,12 @@ export class AudiotrackEditInputsComponent implements OnChanges {
 
     audioInputs: FormGroup;
 
-    activeVersion: AudioTrackVersion;
-
     numericArrowThreshold: number = 78;
 
     @Output()
     inputsValidityChanged = new EventEmitter<boolean>();
 
-    constructor(private timeConversionService: TimeConversionService,
-                private libraryPlayerService: LibraryPlayerService,
-                private audiotrackValidateService: AudiotrackValidateService,
-                private libraryService: LibraryService,
+    constructor(private libraryService: LibraryService,
                 private fb: FormBuilder) {
         this.audioInputs = this.fb.group({
             artist: [this.audioTrack?.artist, Validators.required],
@@ -55,55 +46,14 @@ export class AudiotrackEditInputsComponent implements OnChanges {
                 artist: changes.audioTrack.currentValue.artist,
                 name: changes.audioTrack.currentValue.name
             });
-            this.activeVersion = changes.audioTrack.currentValue.versions.find((version: AudioTrackVersion) => version.inputsEditable);
-        }
-    }
-
-    updateStartTime($event: any) {
-        let newValue = this.timeConversionService.stringToSeconds($event.target.value);
-        this.activeVersion.startTime = this.audiotrackValidateService.validateStartTime(this.activeVersion, newValue);
-        if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setStartTime(this.activeVersion.startTime);
-        }
-    }
-
-    updateEndTime($event: any) {
-        let newValue = this.timeConversionService.stringToSeconds($event.target.value);
-        this.activeVersion.endTime = this.audiotrackValidateService.validateEndTime(this.audioTrack, this.activeVersion, newValue);
-        if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setEndTime(this.activeVersion.endTime);
-        }
-    }
-
-    incrementStartTime() {
-        this.activeVersion.startTime = this.audiotrackValidateService.validateStartTime(this.activeVersion, this.activeVersion.startTime + 0.1);
-        if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setStartTime(this.activeVersion.startTime);
-        }
-    }
-
-    decrementStartTime() {
-        this.activeVersion.startTime = this.audiotrackValidateService.validateStartTime(this.activeVersion, this.activeVersion.startTime - 0.1);
-        if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setStartTime(this.activeVersion.startTime);
-        }
-    }
-
-    incrementEndTime() {
-        this.activeVersion.endTime = this.audiotrackValidateService.validateEndTime(this.audioTrack, this.activeVersion, this.activeVersion.endTime + 0.1);
-        if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setEndTime(this.activeVersion.endTime);
-        }
-    }
-
-    decrementEndTime() {
-        this.activeVersion.endTime = this.audiotrackValidateService.validateEndTime(this.audioTrack, this.activeVersion, this.activeVersion.endTime - 0.1);
-        if (this.libraryPlayerService.currentTrack === this.audioTrack) {
-            this.libraryPlayerService.setEndTime(this.activeVersion.endTime);
         }
     }
 
     setValue(control: string, value: string) {
         this.audioInputs.get(control)?.setValue(value);
+    }
+
+    submitArtistAndName() {
+
     }
 }

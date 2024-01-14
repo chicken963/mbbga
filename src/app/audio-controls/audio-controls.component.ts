@@ -65,11 +65,11 @@ export class AudioControlsComponent implements AfterViewInit {
     }
 
     onVersionModeChange(mode: string, i: number) {
-        this.audioTrack.versions.forEach(version => {
-            version.inputsEditable = false;
+        /*this.audioTrack.versions.forEach(version => {
+            version.mode = 'view';
         })
         let version = this.audioTrack.versions[i];
-        version.inputsEditable = true;
+        version.mode = 'edit';*/
         this.audioTrack.mode = mode;
         this.onModeChange.emit(mode);
     }
@@ -93,19 +93,20 @@ export class AudioControlsComponent implements AfterViewInit {
             return;
         }
         const index = this.audioTrack.versions.indexOf(versionToDelete, 0);
-        if (versionToDelete.inputsEditable) {
-            if (index == 0) {
+        // if (versionToDelete.inputsEditable) {
+           /* if (index == 0) {
                 this.audioTrack.versions[1].inputsEditable = true;
             } else {
                 this.audioTrack.versions[0].inputsEditable = true;
-            }
-            this.http.delete(`/audio-tracks/version?id=${versionToDelete.id}`).subscribe(
-                response => {
-                    this.audioTrack.versions.splice(index, 1);
-                }, error => {
-                    this.dialogService.showOkPopup("Error", "Failed to delete audio track version from library.")
-                })
-        }
+            }*/
+
+        // }
+        this.http.delete(`/audio-tracks/version?id=${versionToDelete.id}`).subscribe(
+            response => {
+                this.audioTrack.versions.splice(index, 1);
+            }, error => {
+                this.dialogService.showOkPopup("Error", "Failed to delete audio track version from library.")
+            })
     }
 
     setPreviousValues(stateToRestore: any, index: number) {
@@ -125,7 +126,7 @@ export class AudioControlsComponent implements AfterViewInit {
 
     onSelectedChange($event: boolean, i: number) {
         let version = this.audioTrack.versions[i];
-        version.inputsEditable = true;
+        version.mode = 'edit';
         this.versionSelected.emit({
             audioFileId: this.audioTrack.id!,
             artist: this.audioTrack.artist,
@@ -136,5 +137,14 @@ export class AudioControlsComponent implements AfterViewInit {
             duration: this.audioTrack.length,
             mode: $event ? 'selected' : 'select'
         });
+    }
+
+    addDraftVersion($event: any) {
+        this.audioTrack.versions.push($event);
+        this.audioTrack.mode = 'edit_bounds';
+        this.audioTrack.versions.forEach(version => {
+            version.mode = 'view';
+        })
+        $event.mode = 'edit';
     }
 }

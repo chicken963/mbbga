@@ -43,7 +43,7 @@ export class LibraryComponent implements OnInit {
                 private libraryService: LibraryService,
                 private fb: FormBuilder) {
         this.loadContent();
-        this.libraryService.tracklistAltered$.subscribe((audioTrack: AudioTrack) => {
+        this.libraryService.addedToLibraryTrackList$.subscribe((audioTrack: AudioTrack) => {
             this.libraryService.add(this.content, audioTrack);
         });
     }

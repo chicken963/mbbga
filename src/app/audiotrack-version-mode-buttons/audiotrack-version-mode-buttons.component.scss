@@ -1,0 +1,22 @@
+.panel-button {
+    min-width: 34px;
+    mat-icon {
+        transform: scale(1.5);
+        margin-right: 0;
+    }
+    padding: 0;
+}
+
+.color-danger{
+    color: #F4CA16;
+    .white-icon svg {
+        fill: #F4CA16;
+    }
+}
+
+.color-success {
+    color: #499C54;
+    .white-icon svg {
+        fill: #499C54;
+    }
+}

@@ -22,8 +22,10 @@ export class LocalAudioService {
                     audioEl: audio,
                     file: file,
                     mode: mode,
+                    createdByCurrentUser: true,
                     versions: [{
-                        inputsEditable: true,
+                        mode: 'edit',
+                        createdByCurrentUser: true,
                         startTime: 0,
                         endTime: audio.duration
                     }]

@@ -5,35 +5,14 @@
   justify-content: space-between;
   border-radius: 5px;
   padding-right: 0;
-  height: 55px;
+  height: 92px;
 }
 
-.range-slider-and-buttons {
+.range-slider-and-playback-buttons {
   width: 100%;
 }
 app-range-slider {
   width: 100%;
-}
-
-.play-control-button {
-  min-width: 30px;
-
-  mat-icon {
-    transform: scale(1.5);
-    margin-right: 0;
-  }
-
-}
-
-.current-progress {
-  position: relative;
-  top: 12px;
-
-  color: white;
-  font-size: 13px;
-  margin-left: 10px;
-  min-width: 110px;
-  text-align: center;
 }
 
 .spinner-container {

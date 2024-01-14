@@ -32,6 +32,12 @@ import {RoundAudiotracksWorkbenchComponent} from "../round-audiotracks-workbench
 import {RoundPlaylistComponent} from "../round-playlist/round-playlist.component";
 import {MatTableModule} from "@angular/material/table";
 import {ParentWidthDirective} from "../parent-width.directive";
+import {
+    AudiotrackVersionEditInputsComponent
+} from "../audiotrack-version-edit-inputs/audiotrack-version-edit-inputs.component";
+import { AudiotrackVersionModeButtonsComponent } from '../audiotrack-version-mode-buttons/audiotrack-version-mode-buttons.component';
+import { AudiotrackVersionPlaybackButtonsComponent } from '../audiotrack-version-playback-buttons/audiotrack-version-playback-buttons.component';
+import { AudiotrackModeButtonsComponent } from '../audiotrack-mode-buttons/audiotrack-mode-buttons.component';
 
 
 @NgModule({
@@ -46,10 +52,14 @@ import {ParentWidthDirective} from "../parent-width.directive";
         VolumeSliderComponent,
         AudiotrackEditInputsComponent,
         AudiotrackEditControlsComponent,
+        AudiotrackVersionEditInputsComponent,
         AudiotrackViewInputsComponent,
         LibraryArtistComponent,
         HighlightPipe,
-        ParentWidthDirective
+        ParentWidthDirective,
+        AudiotrackVersionModeButtonsComponent,
+        AudiotrackVersionPlaybackButtonsComponent,
+        AudiotrackModeButtonsComponent
     ],
     imports: [
         CommonModule,

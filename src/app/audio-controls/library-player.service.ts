@@ -113,9 +113,9 @@ export class LibraryPlayerService implements OnDestroy {
     play(audioTrack: AudioTrack, audioTrackVersion: AudioTrackVersion) {
         if (this.activeVersion !== audioTrackVersion) {
             this.currentTrack?.audioEl?.pause();
-            if (this.activeVersion) {
+            /*if (this.activeVersion) {
                 this.activeVersion.inputsEditable = false;
-            }
+            }*/
             this.setIsPlaying(false);
         }
         if (this.resumingCurrentVersion(audioTrackVersion)) {
@@ -155,7 +155,7 @@ export class LibraryPlayerService implements OnDestroy {
     setCurrentTrack(audioTrack: AudioTrack, audioTrackVersion: AudioTrackVersion): void {
         this.setCurrentVersion(audioTrackVersion);
         this.activeVersion = audioTrackVersion;
-        audioTrackVersion.inputsEditable = true;
+        // audioTrackVersion.inputsEditable = true;
         this.currentTrackSubject.next(audioTrack);
     }
 

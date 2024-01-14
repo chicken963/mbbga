@@ -5,7 +5,6 @@ import {RangeSliderComponent} from "../range-slider/range-slider.component";
 import {ProgressService} from "../range-slider/progress.service";
 import {AudioTrackVersion} from "../interfaces/audio-track-version";
 import {AudioTrack} from "../interfaces/audio-track";
-import {DownloadRemoteAudioService} from "../services/download-remote-audio.service";
 import {Round} from "../interfaces/round";
 import {AuthService} from "../services/auth.service";
 
@@ -34,90 +33,32 @@ export class AudiotrackEditControlsComponent implements OnInit {
     @Output() selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() onCancelChanges = new EventEmitter<any>();
     @Output() onDeleteVersion = new EventEmitter<AudioTrackVersion>();
+    @Output() onDraftVersionAdded = new EventEmitter<AudioTrackVersion>();
 
     @ViewChild("rangeSlider")
-    private rangeSlider: RangeSliderComponent;
+    rangeSlider: RangeSliderComponent;
 
     private audioSnapshot: { artist: string, name: string, startTime: number, endTime: number };
 
     currentVersionIsPlaying: boolean = false;
     audioTrackId?: string;
     trackIsLoading: boolean = false;
-    loadPercents: number = 0;
-    canDelete: boolean;
 
+    isOwner: boolean;
 
     constructor(private libraryPlayerService: LibraryPlayerService,
                 private progressService: ProgressService,
-                private authService: AuthService,
-                private downloadService: DownloadRemoteAudioService) {
-        this.libraryPlayerService.isPlaying().subscribe(value => {
-            if (this.libraryPlayerService.activeVersion === this.audioTrackVersion) {
-                this.currentVersionIsPlaying = value;
-            }
-        })
-    }
+                private authService: AuthService) {}
+
 
     ngOnInit(): void {
         this.audioTrackId = this.audioTrack.id
         this.audioTrackVersion.progressInSeconds = 0;
         this.selected = !!this.round?.audioTracks.find(roundItem => roundItem.versionId === this.audioTrackVersion.id);
-        this.canDelete = this.audioTrackVersion.createdByCurrentUser || this.authService.isAdmin;
+        this.isOwner = this.audioTrackVersion.createdByCurrentUser || this.authService.isAdmin;
     }
 
-    play() {
-        if (!this.audioTrack.url && this.audioTrackId) {
-            this.trackIsLoading = true;
-            this.downloadService.loadAudioFromRemote(this.audioTrackId).subscribe(result => {
-                if (typeof result === 'number') {
-                    this.loadPercents = result;
-                } else if (typeof result === 'string') {
-                    this.audioTrack.audioEl.src = result;
-                    this.audioTrack.url = `audio-tracks/binary?id=${this.audioTrackId}`;
-                    this.libraryPlayerService.play(this.audioTrack, this.audioTrackVersion);
-                    this.trackIsLoading = false;
-                }
-            })
-            return;
-        }
-        this.libraryPlayerService.play(this.audioTrack, this.audioTrackVersion);
-    }
 
-    pause() {
-        this.libraryPlayerService.pause();
-    }
-
-    stop() {
-        if (this.audioTrackVersion === this.libraryPlayerService.activeVersion) {
-            this.libraryPlayerService.stop();
-        } else {
-            this.audioTrack.audioEl.currentTime = this.audioTrackVersion.startTime;
-            this.audioTrackVersion.progressInSeconds = 0;
-            this.rangeSlider.updateProgressSlider(0);
-        }
-
-    }
-
-    replay5() {
-        this.audioTrack.audioEl.currentTime = Math.max(this.audioTrack.audioEl.currentTime - 5, this.audioTrackVersion.startTime);
-        this.audioTrackVersion.progressInSeconds = this.audioTrack.audioEl.currentTime - this.audioTrackVersion.startTime;
-        if (this.libraryPlayerService.activeVersion === this.audioTrackVersion) {
-            this.libraryPlayerService.setProgressPercentage(this.progressService.evaluateProgress(this.audioTrack, this.audioTrackVersion));
-        } else {
-            this.rangeSlider.updateProgressSlider(this.progressService.evaluateProgress(this.audioTrack, this.audioTrackVersion));
-        }
-    }
-
-    forward5() {
-        if (this.libraryPlayerService.activeVersion === this.audioTrackVersion) {
-            this.audioTrack.audioEl.currentTime += 5
-            this.libraryPlayerService.setProgressPercentage(this.progressService.evaluateProgress(this.audioTrack, this.audioTrackVersion));
-        } else {
-            this.audioTrack.audioEl.currentTime = Math.min(this.audioTrack.audioEl.currentTime + 5, this.audioTrackVersion.endTime);
-            this.audioTrackVersion.progressInSeconds = this.audioTrack.audioEl.currentTime - this.audioTrackVersion.startTime;
-            this.rangeSlider.updateProgressSlider(this.progressService.evaluateProgress(this.audioTrack, this.audioTrackVersion))
-        }
-    }
 
     getProgress(): Observable<number> {
         return this.audioTrackVersion === this.libraryPlayerService.activeVersion
@@ -158,5 +99,12 @@ export class AudiotrackEditControlsComponent implements OnInit {
     removeAudioTrackFromRoundTable() {
         this.selected = false;
         this.selectedChange.emit(false);
+    }
+
+    onNewDraftVersionAdded() {
+        let version = {...this.audioTrackVersion}
+        version.createdByCurrentUser = true;
+        version.id = '';
+        this.onDraftVersionAdded.emit(version)
     }
 }

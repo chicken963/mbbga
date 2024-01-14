@@ -73,7 +73,7 @@ export class AddAudiotracksWorkbenchComponent {
             }).subscribe(response => {
                     counter += 1;
                     let audio = response as unknown as AudioTrack;
-                    this.libraryService.emitLibraryChangedEvent(audio);
+                    this.libraryService.addToLibrary(audio);
                     this.notificationService.pushNotification(`Audio track '${audio.artist} - ${audio.name}' was successfully added to library`)
                 },
                 error => {

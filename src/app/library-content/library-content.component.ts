@@ -79,6 +79,10 @@ export class LibraryContentComponent implements OnChanges {
                 if (libraryLetter.artists?.includes($event)) {
                     const index = libraryLetter.artists?.indexOf($event, 0);
                     libraryLetter.artists?.splice(index, 1);
+                    if (libraryLetter.artists?.length === 0) {
+                        let letterIndex = contentGroup.indexOf(libraryLetter);
+                        contentGroup.splice(letterIndex, 1);
+                    }
                     return;
                 }
             })

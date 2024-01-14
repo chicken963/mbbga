@@ -8,13 +8,13 @@ import {AudioTrack} from "../interfaces/audio-track";
 })
 export class LibraryService {
 
-    private libraryChangedEventSource = new Subject<AudioTrack>();
+    private addedToLibraryEventSource = new Subject<AudioTrack>();
     private inputsValiditySubject: Subject<boolean> = new Subject<boolean>();
 
-    tracklistAltered$ = this.libraryChangedEventSource.asObservable();
+    addedToLibraryTrackList$ = this.addedToLibraryEventSource.asObservable();
 
-    emitLibraryChangedEvent(event: AudioTrack) {
-        this.libraryChangedEventSource.next(event);
+    addToLibrary(event: AudioTrack) {
+        this.addedToLibraryEventSource.next(event);
     }
 
     add(library: LibraryLetter[], audioTrack: AudioTrack) {
