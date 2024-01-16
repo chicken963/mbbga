@@ -12,24 +12,24 @@
                 matTooltip="Discard changes and exit edit mode">
             <mat-icon>remove_red_eye</mat-icon>
         </button>-->
-    <button *ngIf="audioTrack.mode !== 'edit' && audioTrack.createdByCurrentUser"
+    <button *ngIf="(audioTrack.mode === 'view' || audioTrack.mode === 'workbench_view') && audioTrack.createdByCurrentUser"
             mat-button class="panel-button"
-            (click)="setMode('edit')"
-            matTooltip="Edit draft">
+            (click)="switchMode()"
+            matTooltip="{{audioTrack.mode === 'view' ? 'Edit artist and title' : 'Edit audio track'}}">
         <mat-icon>edit</mat-icon>
     </button>
-    <button *ngIf="audioTrack.mode === 'edit'"
-            mat-button class="panel-button color-success"
-            (click)="setMode('view')"
-            matTooltip="Save draft">
-        <mat-icon>check_box</mat-icon>
+    <button *ngIf="audioTrack.mode === 'edit' || audioTrack.mode === 'workbench_edit'"
+            mat-button class="panel-button"
+            (click)="switchMode()"
+            matTooltip="{{audioTrack.mode === 'edit' ? 'Save artist and title' : 'Save audio track'}}">
+        <mat-icon>save</mat-icon>
     </button>
     <button *ngIf="audioTrack.createdByCurrentUser"
             class="panel-button"
             mat-button
             (click)="delete()"
             color="primary"
-            matTooltip="Delete track from workbench">
-        <mat-icon>delete</mat-icon>
+            matTooltip="Delete track from {{audioTrack.mode === 'workbench_edit' || audioTrack.mode === 'workbench_view' ? 'workbench' : 'library'}}">
+        <mat-icon>highlight_off</mat-icon>
     </button>
 </div>

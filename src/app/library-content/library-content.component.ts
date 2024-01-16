@@ -23,9 +23,6 @@ export class LibraryContentComponent implements OnChanges {
     @Input("content")
     content: LibraryLetter[];
 
-    @Input("mode")
-    mode: string;
-
     @Input("round")
     round: Round;
 

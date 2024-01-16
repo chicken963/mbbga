@@ -11,9 +11,8 @@
      padding-top: 10px;
      padding-bottom: 0;
    }
-}
 
-app-audiotrack-mode-buttons {
-  position: absolute;
-  right: 0;
+  ::ng-deep label {
+    padding-bottom: 20px;
+  }
 }

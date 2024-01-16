@@ -4,7 +4,7 @@ import {
     Component,
     ElementRef,
     EventEmitter,
-    Input,
+    Input, OnInit,
     Output,
     ViewChild, ViewChildren
 } from '@angular/core';
@@ -17,6 +17,7 @@ import {AddAudioToRoundService} from "../services/add-audio-to-round.service";
 import {AudiotrackEditControlsComponent} from "../audiotrack-edit-controls/audiotrack-edit-controls.component";
 import {RoundTableItem} from "../interfaces/round-table-item";
 import {Round} from "../interfaces/round";
+import {FormGroup} from "@angular/forms";
 
 
 @Component({
@@ -24,7 +25,7 @@ import {Round} from "../interfaces/round";
     templateUrl: './audio-controls.component.html',
     styleUrls: ['./audio-controls.component.scss']
 })
-export class AudioControlsComponent implements AfterViewInit {
+export class AudioControlsComponent implements OnInit, AfterViewInit {
 
     @Input("audio-track")
     audioTrack: AudioTrack;
@@ -53,6 +54,9 @@ export class AudioControlsComponent implements AfterViewInit {
     @Output()
     versionSelected: EventEmitter<RoundTableItem> = new EventEmitter<RoundTableItem>();
 
+    audioInputs: FormGroup;
+    inputsChanged: boolean = false;
+
 
     constructor(private cdr: ChangeDetectorRef,
                 private http: HttpClient,
@@ -60,8 +64,15 @@ export class AudioControlsComponent implements AfterViewInit {
                 private addAudioToRoundService: AddAudioToRoundService) {
     }
 
+    ngOnInit() {
+        this.audioTrack.mode = this.mode;
+        this.audioTrack.versions.forEach(version => version.mode = this.mode);
+    }
+
     ngAfterViewInit(): void {
         this.audioTrack.audioEl = this.defaultAudio.nativeElement;
+        this.audioInputs = this.editInputsComponent?.audioInputs;
+        this.inputsChanged = !!this.audioInputs?.dirty;
     }
 
     onVersionModeChange(mode: string, i: number) {
@@ -141,10 +152,13 @@ export class AudioControlsComponent implements AfterViewInit {
 
     addDraftVersion($event: any) {
         this.audioTrack.versions.push($event);
-        this.audioTrack.mode = 'edit_bounds';
         this.audioTrack.versions.forEach(version => {
             version.mode = 'view';
         })
         $event.mode = 'edit';
+    }
+
+    saveAudioTrack() {
+        this.onModeChange.emit("view")
     }
 }

@@ -1,15 +1,11 @@
 <div class="d-flex flex-row justify-content-center align-items-baseline">
-    <app-audiotrack-mode-buttons [audio-track]="audioTrack"
-                                 [show-revert]="audioInputs.dirty"
-                                 (onSave)="submitArtistAndName()">
-    </app-audiotrack-mode-buttons>
     <form [formGroup]="audioInputs" class="col-md-10">
-        <mat-form-field appearance="outline" *ngIf="audioTrack.mode === 'edit'" class="m-1 col-md-5 edit-input-field">
+        <mat-form-field appearance="outline" class="m-1 col-md-5 edit-input-field">
             <mat-label>Artist</mat-label>
             <input matInput formControlName="artist">
             <mat-error *ngIf="audioInputs.get('artist')?.hasError('required')">Artist is required</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline" *ngIf="audioTrack.mode === 'edit'" class="m-1 col-md-6 edit-input-field">
+        <mat-form-field appearance="outline" class="m-1 col-md-6 edit-input-field">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name">
             <mat-error *ngIf="audioInputs.get('name')?.hasError('required')">Name is required</mat-error>

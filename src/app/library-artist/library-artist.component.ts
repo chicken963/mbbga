@@ -23,9 +23,6 @@ export class LibraryArtistComponent {
     @Input("expanded")
     expanded: boolean;
 
-    @Input("mode")
-    mode: string;
-
     @Input("round")
     round: Round;
 

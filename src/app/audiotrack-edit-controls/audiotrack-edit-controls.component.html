@@ -2,8 +2,10 @@
      [ngClass]="{'with-round-button': isSelectRelated(), 'without-round-button': !isSelectRelated()}">
     <div class="range-slider-and-playback-buttons d-flex flex-row justify-content-start align-items-center">
         <div class="d-flex flex-column">
-            <app-audiotrack-version-mode-buttons [version]="audioTrackVersion"
-                                                 [audio-track]="audioTrack"></app-audiotrack-version-mode-buttons>
+            <app-audiotrack-version-mode-buttons *ngIf="audioTrackVersion.mode === 'edit' || audioTrackVersion.mode === 'view'"
+                                                 [version]="audioTrackVersion"
+                                                 [audio-track]="audioTrack">
+            </app-audiotrack-version-mode-buttons>
             <app-audiotrack-version-playback-buttons [version]="audioTrackVersion"
                                                      [audio-track]="audioTrack"
                                                      [range-slider]="rangeSlider">

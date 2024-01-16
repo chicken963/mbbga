@@ -21,13 +21,10 @@ export class AudiotrackEditControlsComponent implements OnInit {
     @Input("audio-track")
     audioTrack: AudioTrack;
 
-    @Input("mode")
-    mode: string;
-
     @Input("round")
     round: Round;
 
-    selected: boolean;
+    selected?: boolean;
 
     @Output() modeChange: EventEmitter<string> = new EventEmitter<string>();
     @Output() selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -54,7 +51,7 @@ export class AudiotrackEditControlsComponent implements OnInit {
     ngOnInit(): void {
         this.audioTrackId = this.audioTrack.id
         this.audioTrackVersion.progressInSeconds = 0;
-        this.selected = !!this.round?.audioTracks.find(roundItem => roundItem.versionId === this.audioTrackVersion.id);
+        this.selected = this.round?.audioTracks.find(roundItem => roundItem.versionId === this.audioTrackVersion.id) ? true : undefined;
         this.isOwner = this.audioTrackVersion.createdByCurrentUser || this.authService.isAdmin;
     }
 
@@ -75,7 +72,7 @@ export class AudiotrackEditControlsComponent implements OnInit {
                 endTime: this.audioTrackVersion.endTime
             };
         }
-        this.mode = value;
+        this.audioTrack.mode = value;
         this.modeChange.emit(value)
     }
 
@@ -88,7 +85,7 @@ export class AudiotrackEditControlsComponent implements OnInit {
     }
 
     isSelectRelated(): boolean {
-        return this.mode === 'select' || this.mode === 'selected';
+        return this.selected !== undefined;
     }
 
     addAudioTrackToRoundTable() {

@@ -26,9 +26,6 @@ export class LibraryComponent implements OnInit {
     @ViewChild("libraryContent")
     libraryContent: LibraryContentComponent;
 
-    @Input("mode")
-    mode: string;
-
     @Input("round")
     round: Round;
 
@@ -88,7 +85,7 @@ export class LibraryComponent implements OnInit {
             this.http.get(`/library?filter=${filterValue}`).subscribe(response => {
                 this.content = response as LibraryLetter[];
 
-                this.flatten(this.content).forEach(audioTrack => audioTrack.mode = this.mode ? this.mode : "view");
+                this.flatten(this.content).forEach(audioTrack => audioTrack.mode = "view");
                 this.expanded = true;
                 this.searchQuery = filterValue;
             });

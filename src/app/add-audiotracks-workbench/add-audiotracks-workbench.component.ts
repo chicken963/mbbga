@@ -102,6 +102,6 @@ export class AddAudiotracksWorkbenchComponent {
     }
 
     checkAllAudioTracksConfirmed() {
-        this.allTracksAreConfirmed = !this.audioTracks.find(audioTracks => audioTracks.mode !== 'view');
+        this.allTracksAreConfirmed = this.audioTracks.every(audioTracks => audioTracks.mode === 'view' || audioTracks.mode === 'workbench_view');
     }
 }

@@ -5,9 +5,9 @@
                timeMask="00:00.0"
                placeholder="mm:ss.S"
                value="{{ audioTrackVersion.startTime | timeFormat:'string' }}"
-               [disabled]="audioTrackVersion.mode !== 'edit'"
+               [disabled]="audioTrackVersion.mode === 'view' || audioTrackVersion.mode === 'workbench_view'"
                (change)="updateStartTime($event)">
-        <button *ngIf="audioTrackVersion.mode === 'edit'"
+        <button *ngIf="audioTrackVersion.mode === 'edit' || audioTrackVersion.mode === 'workbench_edit'"
                 class="min-width-50 h-50 p-0 arrow-button"
                 appParentWidth [threshold]="numericArrowThreshold"
                 mat-button
@@ -15,7 +15,7 @@
                 (click)="incrementStartTime()">
             <mat-icon>keyboard_arrow_up</mat-icon>
         </button>
-        <button *ngIf="audioTrackVersion.mode === 'edit'"
+        <button *ngIf="audioTrackVersion.mode === 'edit' || audioTrackVersion.mode === 'workbench_edit'"
                 class="min-width-50 h-50 p-0 arrow-button"
                 appParentWidth [threshold]="numericArrowThreshold"
                 mat-button
@@ -34,9 +34,9 @@
                    timeMask="00:00.0"
                    placeholder="mm:ss.S"
                    value="{{ audioTrackVersion.endTime | timeFormat:'string' }}"
-                   [disabled]="audioTrackVersion.mode !== 'edit'"
+                   [disabled]="audioTrackVersion.mode === 'view' || audioTrackVersion.mode === 'workbench_view'"
                    (change)="updateEndTime($event)">
-            <button *ngIf="audioTrackVersion.mode === 'edit'"
+            <button *ngIf="audioTrackVersion.mode === 'edit' || audioTrackVersion.mode === 'workbench_edit'"
                     class="min-width-50 h-50 p-0 arrow-button"
                     appParentWidth [threshold]="numericArrowThreshold"
                     mat-button
@@ -44,7 +44,7 @@
                     (click)="incrementEndTime()">
                 <mat-icon>keyboard_arrow_up</mat-icon>
             </button>
-            <button *ngIf="audioTrackVersion.mode === 'edit'"
+            <button *ngIf="audioTrackVersion.mode === 'edit' || audioTrackVersion.mode === 'workbench_edit'"
                     class="min-width-50 h-50 p-0 arrow-button"
                     appParentWidth [threshold]="numericArrowThreshold"
                     mat-button

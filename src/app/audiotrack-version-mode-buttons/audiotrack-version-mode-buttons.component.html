@@ -20,16 +20,16 @@
             matTooltip="Discard changes and exit edit mode">
         <mat-icon>remove_red_eye</mat-icon>
     </button>-->
-    <button *ngIf="version.mode !== 'edit' && version.createdByCurrentUser"
+    <button *ngIf="version.mode === 'view' && version.createdByCurrentUser"
             mat-button class="panel-button"
             (click)="setMode('edit')"
-            matTooltip="Edit draft">
+            matTooltip="Edit time bounds">
         <mat-icon>edit</mat-icon>
     </button>
     <button *ngIf="version.mode === 'edit'"
-            mat-button class="panel-button color-success"
-            (click)="setMode('view')"
-            matTooltip="Save draft">
-        <mat-icon>check_box</mat-icon>
+            mat-button class="panel-button"
+            (click)="setMode('view'); save()"
+            matTooltip="Save time bounds">
+        <mat-icon>save</mat-icon>
     </button>
 </div>

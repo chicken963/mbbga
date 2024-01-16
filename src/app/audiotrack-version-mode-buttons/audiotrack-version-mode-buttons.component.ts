@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {AudioTrackVersion} from "../interfaces/audio-track-version";
 import {AudioTrack} from "../interfaces/audio-track";
+import {HttpClient} from "@angular/common/http";
+import {NotificationService} from "../utils/notification.service";
 
 @Component({
   selector: 'app-audiotrack-version-mode-buttons',
@@ -19,6 +21,10 @@ export class AudiotrackVersionModeButtonsComponent {
   @Output() onReset = new EventEmitter<AudioTrackVersion>();
 
   snapshot: any;
+
+  constructor(private http: HttpClient,
+              private notificationService: NotificationService) {
+  }
 
   setMode(value: string) {
     if (value === 'edit') {
@@ -44,5 +50,10 @@ export class AudiotrackVersionModeButtonsComponent {
     this.version.startTime = this.snapshot.startTime;
     this.version.endTime = this.snapshot.endTime;
     this.onReset.emit(this.version);
+  }
+
+  save() {
+    this.http.put(`/audio-tracks/modify/bounds`, this.version)
+        .subscribe(() => this.notificationService.pushNotification(`Audio track ${this.audioTrack.artist} - ${this.audioTrack.name} is successfully updated.`))
   }
 }

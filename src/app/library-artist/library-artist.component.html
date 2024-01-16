@@ -9,9 +9,8 @@
                         [audio-track]="track"
                         (onDelete)="deleteFromLibrary($event)"
                         [searchQuery]="searchQuery"
-                        [mode]="mode"
+                        [mode]="'view'"
                         [round]="round"
                         (versionSelected)="onVersionSelected($event)">
-
     </app-audio-controls>
 </mat-expansion-panel>

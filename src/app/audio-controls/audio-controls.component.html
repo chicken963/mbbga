@@ -5,23 +5,29 @@
     </audio>
     <mat-card-content class="w-100">
         <div class="d-flex flex-column editable-fields col-12">
-            <app-audiotrack-edit-inputs
-                #editInputs
-                *ngIf="audioTrack.mode !== 'view'"
-                [audio-track]="audioTrack"
-                (inputsValidityChanged)="onFormValidityChanged($event)">
-            </app-audiotrack-edit-inputs>
-            <app-audiotrack-view-inputs
-                    class="d-flex flex-row justify-content-center align-items-center"
-                    *ngIf="audioTrack.mode === 'view'"
+            <div class="d-flex flex-row">
+                <app-audiotrack-edit-inputs
+                    #editInputs
+                    class="col-10"
+                    *ngIf="audioTrack.mode === 'edit' || audioTrack.mode === 'workbench_edit'"
                     [audio-track]="audioTrack"
-                    [searchQuery]="searchQuery">
-            </app-audiotrack-view-inputs>
+                    (inputsValidityChanged)="onFormValidityChanged($event)">
+                </app-audiotrack-edit-inputs>
+                <app-audiotrack-view-inputs
+                        class="col-10"
+                        *ngIf="audioTrack.mode === 'view' || audioTrack.mode === 'workbench_view'"
+                        [audio-track]="audioTrack"
+                        [searchQuery]="searchQuery">
+                </app-audiotrack-view-inputs>
+                <app-audiotrack-mode-buttons [audio-track]="audioTrack"
+                                             [show-revert]="inputsChanged"
+                                             (onSave)="saveAudioTrack()">
+                </app-audiotrack-mode-buttons>
+            </div>
             <app-audiotrack-edit-controls *ngFor="let version of audioTrack.versions; let i = index"
                                           [audio-track]="audioTrack"
                                           [version]="version"
                                           [round]="round"
-                                          [mode]="mode"
                                           (modeChange)="onVersionModeChange($event, i)"
                                           (selectedChange)="onSelectedChange($event, i)"
                                           (onDeleteVersion)="handleDeleteVersion($event)"
