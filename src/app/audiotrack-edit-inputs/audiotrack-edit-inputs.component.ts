@@ -20,6 +20,8 @@ export class AudiotrackEditInputsComponent implements OnChanges {
     @Output()
     inputsValidityChanged = new EventEmitter<boolean>();
 
+    @Output() dirty = new EventEmitter<boolean>();
+
     constructor(private libraryService: LibraryService,
                 private fb: FormBuilder) {
         this.audioInputs = this.fb.group({
@@ -34,6 +36,9 @@ export class AudiotrackEditInputsComponent implements OnChanges {
         });
 
         this.audioInputs.valueChanges.subscribe(() => {
+            if (this.audioInputs.dirty) {
+                this.dirty.emit(true);
+            }
             this.inputsValidityChanged.emit(this.audioInputs.valid);
             this.libraryService.setAudioTrackInputsValidity(this.audioInputs.valid);
         });
@@ -53,7 +58,7 @@ export class AudiotrackEditInputsComponent implements OnChanges {
         this.audioInputs.get(control)?.setValue(value);
     }
 
-    submitArtistAndName() {
-
+    ngOnDestroy() {
+        this.dirty.emit(false);
     }
 }

@@ -84,20 +84,18 @@ app-range-slider {
   }
 }
 
+.unable-to-add-to-round {
+  background-color: #6a7a6a;
+  &:hover {
+    background-color: #748474;
+  }
+}
+
 .remove-from-round {
   background-color: rgb(244, 67, 54);
   &:hover {
     background-color: rgb(254, 77, 64);
   }
-}
-
-
-.with-round-button {
-  width: 94%;
-}
-
-.without-round-button {
-  width: 100%;
 }
 
 .revoke-from-playlist-icon {

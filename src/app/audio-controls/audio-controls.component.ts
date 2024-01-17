@@ -4,20 +4,18 @@ import {
     Component,
     ElementRef,
     EventEmitter,
-    Input, OnInit,
+    Input,
+    OnInit,
     Output,
-    ViewChild, ViewChildren
+    ViewChild,
+    ViewChildren
 } from '@angular/core';
-import {AudiotrackEditInputsComponent} from "../audiotrack-edit-inputs/audiotrack-edit-inputs.component";
 import {AudioTrack} from "../interfaces/audio-track";
-import {AudioTrackVersion} from "../interfaces/audio-track-version";
-import {HttpClient} from "@angular/common/http";
-import {DialogService} from "../utils/dialog.service";
-import {AddAudioToRoundService} from "../services/add-audio-to-round.service";
-import {AudiotrackEditControlsComponent} from "../audiotrack-edit-controls/audiotrack-edit-controls.component";
+import {AudiotrackVersionControlsComponent} from "../audiotrack-version-controls/audiotrack-version-controls.component";
 import {RoundTableItem} from "../interfaces/round-table-item";
 import {Round} from "../interfaces/round";
 import {FormGroup} from "@angular/forms";
+import {AudiotrackModeButtonsComponent} from "../audiotrack-mode-buttons/audiotrack-mode-buttons.component";
 
 
 @Component({
@@ -39,11 +37,11 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
     @Input("round")
     round: Round;
 
-    @ViewChild("editInputs")
-    editInputsComponent: AudiotrackEditInputsComponent;
+    @ViewChild(AudiotrackModeButtonsComponent)
+    modeButtonsComponent: AudiotrackModeButtonsComponent;
 
-    @ViewChildren(AudiotrackEditControlsComponent)
-    versionControls: AudiotrackEditControlsComponent[];
+    @ViewChildren(AudiotrackVersionControlsComponent)
+    versionControls: AudiotrackVersionControlsComponent[];
 
     @ViewChild("defaultAudio")
     private defaultAudio: ElementRef<HTMLAudioElement>;
@@ -54,14 +52,12 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
     @Output()
     versionSelected: EventEmitter<RoundTableItem> = new EventEmitter<RoundTableItem>();
 
+    @Input("audioInputs")
     audioInputs: FormGroup;
     inputsChanged: boolean = false;
 
 
-    constructor(private cdr: ChangeDetectorRef,
-                private http: HttpClient,
-                private dialogService: DialogService,
-                private addAudioToRoundService: AddAudioToRoundService) {
+    constructor(private cdr: ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -71,22 +67,16 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         this.audioTrack.audioEl = this.defaultAudio.nativeElement;
-        this.audioInputs = this.editInputsComponent?.audioInputs;
-        this.inputsChanged = !!this.audioInputs?.dirty;
     }
 
     onVersionModeChange(mode: string, i: number) {
-        /*this.audioTrack.versions.forEach(version => {
-            version.mode = 'view';
-        })
-        let version = this.audioTrack.versions[i];
-        version.mode = 'edit';*/
         this.audioTrack.mode = mode;
         this.onModeChange.emit(mode);
     }
 
     onFormValidityChanged(isValid: boolean) {
         this.audioTrack.inputsAreValid = isValid;
+        this.inputsChanged = !!this.audioInputs?.dirty;
         this.cdr.detectChanges();
     }
 
@@ -94,50 +84,14 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
         this.audioTrack.url = value;
     }
 
-    handleDeleteVersion(versionToDelete: AudioTrackVersion) {
-        if (!versionToDelete.createdByCurrentUser) {
-            this.dialogService.showOkPopup("Permission denied", "You have no rights to remove the version");
-            return;
-        }
-        if (this.audioTrack.versions.length == 1) {
-            this.onDelete.emit(this.audioTrack);
-            return;
-        }
-        const index = this.audioTrack.versions.indexOf(versionToDelete, 0);
-        // if (versionToDelete.inputsEditable) {
-           /* if (index == 0) {
-                this.audioTrack.versions[1].inputsEditable = true;
-            } else {
-                this.audioTrack.versions[0].inputsEditable = true;
-            }*/
-
-        // }
-        this.http.delete(`/audio-tracks/version?id=${versionToDelete.id}`).subscribe(
-            response => {
-                this.audioTrack.versions.splice(index, 1);
-            }, error => {
-                this.dialogService.showOkPopup("Error", "Failed to delete audio track version from library.")
-            })
-    }
-
-    setPreviousValues(stateToRestore: any, index: number) {
-        this.audioTrack.artist = stateToRestore.artist;
-        this.audioTrack.name = stateToRestore.name;
-
-        this.audioTrack.versions[index].startTime = stateToRestore.startTime;
-        this.audioTrack.versions[index].endTime = stateToRestore.endTime;
-
-        this.editInputsComponent.setValue('artist', this.audioTrack.artist);
-        this.editInputsComponent.setValue('name', this.audioTrack.name);
-    }
-
     onVersionSelected(version: RoundTableItem) {
+        this.versionControls.filter(versionControl => versionControl.audioTrackVersion.id !== version.versionId)
+            .forEach(versionControl => versionControl.otherVersionSelected = true);
         this.versionSelected.emit(version);
     }
 
     onSelectedChange($event: boolean, i: number) {
         let version = this.audioTrack.versions[i];
-        version.mode = 'edit';
         this.versionSelected.emit({
             audioFileId: this.audioTrack.id!,
             artist: this.audioTrack.artist,
@@ -146,19 +100,22 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
             startTime: version.startTime,
             endTime: version.endTime,
             duration: this.audioTrack.length,
-            mode: $event ? 'selected' : 'select'
+            selected: $event
         });
-    }
-
-    addDraftVersion($event: any) {
-        this.audioTrack.versions.push($event);
-        this.audioTrack.versions.forEach(version => {
-            version.mode = 'view';
-        })
-        $event.mode = 'edit';
+        version.selected = $event;
+        if ($event) {
+            this.versionControls.filter(versionControl => versionControl.audioTrackVersion.id !== version.id)
+                .forEach(versionControl => versionControl.otherVersionSelected = true);
+        } else {
+            this.versionControls.forEach(versionControl => versionControl.otherVersionSelected = false);
+        }
     }
 
     saveAudioTrack() {
         this.onModeChange.emit("view")
+    }
+
+    showRevertButton($event: boolean) {
+        this.modeButtonsComponent.showRevert = $event;
     }
 }

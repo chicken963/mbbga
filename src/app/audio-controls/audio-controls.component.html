@@ -7,11 +7,11 @@
         <div class="d-flex flex-column editable-fields col-12">
             <div class="d-flex flex-row">
                 <app-audiotrack-edit-inputs
-                    #editInputs
                     class="col-10"
                     *ngIf="audioTrack.mode === 'edit' || audioTrack.mode === 'workbench_edit'"
                     [audio-track]="audioTrack"
-                    (inputsValidityChanged)="onFormValidityChanged($event)">
+                    (inputsValidityChanged)="onFormValidityChanged($event)"
+                    (dirty)="showRevertButton($event)">
                 </app-audiotrack-edit-inputs>
                 <app-audiotrack-view-inputs
                         class="col-10"
@@ -24,16 +24,12 @@
                                              (onSave)="saveAudioTrack()">
                 </app-audiotrack-mode-buttons>
             </div>
-            <app-audiotrack-edit-controls *ngFor="let version of audioTrack.versions; let i = index"
+            <app-audiotrack-version-controls *ngFor="let version of audioTrack.versions; let i = index"
                                           [audio-track]="audioTrack"
                                           [version]="version"
                                           [round]="round"
-                                          (modeChange)="onVersionModeChange($event, i)"
                                           (selectedChange)="onSelectedChange($event, i)"
-                                          (onDeleteVersion)="handleDeleteVersion($event)"
-                                          (onCancelChanges)="setPreviousValues($event, i)"
-                                          (onDraftVersionAdded)="addDraftVersion($event)"
-            ></app-audiotrack-edit-controls>
+            ></app-audiotrack-version-controls>
         </div>
     </mat-card-content>
 </mat-card>

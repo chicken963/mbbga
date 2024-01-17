@@ -5,11 +5,17 @@
             (click)="delete()"
             color="primary"
             matTooltip="Delete track from workbench">
-        <mat-icon>delete</mat-icon>
+        <mat-icon>highlight_off</mat-icon>
     </button>
-    <button *ngIf="version.mode === 'edit'"
-            mat-button class="panel-button color-danger"
-            (click)="reset()"
+    <button *ngIf="audioTrack.mode === 'view'"
+            mat-button class="panel-button"
+            (click)="addVersion()"
+            matTooltip="Edit bounds (new version will be created)">
+        <mat-icon> call_split</mat-icon>
+    </button>
+    <button *ngIf="version.id && version.mode === 'edit'"
+            mat-button class="panel-button"
+            (click)="cancel()"
             matTooltip="Undo changes">
         <mat-icon>replay</mat-icon>
     </button>

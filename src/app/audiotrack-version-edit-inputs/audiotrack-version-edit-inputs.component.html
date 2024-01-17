@@ -1,4 +1,4 @@
-<div class="d-flex flex-row justify-content-between version-inputs-container">
+<div class="d-flex flex-row justify-content-between version-inputs-container flex-wrap">
     <mat-form-field appearance="outline" class="time m-1 col-xs-2  time-input">
         <mat-label>Start time</mat-label>
         <input matInput
@@ -53,7 +53,7 @@
                 <mat-icon>keyboard_arrow_down</mat-icon>
             </button>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="time m-1 col-xs-2 time-input ">
+        <mat-form-field appearance="outline" class="time m-1 col-xs-2 time-input total">
             <mat-label>Total</mat-label>
             <input matInput timeMask="00:00.0" placeholder="mm:ss.S" disabled
                    value="{{ audioTrack.length | timeFormat:'string' }}">

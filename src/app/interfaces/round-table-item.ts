@@ -6,5 +6,5 @@ export interface RoundTableItem {
     startTime: number,
     endTime: number,
     duration: number,
-    mode: string
+    selected: boolean
 }

@@ -18,7 +18,6 @@ export class AudiotrackModeButtonsComponent implements OnInit{
   showRevert: boolean;
 
   @Output() onDelete = new EventEmitter<AudioTrack>();
-  @Output() onReset = new EventEmitter<AudioTrack>();
   @Output() onSave = new EventEmitter<AudioTrack>();
 
   snapshot: any;
@@ -44,13 +43,7 @@ export class AudiotrackModeButtonsComponent implements OnInit{
   cancel() {
     this.audioTrack.artist = this.snapshot.artist;
     this.audioTrack.name = this.snapshot.name;
-    this.switchMode();
-  }
-
-  reset() {
-    this.audioTrack.artist = this.snapshot.artist;
-    this.audioTrack.name = this.snapshot.name;
-    this.onReset.emit(this.audioTrack);
+    this.audioTrack.mode = 'view';
   }
 
   switchMode() {

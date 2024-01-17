@@ -38,10 +38,10 @@ export class RoundAudiotracksWorkbenchComponent {
   }
 
   onVersionSelected(item: RoundTableItem) {
-    if (item.mode === 'select') {
+    if (!item.selected) {
       let index = this.round.audioTracks.indexOf(item);
       this.round.audioTracks.splice(index, 1);
-    } else if (item.mode === 'selected') {
+    } else {
       this.round.audioTracks.push(item)
     }
     this.roundPlaylist.refresh();

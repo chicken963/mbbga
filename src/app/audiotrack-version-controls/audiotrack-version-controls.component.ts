@@ -9,11 +9,11 @@ import {Round} from "../interfaces/round";
 import {AuthService} from "../services/auth.service";
 
 @Component({
-    selector: 'app-audiotrack-edit-controls',
-    templateUrl: './audiotrack-edit-controls.component.html',
-    styleUrls: ['./audiotrack-edit-controls.component.scss']
+    selector: 'app-audiotrack-version-controls',
+    templateUrl: './audiotrack-version-controls.component.html',
+    styleUrls: ['./audiotrack-version-controls.component.scss']
 })
-export class AudiotrackEditControlsComponent implements OnInit {
+export class AudiotrackVersionControlsComponent implements OnInit {
 
     @Input("version")
     audioTrackVersion: AudioTrackVersion;
@@ -26,11 +26,9 @@ export class AudiotrackEditControlsComponent implements OnInit {
 
     selected?: boolean;
 
-    @Output() modeChange: EventEmitter<string> = new EventEmitter<string>();
     @Output() selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() onCancelChanges = new EventEmitter<any>();
     @Output() onDeleteVersion = new EventEmitter<AudioTrackVersion>();
-    @Output() onDraftVersionAdded = new EventEmitter<AudioTrackVersion>();
 
     @ViewChild("rangeSlider")
     rangeSlider: RangeSliderComponent;
@@ -42,6 +40,7 @@ export class AudiotrackEditControlsComponent implements OnInit {
     trackIsLoading: boolean = false;
 
     isOwner: boolean;
+    otherVersionSelected: boolean;
 
     constructor(private libraryPlayerService: LibraryPlayerService,
                 private progressService: ProgressService,
@@ -51,11 +50,17 @@ export class AudiotrackEditControlsComponent implements OnInit {
     ngOnInit(): void {
         this.audioTrackId = this.audioTrack.id
         this.audioTrackVersion.progressInSeconds = 0;
-        this.selected = this.round?.audioTracks.find(roundItem => roundItem.versionId === this.audioTrackVersion.id) ? true : undefined;
+        this.selected = this.getSelected();
         this.isOwner = this.audioTrackVersion.createdByCurrentUser || this.authService.isAdmin;
     }
 
 
+    private getSelected() {
+        if (!this.round) {
+            return undefined;
+        }
+        return !!this.round.audioTracks.find(roundItem => roundItem.versionId === this.audioTrackVersion.id);
+    }
 
     getProgress(): Observable<number> {
         return this.audioTrackVersion === this.libraryPlayerService.activeVersion
@@ -73,7 +78,6 @@ export class AudiotrackEditControlsComponent implements OnInit {
             };
         }
         this.audioTrack.mode = value;
-        this.modeChange.emit(value)
     }
 
     cancel() {
@@ -98,10 +102,7 @@ export class AudiotrackEditControlsComponent implements OnInit {
         this.selectedChange.emit(false);
     }
 
-    onNewDraftVersionAdded() {
-        let version = {...this.audioTrackVersion}
-        version.createdByCurrentUser = true;
-        version.id = '';
-        this.onDraftVersionAdded.emit(version)
+    saveVersion() {
+        this.otherVersionSelected = !!this.audioTrack.versions.find(version => version.selected);
     }
 }

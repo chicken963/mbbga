@@ -3,7 +3,7 @@
 }
 
 .time-input {
-  width: 100px;
+  width: 92px;
   font-size: 14px;
   ::ng-deep .mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
     padding-top: 15px;
@@ -23,6 +23,13 @@
     width: auto;
     padding-top: 10px;
     padding-bottom: 0;
+  }
+}
+
+.time-input.total {
+  width: 80px;
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    padding-right: 14px;
   }
 }
 

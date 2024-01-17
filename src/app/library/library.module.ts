@@ -22,7 +22,7 @@ import {RangeSliderComponent} from "../range-slider/range-slider.component";
 import {MatCardModule} from "@angular/material/card";
 import {VolumeSliderComponent} from "../volume-slider/volume-slider.component";
 import {AudiotrackEditInputsComponent} from '../audiotrack-edit-inputs/audiotrack-edit-inputs.component';
-import {AudiotrackEditControlsComponent} from '../audiotrack-edit-controls/audiotrack-edit-controls.component';
+import {AudiotrackVersionControlsComponent} from '../audiotrack-version-controls/audiotrack-version-controls.component';
 import {AudiotrackViewInputsComponent} from '../audiotrack-view-inputs/audiotrack-view-inputs.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {LibraryArtistComponent} from '../library-artist/library-artist.component';
@@ -51,7 +51,7 @@ import { AudiotrackModeButtonsComponent } from '../audiotrack-mode-buttons/audio
         AudioControlsComponent,
         VolumeSliderComponent,
         AudiotrackEditInputsComponent,
-        AudiotrackEditControlsComponent,
+        AudiotrackVersionControlsComponent,
         AudiotrackVersionEditInputsComponent,
         AudiotrackViewInputsComponent,
         LibraryArtistComponent,

@@ -1,10 +1,10 @@
-<div class="container mat-elevation-z8 m-1"
-     [ngClass]="{'with-round-button': isSelectRelated(), 'without-round-button': !isSelectRelated()}">
+<div class="container mat-elevation-z8 m-1">
     <div class="range-slider-and-playback-buttons d-flex flex-row justify-content-start align-items-center">
         <div class="d-flex flex-column">
             <app-audiotrack-version-mode-buttons *ngIf="audioTrackVersion.mode === 'edit' || audioTrackVersion.mode === 'view'"
                                                  [version]="audioTrackVersion"
-                                                 [audio-track]="audioTrack">
+                                                 [audio-track]="audioTrack"
+                                                 (onSave)="saveVersion()">
             </app-audiotrack-version-mode-buttons>
             <app-audiotrack-version-playback-buttons [version]="audioTrackVersion"
                                                      [audio-track]="audioTrack"
@@ -22,14 +22,20 @@
         </div>
     </div>
     <button mat-icon-button
-            *ngIf="round && !selected"
+            *ngIf="round && audioTrackVersion.id && !selected && !otherVersionSelected"
             class="round-toggle add-to-round col-1"
             matTooltip="Add audio track to round playlist"
             (click)="addAudioTrackToRoundTable()">
         <mat-icon>arrow_forward_ios</mat-icon>
     </button>
     <button mat-icon-button
-            *ngIf="round && selected"
+            *ngIf="round && audioTrackVersion.id && otherVersionSelected"
+            class="round-toggle unable-to-add-to-round col-1"
+            matTooltip="Another version is already selected">
+        <mat-icon>clear</mat-icon>
+    </button>
+    <button mat-icon-button
+            *ngIf="round && audioTrackVersion.id && selected && !otherVersionSelected"
             class="round-toggle remove-from-round col-1"
             matTooltip="Revoke audio track from round playlist"
             (click)="removeAudioTrackFromRoundTable()">

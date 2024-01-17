@@ -1,17 +1,10 @@
 <div class="menu-buttons-container d-flex flex-row align-items-center justify-content-end">
     <button *ngIf="audioTrack.mode === 'edit' && showRevert"
             mat-button class="panel-button color-danger"
-            (click)="reset()"
+            (click)="cancel()"
             matTooltip="Undo changes">
         <mat-icon>replay</mat-icon>
     </button>
-    <!--    <button *ngIf="version.mode === 'edit'"
-                mat-button class="panel-button"
-                (click)="cancel()"
-                color="primary"
-                matTooltip="Discard changes and exit edit mode">
-            <mat-icon>remove_red_eye</mat-icon>
-        </button>-->
     <button *ngIf="(audioTrack.mode === 'view' || audioTrack.mode === 'workbench_view') && audioTrack.createdByCurrentUser"
             mat-button class="panel-button"
             (click)="switchMode()"

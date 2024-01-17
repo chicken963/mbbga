@@ -17,10 +17,9 @@ export class AudiotrackVersionModeButtonsComponent {
   @Input("audio-track")
   audioTrack: AudioTrack;
 
-  @Output() onDelete = new EventEmitter<AudioTrackVersion>();
-  @Output() onReset = new EventEmitter<AudioTrackVersion>();
-
   snapshot: any;
+
+  @Output() onSave = new EventEmitter<AudioTrackVersion>;
 
   constructor(private http: HttpClient,
               private notificationService: NotificationService) {
@@ -37,7 +36,19 @@ export class AudiotrackVersionModeButtonsComponent {
   }
 
   delete() {
-    this.onDelete.emit(this.version);
+    if (this.version.id) {
+      this.http.delete(`/audio-tracks/version?id=${this.version.id}`)
+          .subscribe(() => {
+            this.notificationService.pushNotification("The version is successfully deleted.");
+            const index = this.audioTrack.versions.indexOf(this.version);
+            this.audioTrack.versions.splice(index, 1);
+          });
+    } else {
+      const index = this.audioTrack.versions.indexOf(this.version);
+      this.audioTrack.versions.splice(index, 1);
+    }
+
+
   }
 
   cancel() {
@@ -46,14 +57,27 @@ export class AudiotrackVersionModeButtonsComponent {
     this.setMode('view');
   }
 
-  reset() {
-    this.version.startTime = this.snapshot.startTime;
-    this.version.endTime = this.snapshot.endTime;
-    this.onReset.emit(this.version);
+  save() {
+    if (this.version.id) {
+      this.http.put(`/audio-tracks/modify/bounds`, this.version)
+          .subscribe(() => this.notificationService.pushNotification(`Audio track ${this.audioTrack.artist} - ${this.audioTrack.name} is successfully updated.`))
+    } else {
+      let audioTrackWithVersionSnapshot = {...this.audioTrack}
+      audioTrackWithVersionSnapshot.versions = [this.version]
+      this.http.post<AudioTrackVersion>(`/audio-tracks/add/version`, audioTrackWithVersionSnapshot)
+          .subscribe(response => {
+            this.version.id = response.id;
+            this.notificationService.pushNotification(`New version for audio track ${this.audioTrack.artist} - ${this.audioTrack.name} is successfully added.`);
+          })
+    }
+
   }
 
-  save() {
-    this.http.put(`/audio-tracks/modify/bounds`, this.version)
-        .subscribe(() => this.notificationService.pushNotification(`Audio track ${this.audioTrack.artist} - ${this.audioTrack.name} is successfully updated.`))
+  addVersion() {
+    let version = {...this.version}
+    version.createdByCurrentUser = true;
+    version.mode = 'edit'
+    version.id = '';
+    this.audioTrack.versions.push(version);
   }
 }

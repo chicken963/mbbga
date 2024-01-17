@@ -28,3 +28,8 @@ mat-sidenav-container {
 snack-bar-container {
     background: #424242 !important;
 }
+
+app-audio-controls {
+    width: 650px;
+    display: block;
+}
