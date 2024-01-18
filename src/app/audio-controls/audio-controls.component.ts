@@ -16,6 +16,8 @@ import {RoundTableItem} from "../interfaces/round-table-item";
 import {Round} from "../interfaces/round";
 import {FormGroup} from "@angular/forms";
 import {AudiotrackModeButtonsComponent} from "../audiotrack-mode-buttons/audiotrack-mode-buttons.component";
+import {BehaviorSubject, Observable} from "rxjs";
+import {LibraryPlayerService} from "./library-player.service";
 
 
 @Component({
@@ -57,7 +59,7 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
     inputsChanged: boolean = false;
 
 
-    constructor(private cdr: ChangeDetectorRef) {
+    constructor(private cdr: ChangeDetectorRef, private libraryPlayerService: LibraryPlayerService) {
     }
 
     ngOnInit() {
@@ -117,5 +119,11 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
 
     showRevertButton($event: boolean) {
         this.modeButtonsComponent.showRevert = $event;
+    }
+
+    getProgress(): Observable<number> {
+        return this.audioTrack.versions[0] === this.libraryPlayerService.activeVersion
+            ? this.libraryPlayerService.getProgressInSeconds()
+            : new BehaviorSubject(this.audioTrack.versions[0].progressInSeconds).asObservable();
     }
 }

@@ -26,5 +26,30 @@ app-audiotrack-version-controls {
 
 app-audiotrack-mode-buttons {
     position: absolute;
-    right: 0;
+    right: 40px;
+}
+
+.versions-marker {
+    color: #f44336;
+    font-style: italic;
+}
+
+.current-progress {
+    position: relative;
+    top: 15px;
+    height: 24px;
+
+    color: white;
+    min-width: 55px;
+    text-align: center;
+}
+
+mat-expansion-panel-header {
+    ::ng-deep .mat-content {
+        margin-right: 10px;
+    }
+}
+
+.track-name {
+    text-wrap: nowrap;
 }

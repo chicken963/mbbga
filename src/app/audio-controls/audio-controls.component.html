@@ -1,36 +1,59 @@
-<mat-card class="mat-elevation-z8 d-flex flex-row">
-    <audio #defaultAudio>
-        <source [src]="audioTrack.url" type="audio/mp3">
-        Your browser does not support the audio tag.
-    </audio>
-    <mat-card-content class="w-100">
-        <div class="d-flex flex-column editable-fields col-12">
-            <div class="d-flex flex-row">
-                <app-audiotrack-edit-inputs
-                    class="col-10"
-                    *ngIf="audioTrack.mode === 'edit' || audioTrack.mode === 'workbench_edit'"
-                    [audio-track]="audioTrack"
-                    (inputsValidityChanged)="onFormValidityChanged($event)"
-                    (dirty)="showRevertButton($event)">
-                </app-audiotrack-edit-inputs>
-                <app-audiotrack-view-inputs
-                        class="col-10"
-                        *ngIf="audioTrack.mode === 'view' || audioTrack.mode === 'workbench_view'"
-                        [audio-track]="audioTrack"
-                        [searchQuery]="searchQuery">
-                </app-audiotrack-view-inputs>
-                <app-audiotrack-mode-buttons [audio-track]="audioTrack"
-                                             [show-revert]="inputsChanged"
-                                             (onSave)="saveAudioTrack()">
-                </app-audiotrack-mode-buttons>
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <div class="d-flex flex-row justify-content-start w-100">
+            <div class="track-name d-flex align-items-center col-3">{{audioTrack.name}}</div>
+            <div *ngIf="audioTrack.versions.length > 1" class="versions-marker mx-1">({{audioTrack.versions.length}} Versions)</div>
+            <div *ngIf="audioTrack.versions.length === 1" class="d-flex flex-row w-100">
+                <app-audiotrack-version-playback-buttons [version]="audioTrack.versions[0]"
+                                                         [audio-track]="audioTrack"
+                                                         [range-slider]="rangeSlider"
+                                                         class="d-flex align-items-center">
+                </app-audiotrack-version-playback-buttons>
+                <div class="current-progress">{{ getProgress() | async | timeFormat:'string' }}</div>
+                <app-range-slider #rangeSlider class="mx-1 w-100"
+                                  [audio-track]="audioTrack"
+                                  [version]="audioTrack.versions[0]">
+                </app-range-slider>
+                <div class="current-progress">{{ audioTrack.versions[0].endTime - audioTrack.versions[0].startTime | timeFormat:'string'}}
+                </div>
             </div>
-            <app-audiotrack-version-controls *ngFor="let version of audioTrack.versions; let i = index"
-                                          [audio-track]="audioTrack"
-                                          [version]="version"
-                                          [round]="round"
-                                          (selectedChange)="onSelectedChange($event, i)"
-            ></app-audiotrack-version-controls>
         </div>
-    </mat-card-content>
-</mat-card>
+
+    </mat-expansion-panel-header>
+    <mat-card class="mat-elevation-z8 d-flex flex-row">
+        <audio #defaultAudio>
+            <source [src]="audioTrack.url" type="audio/mp3">
+            Your browser does not support the audio tag.
+        </audio>
+        <mat-card-content class="w-100">
+            <div class="d-flex flex-column editable-fields col-12">
+                <div class="d-flex flex-row">
+                    <app-audiotrack-edit-inputs
+                            class="col-10"
+                            *ngIf="audioTrack.mode === 'edit' || audioTrack.mode === 'workbench_edit'"
+                            [audio-track]="audioTrack"
+                            (inputsValidityChanged)="onFormValidityChanged($event)"
+                            (dirty)="showRevertButton($event)">
+                    </app-audiotrack-edit-inputs>
+                    <app-audiotrack-view-inputs
+                            class="col-10"
+                            *ngIf="audioTrack.mode === 'view' || audioTrack.mode === 'workbench_view'"
+                            [audio-track]="audioTrack"
+                            [searchQuery]="searchQuery">
+                    </app-audiotrack-view-inputs>
+                    <app-audiotrack-mode-buttons [audio-track]="audioTrack"
+                                                 [show-revert]="inputsChanged"
+                                                 (onSave)="saveAudioTrack()">
+                    </app-audiotrack-mode-buttons>
+                </div>
+                <app-audiotrack-version-controls *ngFor="let version of audioTrack.versions; let i = index"
+                                                 [audio-track]="audioTrack"
+                                                 [version]="version"
+                                                 [round]="round"
+                                                 (selectedChange)="onSelectedChange($event, i)"
+                ></app-audiotrack-version-controls>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</mat-expansion-panel>
 <br>
