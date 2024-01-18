@@ -1,24 +1,29 @@
 <div class="container mat-elevation-z8 m-1">
-    <div class="range-slider-and-playback-buttons d-flex flex-row justify-content-start align-items-center">
-        <div class="d-flex flex-column">
-            <app-audiotrack-version-mode-buttons *ngIf="audioTrackVersion.mode === 'edit' || audioTrackVersion.mode === 'view'"
-                                                 [version]="audioTrackVersion"
-                                                 [audio-track]="audioTrack"
-                                                 (onSave)="saveVersion()">
-            </app-audiotrack-version-mode-buttons>
-            <app-audiotrack-version-playback-buttons [version]="audioTrackVersion"
-                                                     [audio-track]="audioTrack"
-                                                     [range-slider]="rangeSlider">
-            </app-audiotrack-version-playback-buttons>
-        </div>
+    <div class="range-slider-and-playback-buttons d-flex flex-column justify-content-start align-items-center">
+
         <div class="d-flex flex-column justify-content-center slider-and-progress">
-            <app-audiotrack-version-edit-inputs [audioTrack]="audioTrack"
-                                                [version]="audioTrackVersion">
-            </app-audiotrack-version-edit-inputs>
-            <app-range-slider #rangeSlider class="mx-1"
-                              [audio-track]="audioTrack"
-                              [version]="audioTrackVersion">
-            </app-range-slider>
+            <div class="d-flex flex-row justify-content-between">
+                <app-audiotrack-version-edit-inputs [audioTrack]="audioTrack"
+                                                    [version]="audioTrackVersion">
+                </app-audiotrack-version-edit-inputs>
+                <app-audiotrack-version-mode-buttons *ngIf="audioTrackVersion.mode === 'edit' || audioTrackVersion.mode === 'view'"
+                                                     [version]="audioTrackVersion"
+                                                     [audio-track]="audioTrack"
+                                                     (onSave)="saveVersion()">
+                </app-audiotrack-version-mode-buttons>
+            </div>
+            <div class="d-flex flex-row">
+
+                <app-audiotrack-version-playback-buttons [version]="audioTrackVersion"
+                                                         [audio-track]="audioTrack"
+                                                         [range-slider]="rangeSlider">
+                </app-audiotrack-version-playback-buttons>
+                <app-range-slider #rangeSlider class="mx-1"
+                                  [audio-track]="audioTrack"
+                                  [version]="audioTrackVersion">
+                </app-range-slider>
+            </div>
+
         </div>
     </div>
     <button mat-icon-button

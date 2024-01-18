@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {Artist} from "../interfaces/library";
 import {AudioTrack} from "../interfaces/audio-track";
 import {HttpClient} from "@angular/common/http";
@@ -10,7 +10,7 @@ import {Round} from "../interfaces/round";
 @Component({
     selector: 'app-library-artist',
     templateUrl: './library-artist.component.html',
-    styleUrls: ['./library-artist.component.css']
+    styleUrls: ['./library-artist.component.scss', './../common-styles/scrollbar.css']
 })
 export class LibraryArtistComponent {
 

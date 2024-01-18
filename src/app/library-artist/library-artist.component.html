@@ -1,4 +1,4 @@
-<mat-expansion-panel (opened)="loadArtistTracks(artist)"  [expanded]="expanded">
+<mat-expansion-panel (opened)="loadArtistTracks(artist)" [expanded]="expanded" class="library-artist">
     <mat-expansion-panel-header [innerHTML]="artist.artistName | highlight:searchQuery">
     </mat-expansion-panel-header>
     <div *ngIf="tracksAreLoading" class="artists-spinner d-flex flex-row justify-content-center">
@@ -6,6 +6,7 @@
         <mat-spinner></mat-spinner>
     </div>
     <app-audio-controls *ngFor="let track of artist.audioTracks"
+                        [ngClass]="{'library-in-workbench' : round}"
                         [audio-track]="track"
                         (onDelete)="deleteFromLibrary($event)"
                         [searchQuery]="searchQuery"

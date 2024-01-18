@@ -1,18 +1,4 @@
 <div class="menu-buttons-container d-flex flex-row align-items-center justify-content-end">
-    <button *ngIf="version.createdByCurrentUser && audioTrack.versions.length > 1"
-            class="panel-button"
-            mat-button
-            (click)="delete()"
-            color="primary"
-            matTooltip="Delete track from workbench">
-        <mat-icon>highlight_off</mat-icon>
-    </button>
-    <button *ngIf="audioTrack.mode === 'view'"
-            mat-button class="panel-button"
-            (click)="addVersion()"
-            matTooltip="Edit bounds (new version will be created)">
-        <mat-icon> call_split</mat-icon>
-    </button>
     <button *ngIf="version.id && version.mode === 'edit'"
             mat-button class="panel-button"
             (click)="cancel()"
@@ -37,5 +23,19 @@
             (click)="setMode('view'); save()"
             matTooltip="Save time bounds">
         <mat-icon>save</mat-icon>
+    </button>
+    <button *ngIf="audioTrack.mode === 'view'"
+            mat-button class="panel-button"
+            (click)="addVersion()"
+            matTooltip="Edit bounds (new version will be created)">
+        <mat-icon> call_split</mat-icon>
+    </button>
+    <button *ngIf="version.createdByCurrentUser && audioTrack.versions.length > 1"
+            class="panel-button"
+            mat-button
+            (click)="delete()"
+            color="primary"
+            matTooltip="Delete track from workbench">
+        <mat-icon>highlight_off</mat-icon>
     </button>
 </div>

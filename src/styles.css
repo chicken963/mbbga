@@ -29,7 +29,7 @@ snack-bar-container {
     background: #424242 !important;
 }
 
-app-audio-controls {
+.library-in-workbench {
     width: 650px;
     display: block;
 }

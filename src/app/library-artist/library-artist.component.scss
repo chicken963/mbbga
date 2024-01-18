@@ -1,0 +1,14 @@
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
+}
+
+.library-artist {
+  ::ng-deep .mat-expansion-panel-body {
+    min-width: 700px;
+  }
+}
+
+.mat-expansion-panel.mat-expanded {
+  overflow-x: auto;
+}
