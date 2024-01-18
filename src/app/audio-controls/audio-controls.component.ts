@@ -58,6 +58,8 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
     audioInputs: FormGroup;
     inputsChanged: boolean = false;
 
+    progress: Observable<number>;
+
 
     constructor(private cdr: ChangeDetectorRef, private libraryPlayerService: LibraryPlayerService) {
     }
@@ -124,6 +126,6 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
     getProgress(): Observable<number> {
         return this.audioTrack.versions[0] === this.libraryPlayerService.activeVersion
             ? this.libraryPlayerService.getProgressInSeconds()
-            : new BehaviorSubject(this.audioTrack.versions[0].progressInSeconds).asObservable();
+            : new BehaviorSubject(this.audioTrack.versions[0].progressInSeconds ? this.audioTrack.versions[0].progressInSeconds : 0).asObservable();
     }
 }
