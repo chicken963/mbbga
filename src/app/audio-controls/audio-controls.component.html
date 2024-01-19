@@ -1,7 +1,7 @@
-<mat-expansion-panel>
+<mat-expansion-panel [expanded]="!audioTrack.id">
     <mat-expansion-panel-header>
-        <div class="d-flex flex-row justify-content-start w-100">
-            <div class="track-name d-flex align-items-center col-3">{{audioTrack.name}}</div>
+        <div class="d-flex flex-row justify-content-between w-100">
+            <div class="ellipsis d-flex align-items-center">{{audioTrack.name}}</div>
             <div *ngIf="audioTrack.versions.length > 1" class="versions-marker mx-1">({{audioTrack.versions.length}} Versions)</div>
             <div *ngIf="audioTrack.versions.length === 1" class="d-flex flex-row w-100">
                 <app-audiotrack-version-playback-buttons [version]="audioTrack.versions[0]"
@@ -12,7 +12,8 @@
                 <div class="current-progress">{{ getProgress() | async | timeFormat:'string' }}</div>
                 <app-range-slider #rangeSlider class="mx-1 w-100"
                                   [audio-track]="audioTrack"
-                                  [version]="audioTrack.versions[0]">
+                                  [version]="audioTrack.versions[0]"
+                                  [disabled]="true">
                 </app-range-slider>
                 <div class="current-progress">{{ audioTrack.versions[0].endTime - audioTrack.versions[0].startTime | timeFormat:'string'}}
                 </div>
@@ -43,7 +44,8 @@
                     </app-audiotrack-view-inputs>
                     <app-audiotrack-mode-buttons [audio-track]="audioTrack"
                                                  [show-revert]="inputsChanged"
-                                                 (onSave)="saveAudioTrack()">
+                                                 (onSave)="saveAudioTrack()"
+                                                 (onDelete)="deleteAudioTrack()">
                     </app-audiotrack-mode-buttons>
                 </div>
                 <app-audiotrack-version-controls *ngFor="let version of audioTrack.versions; let i = index"

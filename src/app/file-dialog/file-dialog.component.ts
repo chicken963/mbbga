@@ -10,7 +10,6 @@ import {AddAudiotracksWorkbenchComponent} from "../add-audiotracks-workbench/add
 export class FileDialogComponent {
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  @Output() audioTracksAdded: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private dialog: MatDialog) {}
 
@@ -30,13 +29,13 @@ export class FileDialogComponent {
       const dialogRef = this.dialog.open(AddAudiotracksWorkbenchComponent, {
         disableClose: true,
         width: '90%',
-        height: '85vh',
+        maxHeight: '85vh',
         data: Array.from(files)
       });
 
-      dialogRef.afterClosed().subscribe(result => {
+/*      dialogRef.afterClosed().subscribe(result => {
         this.audioTracksAdded.emit(true);
-      });
+      });*/
     }
   }
 }

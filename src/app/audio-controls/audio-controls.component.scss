@@ -26,7 +26,7 @@ app-audiotrack-version-controls {
 
 app-audiotrack-mode-buttons {
     position: absolute;
-    right: 40px;
+    right: 2px;
 }
 
 .versions-marker {
@@ -50,6 +50,9 @@ mat-expansion-panel-header {
     }
 }
 
-.track-name {
-    text-wrap: nowrap;
+.ellipsis {
+    min-width: 25%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

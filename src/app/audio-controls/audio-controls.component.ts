@@ -128,4 +128,8 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
             ? this.libraryPlayerService.getProgressInSeconds()
             : new BehaviorSubject(this.audioTrack.versions[0].progressInSeconds ? this.audioTrack.versions[0].progressInSeconds : 0).asObservable();
     }
+
+    deleteAudioTrack() {
+        this.onDelete.emit(this.audioTrack);
+    }
 }

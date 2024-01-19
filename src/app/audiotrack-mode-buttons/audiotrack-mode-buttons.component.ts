@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AudioTrack} from "../interfaces/audio-track";
-import {FormGroup, NgForm} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {NotificationService} from "../utils/notification.service";
+import {DialogService} from "../utils/dialog.service";
 
 @Component({
   selector: 'app-audiotrack-mode-buttons',
@@ -22,7 +22,9 @@ export class AudiotrackModeButtonsComponent implements OnInit{
 
   snapshot: any;
 
-  constructor(private http: HttpClient, private notificationService: NotificationService) {
+  constructor(private http: HttpClient,
+              private notificationService: NotificationService,
+              private dialogService: DialogService) {
   }
 
   ngOnInit() {
@@ -34,10 +36,12 @@ export class AudiotrackModeButtonsComponent implements OnInit{
 
   delete() {
     if (this.audioTrack.mode === 'view' || this.audioTrack.mode === 'edit') {
-      this.http.delete(`/audio-tracks?id=${this.audioTrack.id}`)
-          .subscribe(response => this.notificationService.pushNotification(`Audio track ${this.audioTrack.artist} - ${this.audioTrack.name} is successfully deleted from library.`))
-    }
-    this.onDelete.emit(this.audioTrack);
+      this.dialogService.openYesNoPopup(`Are you sure you want to delete audiotrack \"${this.audioTrack.artist} - ${this.audioTrack.name}\" and all its versions from library? You won't be able to rollback this action.`, (confirmed: boolean) => {
+        if (confirmed) {
+          this.onDelete.emit(this.audioTrack);
+        }
+      })
+      }
   }
 
   cancel() {

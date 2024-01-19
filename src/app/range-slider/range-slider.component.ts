@@ -37,6 +37,9 @@ export class RangeSliderComponent implements AfterViewInit {
     @Input("version")
     audioTrackVersion: AudioTrackVersion;
 
+    @Input("disabled")
+    disabled: boolean;
+
     ngAfterViewInit() {
         this.sliderElement = this.el.nativeElement.querySelector('.mdc-slider__track--active_fill');
 
