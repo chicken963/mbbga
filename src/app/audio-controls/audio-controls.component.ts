@@ -33,9 +33,6 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
     @Input("audio-track")
     audioTrack: AudioTrack;
 
-    @Input("searchQuery")
-    searchQuery: string;
-
     @Input("mode")
     mode: string;
 

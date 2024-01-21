@@ -11,10 +11,6 @@ export class AudiotrackViewInputsComponent {
   @Input("audio-track")
   audioTrack: AudioTrack;
 
-
-  @Input("searchQuery")
-  searchQuery: string;
-
   label: string;
 
   ngOnInit() {

@@ -91,6 +91,12 @@ export class LibraryContentComponent implements OnChanges {
         if (oldState.artist !== newState.artist) {
             this.removeOldStateFromLibrary(oldState);
             this.addNewStateToLibrary(newState);
+        } else {
+            let oldLetter = oldState.artist[0];
+            let contentGroup = this.findContentGroupByLetter(oldLetter);
+            let oldLetterLibrary = contentGroup.find(libraryLetter => libraryLetter.letter === oldLetter)!;
+            let oldArtistLibrary = oldLetterLibrary.artists?.find(artist => artist.artistName === oldState.artist)!;
+            oldArtistLibrary.audioTracks?.sort((a, b) => a.name.localeCompare(b.name));
         }
     }
 

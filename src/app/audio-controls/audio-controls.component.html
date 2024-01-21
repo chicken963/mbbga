@@ -17,8 +17,7 @@
                 <app-audiotrack-view-inputs
                         class="col-10"
                         *ngIf="audioTrack.mode === 'view' || audioTrack.mode === 'workbench_view'"
-                        [audio-track]="audioTrack"
-                        [searchQuery]="searchQuery">
+                        [audio-track]="audioTrack">
                 </app-audiotrack-view-inputs>
                 <app-audiotrack-mode-buttons [audio-track]="audioTrack"
                                              [show-revert]="inputsChanged"
