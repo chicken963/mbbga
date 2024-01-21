@@ -10,15 +10,21 @@ import {HttpClient} from "@angular/common/http";
 export class LibraryService {
 
     private addedToLibraryEventSource = new Subject<AudioTrack>();
+    private artistModifiedEventSource = new Subject<any>();
     private inputsValiditySubject: Subject<boolean> = new Subject<boolean>();
 
     addedToLibraryTrackList$ = this.addedToLibraryEventSource.asObservable();
+    artistModified$ = this.artistModifiedEventSource.asObservable();
 
     constructor(private http: HttpClient) {
     }
 
     addToLibrary(event: AudioTrack) {
         this.addedToLibraryEventSource.next(event);
+    }
+
+    modifyLibraryAudioTrack(event: any) {
+        this.artistModifiedEventSource.next(event);
     }
 
     audioTrackInputsAreValid(): Observable<boolean> {

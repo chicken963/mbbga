@@ -18,8 +18,9 @@ export class LibraryContentComponent implements OnChanges {
     constructor(private notificationService: NotificationService, private http: HttpClient,
                 private libraryService: LibraryService) {
         this.libraryService.addedToLibraryTrackList$.subscribe((audioTrack: AudioTrack) => {
-            this.add(audioTrack);
+            this.addNewStateToLibrary(audioTrack);
         });
+        this.libraryService.artistModified$.subscribe(states => this.moveToNewArtist(states))
     }
 
     private latinRegex = /^[a-zA-Z]$/;
@@ -80,60 +81,89 @@ export class LibraryContentComponent implements OnChanges {
 
     }
 
-    removeArtist($event: Artist) {
-        Array.from(this.contentGroups.values()).forEach(contentGroup => {
-            contentGroup.forEach(libraryLetter => {
-                if (libraryLetter.artists?.includes($event)) {
-                    const index = libraryLetter.artists?.indexOf($event, 0);
-                    libraryLetter.artists?.splice(index, 1);
-                    if (libraryLetter.artists?.length === 0) {
-                        let letterIndex = contentGroup.indexOf(libraryLetter);
-                        contentGroup.splice(letterIndex, 1);
-
-                        let globalLetterIndex = this.content.indexOf(libraryLetter);
-                        this.content.splice(globalLetterIndex, 1);
-                    }
-                    return;
-                }
-            })
-        })
-    }
-
     onVersionSelected(version: RoundTableItem) {
         this.versionSelected.emit(version);
     }
 
-    add(audioTrack: AudioTrack) {
-        let artist = audioTrack.artist;
-        let targetLetter = this.content.find(libraryLetter => libraryLetter.letter === artist[0]);
-        let targetArtist = targetLetter?.artists?.find(artist => audioTrack.artist === artist.artistName);
-        if (!targetArtist) {
-            this.http.get<Artist>(`/artists?name=${audioTrack.artist}`).subscribe(artist => {
-                targetArtist = artist;
-                targetArtist.audioTracks?.push(audioTrack);
-                if (!targetLetter) {
-                    targetLetter = {
-                        letter: audioTrack.artist[0],
-                        artists: [targetArtist]
-                    }
-                    this.content.push(targetLetter);
-                    if (this.latinRegex.test(targetLetter.letter)) {
-                        this.latinContent.push(targetLetter);
-                        this.latinContent.sort((a, b) => a.letter.localeCompare(b.letter));
-                    } else if (this.cyrillicRegex.test(targetLetter.letter)) {
-                        this.slavicContent.push(targetLetter);
-                        this.slavicContent.sort((a, b) => a.letter.localeCompare(b.letter));
-                    } else {
-                        this.otherContent.push(targetLetter);
-                        this.otherContent.sort((a, b) => a.letter.localeCompare(b.letter));
-                    }
-                    this.content.sort((a, b) => a.letter.localeCompare(b.letter));
-                }
-                targetLetter.artists?.push(targetArtist);
-                targetLetter.artists?.sort((a, b) => a.artistName.localeCompare(b.artistName));
-            })
+    private moveToNewArtist(states: any) {
+        let oldState = states.old;
+        let newState = states.new as AudioTrack;
+        if (oldState.artist !== newState.artist) {
+            this.removeOldStateFromLibrary(oldState);
+            this.addNewStateToLibrary(newState);
+        }
+    }
+
+    private addNewStateToLibrary(newState: AudioTrack) {
+        let newLetter = newState.artist[0];
+        let contentGroup = this.findContentGroupByLetter(newLetter);
+        let newLetterLibrary = contentGroup.find(libraryLetter => libraryLetter.letter === newLetter);
+        if (!newLetterLibrary) {
+            newLetterLibrary = {letter: newLetter, artists: []};
+            contentGroup.push(newLetterLibrary);
+            contentGroup.sort((a, b) => a.letter.localeCompare(b.letter));
+        }
+        let newArtistLibrary = newLetterLibrary.artists!.find(artist => artist.artistName === newState.artist);
+        if (!newArtistLibrary) {
+            this.http.get<any>(`/artists?name=${newState.artist}`).subscribe(artist => {
+                newArtistLibrary = {
+                    id: artist.id,
+                    artistName: artist.artist,
+                    audioTracks: [newState]
+                };
+                newLetterLibrary!.artists!.push(newArtistLibrary);
+                newLetterLibrary!.artists?.sort((a, b) => a.artistName.localeCompare(b.artistName));
+            });
         } else {
-            targetArtist.audioTracks?.push(audioTrack);
+            newArtistLibrary.audioTracks?.push(newState);
+            newArtistLibrary.audioTracks?.sort((a, b) => a.name.localeCompare(b.name));
+        }
+    }
+
+    removeOldStateFromLibrary(oldState: any) {
+        let oldLetter = oldState.artist[0];
+        let contentGroup = this.findContentGroupByLetter(oldLetter);
+        let oldLetterLibrary = contentGroup.find(libraryLetter => libraryLetter.letter === oldLetter)!;
+        let oldArtistLibrary = oldLetterLibrary.artists?.find(artist => artist.artistName === oldState.artist)!;
+        let oldAudioTrack = oldArtistLibrary.audioTracks?.find(audioTrack => audioTrack.name === oldState.name);
+        if (oldAudioTrack) {
+            let index = oldArtistLibrary.audioTracks!.indexOf(oldAudioTrack);
+            if (index !== -1) {
+                oldArtistLibrary.audioTracks!.splice(index, 1);
+            }
+
+            if (oldArtistLibrary.audioTracks!.length === 0) {
+                this.http.delete(`/artists?name=${oldState.artist}`, { responseType: 'text' }).subscribe(() => {
+                    let artistInLibrary = oldLetterLibrary.artists?.find(artist => artist.artistName === oldState.artist)!;
+                    const artistIndex = oldLetterLibrary.artists!.indexOf(artistInLibrary);
+                    if (artistIndex !== -1) {
+                        oldLetterLibrary.artists?.splice(artistIndex, 1);
+                    }
+                    if (oldLetterLibrary.artists?.length === 0) {
+                        let contentGroup = this.findContentGroupByLetter(oldLetterLibrary.letter);
+                        let letterIndex = contentGroup.indexOf(oldLetterLibrary);
+                        if (letterIndex !== -1) {
+                            contentGroup.splice(letterIndex, 1);
+                        }
+
+                        let globalContentIndex = this.content.indexOf(oldLetterLibrary);
+                        if (globalContentIndex !== -1) {
+                            this.content.splice(globalContentIndex, 1);
+                        }
+                    }
+                })
+            }
+        }
+        return contentGroup;
+    }
+
+    private findContentGroupByLetter(letter: string): LibraryLetter[] {
+        if (this.latinRegex.test(letter)) {
+            return this.latinContent;
+        } else if (this.cyrillicRegex.test(letter)) {
+            return this.slavicContent;
+        } else {
+            return this.otherContent;
         }
     }
 }

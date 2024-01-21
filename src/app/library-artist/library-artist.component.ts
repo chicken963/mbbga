@@ -26,7 +26,7 @@ export class LibraryArtistComponent {
     @Input("round")
     round: Round;
 
-    @Output() onArtistDelete = new EventEmitter<Artist>();
+    @Output() onAudioTrackDelete = new EventEmitter<AudioTrack>();
 
     @Output()
     versionSelected: EventEmitter<RoundTableItem> = new EventEmitter<RoundTableItem>();
@@ -38,7 +38,7 @@ export class LibraryArtistComponent {
                 private notificationService: NotificationService) {
     }
 
-  loadArtistTracks(artist: Artist) {
+    loadArtistTracks(artist: Artist) {
         if (!artist.audioTracks || artist.audioTracks.length === 0) {
             this.tracksAreLoading = true;
             this.http.get(`/library/artists/${artist.id}`)
@@ -51,20 +51,14 @@ export class LibraryArtistComponent {
     }
 
     deleteFromLibrary(audioTrack: AudioTrack) {
-      this.http.delete(`/audio-tracks?id=${audioTrack.id}`).subscribe((response) => {
-        const index = this.artist.audioTracks?.indexOf(audioTrack, 0);
-        if (index || index === 0) {
-            this.artist.audioTracks?.splice(index, 1);
+        this.http.delete(`/audio-tracks?id=${audioTrack.id}`).subscribe((response) => {
             this.notificationService.pushNotification(
                 `Audio track ${audioTrack.artist} - ${audioTrack.name} was successfully deleted from library`,
                 "success");
-            if (this.artist.audioTracks?.length === 0) {
-                this.onArtistDelete.emit(this.artist);
-            }
-        }
-      }, (error) => {
-          this.dialogServide.showOkPopup("Error", "Failed to delete audio track from library.")
-      })
+            this.onAudioTrackDelete.emit(audioTrack);
+        }, (error) => {
+            this.dialogServide.showOkPopup("Error", "Failed to delete audio track from library.")
+        })
 
     }
 

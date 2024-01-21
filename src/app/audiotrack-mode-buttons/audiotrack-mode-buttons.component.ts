@@ -3,6 +3,7 @@ import {AudioTrack} from "../interfaces/audio-track";
 import {HttpClient} from "@angular/common/http";
 import {NotificationService} from "../utils/notification.service";
 import {DialogService} from "../utils/dialog.service";
+import {LibraryService} from "../library-content/library.service";
 
 @Component({
     selector: 'app-audiotrack-mode-buttons',
@@ -27,7 +28,8 @@ export class AudiotrackModeButtonsComponent implements OnInit {
 
     constructor(private http: HttpClient,
                 private notificationService: NotificationService,
-                private dialogService: DialogService) {
+                private dialogService: DialogService,
+                private libraryService: LibraryService) {
     }
 
     ngOnInit() {
@@ -70,7 +72,10 @@ export class AudiotrackModeButtonsComponent implements OnInit {
         }
         if (this.audioTrack.mode === 'edit') {
             this.http.put(`/audio-tracks/modify/inputs`, this.audioTrack)
-                .subscribe(response => this.notificationService.pushNotification(`Audio track ${this.audioTrack.artist} - ${this.audioTrack.name} is successfully updated.`))
+                .subscribe(response => {
+                    this.libraryService.modifyLibraryAudioTrack({old: this.snapshot, new : this.audioTrack});
+                    this.notificationService.pushNotification(`Audio track ${this.audioTrack.artist} - ${this.audioTrack.name} is successfully updated.`)
+                })
             this.audioTrack.mode = 'view';
             this.onSave.emit('view')
             return;
