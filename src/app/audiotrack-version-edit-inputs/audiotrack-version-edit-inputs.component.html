@@ -5,13 +5,14 @@
                timeMask="00:00.0"
                placeholder="mm:ss.S"
                value="{{ audioTrackVersion.startTime | timeFormat:'string' }}"
-               [disabled]="audioTrackVersion.mode === 'view' || audioTrackVersion.mode === 'workbench_view'"
+               [disabled]="disabled || (audioTrackVersion.mode === 'view' || audioTrackVersion.mode === 'workbench_view')"
                (change)="updateStartTime($event)">
         <button *ngIf="audioTrackVersion.mode === 'edit' || audioTrackVersion.mode === 'workbench_edit'"
                 class="min-width-50 h-50 p-0 arrow-button"
                 appParentWidth [threshold]="numericArrowThreshold"
                 mat-button
                 matSuffix
+                [disabled]="disabled"
                 (click)="incrementStartTime()">
             <mat-icon>keyboard_arrow_up</mat-icon>
         </button>
@@ -20,6 +21,7 @@
                 appParentWidth [threshold]="numericArrowThreshold"
                 mat-button
                 matSuffix
+                [disabled]="disabled"
                 (click)="decrementStartTime()">
             <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
@@ -34,13 +36,14 @@
                    timeMask="00:00.0"
                    placeholder="mm:ss.S"
                    value="{{ audioTrackVersion.endTime | timeFormat:'string' }}"
-                   [disabled]="audioTrackVersion.mode === 'view' || audioTrackVersion.mode === 'workbench_view'"
+                   [disabled]="disabled || (audioTrackVersion.mode === 'view' || audioTrackVersion.mode === 'workbench_view')"
                    (change)="updateEndTime($event)">
             <button *ngIf="audioTrackVersion.mode === 'edit' || audioTrackVersion.mode === 'workbench_edit'"
                     class="min-width-50 h-50 p-0 arrow-button"
                     appParentWidth [threshold]="numericArrowThreshold"
                     mat-button
                     matSuffix
+                    [disabled]="disabled"
                     (click)="incrementEndTime()">
                 <mat-icon>keyboard_arrow_up</mat-icon>
             </button>
@@ -49,6 +52,7 @@
                     appParentWidth [threshold]="numericArrowThreshold"
                     mat-button
                     matSuffix
+                    [disabled]="disabled"
                     (click)="decrementEndTime()">
                 <mat-icon>keyboard_arrow_down</mat-icon>
             </button>

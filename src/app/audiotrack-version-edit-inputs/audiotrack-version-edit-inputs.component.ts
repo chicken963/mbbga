@@ -16,6 +16,9 @@ export class AudiotrackVersionEditInputsComponent {
   @Input("version")
   audioTrackVersion: AudioTrackVersion;
 
+  @Input("disabled")
+  disabled: boolean;
+
   @Input("audioTrack")
   audioTrack: AudioTrack;
   numericArrowThreshold: number = 78;

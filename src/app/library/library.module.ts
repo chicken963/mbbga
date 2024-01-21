@@ -38,6 +38,8 @@ import {
 import { AudiotrackVersionModeButtonsComponent } from '../audiotrack-version-mode-buttons/audiotrack-version-mode-buttons.component';
 import { AudiotrackVersionPlaybackButtonsComponent } from '../audiotrack-version-playback-buttons/audiotrack-version-playback-buttons.component';
 import { AudiotrackModeButtonsComponent } from '../audiotrack-mode-buttons/audiotrack-mode-buttons.component';
+import { AudioControlsPanelComponent } from '../audio-controls-panel/audio-controls-panel.component';
+import { OverlayComponent } from '../overlay/overlay.component';
 
 
 @NgModule({
@@ -59,7 +61,9 @@ import { AudiotrackModeButtonsComponent } from '../audiotrack-mode-buttons/audio
         ParentWidthDirective,
         AudiotrackVersionModeButtonsComponent,
         AudiotrackVersionPlaybackButtonsComponent,
-        AudiotrackModeButtonsComponent
+        AudiotrackModeButtonsComponent,
+        AudioControlsPanelComponent,
+        OverlayComponent
     ],
     imports: [
         CommonModule,

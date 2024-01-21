@@ -13,6 +13,9 @@ export class AudiotrackEditInputsComponent implements OnChanges {
     @Input("audio-track")
     audioTrack: AudioTrack;
 
+    @Input("disabled")
+    disabled: boolean;
+
     audioInputs: FormGroup;
 
     numericArrowThreshold: number = 78;

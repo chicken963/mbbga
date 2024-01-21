@@ -2,18 +2,21 @@
     <button *ngIf="audioTrack.mode === 'edit' && showRevert"
             mat-button class="panel-button color-danger"
             (click)="cancel()"
+            [disabled]="disabled"
             matTooltip="Undo changes">
         <mat-icon>replay</mat-icon>
     </button>
     <button *ngIf="(audioTrack.mode === 'view' || audioTrack.mode === 'workbench_view') && audioTrack.createdByCurrentUser"
             mat-button class="panel-button"
             (click)="switchMode()"
+            [disabled]="disabled"
             matTooltip="{{audioTrack.mode === 'view' ? 'Edit artist and title' : 'Edit audio track'}}">
         <mat-icon>edit</mat-icon>
     </button>
     <button *ngIf="audioTrack.mode === 'edit' || audioTrack.mode === 'workbench_edit'"
             mat-button class="panel-button"
             (click)="switchMode()"
+            [disabled]="disabled"
             matTooltip="{{audioTrack.mode === 'edit' ? 'Save artist and title' : 'Save audio track'}}">
         <mat-icon>save</mat-icon>
     </button>
@@ -21,6 +24,7 @@
             class="panel-button"
             mat-button
             (click)="delete()"
+            [disabled]="disabled"
             color="primary"
             matTooltip="Delete track from {{audioTrack.mode === 'workbench_edit' || audioTrack.mode === 'workbench_view' ? 'workbench' : 'library'}}">
         <mat-icon>highlight_off</mat-icon>

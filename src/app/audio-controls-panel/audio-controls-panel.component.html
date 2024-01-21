@@ -1,0 +1,31 @@
+<mat-expansion-panel [expanded]="!audioTrack.id">
+    <mat-expansion-panel-header>
+        <div class="d-flex flex-row justify-content-between w-100">
+            <div class="ellipsis d-flex align-items-center">{{audioTrack.name}}</div>
+            <div *ngIf="audioTrack.versions.length > 1" class="versions-marker mx-1">({{audioTrack.versions.length}} Versions)</div>
+            <div *ngIf="audioTrack.versions.length === 1" class="d-flex flex-row w-100">
+                <app-audiotrack-version-playback-buttons [version]="audioTrack.versions[0]"
+                                                         [audio-track]="audioTrack"
+                                                         [range-slider]="rangeSlider"
+                                                         class="d-flex align-items-center">
+                </app-audiotrack-version-playback-buttons>
+                <div class="current-progress">{{ getProgress() | async | timeFormat:'string' }}</div>
+                <app-range-slider #rangeSlider class="mx-1 w-100"
+                                  [audio-track]="audioTrack"
+                                  [version]="audioTrack.versions[0]"
+                                  [disabled]="true">
+                </app-range-slider>
+                <div class="current-progress">{{ audioTrack.versions[0].endTime - audioTrack.versions[0].startTime | timeFormat:'string'}}
+                </div>
+            </div>
+        </div>
+    </mat-expansion-panel-header>
+    <app-audio-controls [ngClass]="{'library-in-workbench' : round}"
+                        [audio-track]="audioTrack"
+                        (onDelete)="deleteFromLibrary($event)"
+                        [searchQuery]="searchQuery"
+                        [mode]="'view'"
+                        [round]="round"
+                        (versionSelected)="onVersionSelected($event)">
+    </app-audio-controls>
+</mat-expansion-panel>

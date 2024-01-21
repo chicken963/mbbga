@@ -41,7 +41,7 @@ export class LibraryArtistComponent {
   loadArtistTracks(artist: Artist) {
         if (!artist.audioTracks || artist.audioTracks.length === 0) {
             this.tracksAreLoading = true;
-            this.http.get(`/library/artists?value=${artist.artistName}`)
+            this.http.get(`/library/artists/${artist.id}`)
                 .subscribe(result => {
                     artist.audioTracks = result as AudioTrack[];
                     artist.audioTracks.forEach(audioTrack => audioTrack.mode = "view")

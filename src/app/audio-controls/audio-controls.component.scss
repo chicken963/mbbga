@@ -28,31 +28,3 @@ app-audiotrack-mode-buttons {
     position: absolute;
     right: 2px;
 }
-
-.versions-marker {
-    color: #f44336;
-    font-style: italic;
-}
-
-.current-progress {
-    position: relative;
-    top: 15px;
-    height: 24px;
-
-    color: white;
-    min-width: 55px;
-    text-align: center;
-}
-
-mat-expansion-panel-header {
-    ::ng-deep .mat-content {
-        margin-right: 10px;
-    }
-}
-
-.ellipsis {
-    min-width: 25%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}

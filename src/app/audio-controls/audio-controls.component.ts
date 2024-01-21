@@ -16,8 +16,11 @@ import {RoundTableItem} from "../interfaces/round-table-item";
 import {Round} from "../interfaces/round";
 import {FormGroup} from "@angular/forms";
 import {AudiotrackModeButtonsComponent} from "../audiotrack-mode-buttons/audiotrack-mode-buttons.component";
-import {BehaviorSubject, Observable} from "rxjs";
-import {LibraryPlayerService} from "./library-player.service";
+import {OverlayService} from "../overlay.service";
+import {Subject} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {LibraryService} from "../library-content/library.service";
+import {NotificationService} from "../utils/notification.service";
 
 
 @Component({
@@ -49,7 +52,7 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
     private defaultAudio: ElementRef<HTMLAudioElement>;
 
     @Output() onDelete = new EventEmitter<AudioTrack>();
-    @Output() onModeChange = new EventEmitter<string>();
+    @Output() onSave = new EventEmitter<string>();
 
     @Output()
     versionSelected: EventEmitter<RoundTableItem> = new EventEmitter<RoundTableItem>();
@@ -57,11 +60,9 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
     @Input("audioInputs")
     audioInputs: FormGroup;
     inputsChanged: boolean = false;
+    disableControls: boolean = false;
 
-    progress: Observable<number>;
-
-
-    constructor(private cdr: ChangeDetectorRef, private libraryPlayerService: LibraryPlayerService) {
+    constructor(private cdr: ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -71,11 +72,6 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         this.audioTrack.audioEl = this.defaultAudio.nativeElement;
-    }
-
-    onVersionModeChange(mode: string, i: number) {
-        this.audioTrack.mode = mode;
-        this.onModeChange.emit(mode);
     }
 
     onFormValidityChanged(isValid: boolean) {
@@ -115,18 +111,12 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
         }
     }
 
-    saveAudioTrack() {
-        this.onModeChange.emit("view")
+    saveAudioTrack(mode: string) {
+        this.onSave.emit(mode);
     }
 
     showRevertButton($event: boolean) {
         this.modeButtonsComponent.showRevert = $event;
-    }
-
-    getProgress(): Observable<number> {
-        return this.audioTrack.versions[0] === this.libraryPlayerService.activeVersion
-            ? this.libraryPlayerService.getProgressInSeconds()
-            : new BehaviorSubject(this.audioTrack.versions[0].progressInSeconds ? this.audioTrack.versions[0].progressInSeconds : 0).asObservable();
     }
 
     deleteAudioTrack() {

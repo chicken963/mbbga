@@ -6,6 +6,7 @@ import {AudioTrack} from "../interfaces/audio-track";
 import {NotificationService} from "../utils/notification.service";
 import {DialogService} from "../utils/dialog.service";
 import {LibraryService} from "../library-content/library.service";
+import {OverlayService} from "../overlay.service";
 
 @Component({
     selector: 'app-add-audiotracks-workbench',
@@ -15,9 +16,8 @@ import {LibraryService} from "../library-content/library.service";
 })
 export class AddAudiotracksWorkbenchComponent {
 
-    private dialogIsOpened: boolean = false;
     audioTracks: AudioTrack[] = [];
-    allTracksAreConfirmed: boolean = false;
+    disableControls: boolean = false;
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: File[],
                 private selfDialogRef: MatDialogRef<AddAudiotracksWorkbenchComponent>,
@@ -26,16 +26,16 @@ export class AddAudiotracksWorkbenchComponent {
                 private localAudioService: LocalAudioService,
                 private http: HttpClient,
                 private notificationService: NotificationService,
-                private libraryService: LibraryService) {
+                private libraryService: LibraryService,
+                private overlayService: OverlayService
+                ) {
         data.map(file => this.localAudioService.toLocalAudioTrack(file, "edit")
             .then(audiotrack => this.audioTracks.push(audiotrack)));
     }
 
     openConfirmationDialog(): void {
-        this.dialogIsOpened = true;
         this.dialogService.openYesNoPopup("Are you sure you want to interrupt adding audio tracks to library?\nAll changes will be lost.",
             (confirmed: boolean) => {
-                this.dialogIsOpened = false;
                 if (confirmed) {
                     this.audioTracks = [];
                     this.selfDialogRef.close();
@@ -45,63 +45,51 @@ export class AddAudiotracksWorkbenchComponent {
 
     deleteFromWorkbench(audioTrack: AudioTrack) {
         const index = this.audioTracks.findIndex(wbAudioTrack => wbAudioTrack === audioTrack);
-        if (this.audioTracks.length === 1) {
-            this.openConfirmationDialog();
-            return;
-        }
         if (index !== -1) {
             this.audioTracks.splice(index, 1);
         }
-    }
-
-    addToLibrary() {
-        let counter = 0;
-        let anyTrackFailed: boolean = false;
-        for (let audiotrack of this.audioTracks) {
-            const formData = new FormData();
-            formData.append('file', audiotrack.file, audiotrack.name);
+        if (this.audioTracks.length === 0) {
             this.selfDialogRef.close();
-            this.http.post("/audio-tracks/add", audiotrack.file, {
-                params:
-                    {
-                        artist: audiotrack.artist,
-                        name: audiotrack.name,
-                        start: audiotrack.versions[0].startTime,
-                        end: audiotrack.versions[0].endTime,
-                        duration: audiotrack.length
-                    }
-            }).subscribe(response => {
-                    counter += 1;
-                    let audio = response as unknown as AudioTrack;
-                    this.libraryService.addToLibrary(audio);
-                    this.notificationService.pushNotification(`Audio track '${audio.artist} - ${audio.name}' was successfully added to library`)
-                },
-                error => {
-                    counter += 1;
-                    anyTrackFailed = true;
-                    if (error.status === 409) {
-                        this.notificationService.pushNotification(`Error happened while adding '${audiotrack.artist} - ${audiotrack.name}' to library. Reason: audio track with the same artist and name already exists.`);
-                        return;
-                    }
-                    this.notificationService.pushNotification(`Error happened while adding '${audiotrack.artist} - ${audiotrack.name}' to library. Reason: ${error.message}`);
-                }).add(() => {
-                if (counter == this.audioTracks.length) {
-                    if (anyTrackFailed) {
-                        this.notificationService.pushNotification(
-                            "Some of the tracks were not added to library.", "error");
-                    } else {
-                        this.notificationService.pushNotification(
-                            "Audio tracks successfully added to library.", "success");
-                    }
-                }});
         }
     }
 
-    allAudioTracksAreConfirmed(): boolean {
-        return !this.audioTracks.find(audioTracks => !audioTracks.inputsAreValid);
+    saveToLibrary(index: number) {
+        let audioTrack = this.audioTracks[index];
+        this.openOverlay();
+        let addToLibrary = this.http.post("/audio-tracks/add", audioTrack.file, {
+            params:
+                {
+                    artist: audioTrack.artist,
+                    name: audioTrack.name,
+                    start: audioTrack.versions[0].startTime,
+                    end: audioTrack.versions[0].endTime,
+                    duration: audioTrack.length
+                }
+        });
+        addToLibrary.subscribe(response => {
+                let audio = response as unknown as AudioTrack;
+                this.libraryService.addToLibrary(audio);
+                this.notificationService.pushNotification(`Audio track '${audio.artist} - ${audio.name}' was successfully added to library`)
+                this.deleteFromWorkbench(audioTrack);
+            },
+            error => {
+                if (error.status === 409) {
+                    this.notificationService.pushNotification(`Error happened while adding '${audioTrack.artist} - ${audioTrack.name}' to library. Reason: audio track with the same artist and name already exists.`);
+                    return;
+                }
+                this.notificationService.pushNotification(`Error happened while adding '${audioTrack.artist} - ${audioTrack.name}' to library. Reason: ${error.message}`);
+            }, () => {
+                this.closeOverlay();
+            });
     }
 
-    checkAllAudioTracksConfirmed() {
-        this.allTracksAreConfirmed = this.audioTracks.every(audioTracks => audioTracks.mode === 'view' || audioTracks.mode === 'workbench_view');
+    openOverlay(): void {
+        this.disableControls = true;
+        this.overlayService.showLoader(this.elementRef);
+    }
+
+    closeOverlay(): void {
+        this.disableControls = false;
+        this.overlayService.hideLoader();
     }
 }

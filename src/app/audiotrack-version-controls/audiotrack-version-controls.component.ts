@@ -24,6 +24,9 @@ export class AudiotrackVersionControlsComponent implements OnInit {
     @Input("round")
     round: Round;
 
+    @Input("disableControls")
+    disableControls: boolean;
+
     selected?: boolean;
 
     @Output() selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();

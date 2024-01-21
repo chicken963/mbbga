@@ -6,7 +6,6 @@ import {AudioTrack} from "../interfaces/audio-track";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {debounceTime, Subject, takeUntil} from "rxjs";
 import {LibraryContentComponent} from "../library-content/library-content.component";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {RoundTableItem} from "../interfaces/round-table-item";
 import {Round} from "../interfaces/round";
 
@@ -40,9 +39,6 @@ export class LibraryComponent implements OnInit {
                 private libraryService: LibraryService,
                 private fb: FormBuilder) {
         this.loadContent();
-        this.libraryService.addedToLibraryTrackList$.subscribe((audioTrack: AudioTrack) => {
-            this.libraryService.add(this.content, audioTrack);
-        });
     }
 
     loadContent() {

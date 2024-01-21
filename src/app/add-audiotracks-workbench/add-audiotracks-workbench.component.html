@@ -10,15 +10,14 @@
     </div>
 
     <div class="p-1" mat-dialog-content>
-        <app-audio-controls *ngFor="let audiotrack of audioTracks"
+        <app-audio-controls *ngFor="let audiotrack of audioTracks, let i = index"
                             [audio-track]="audiotrack"
                             [mode]="'workbench_edit'"
                             (onDelete)="deleteFromWorkbench($event)"
-                            (onModeChange)="checkAllAudioTracksConfirmed()">
+                            (onSave)="saveToLibrary(i)">
         </app-audio-controls>
     </div>
     <div class="footer d-flex m-1 flex-row justify-content-between" mat-dialog-actions>
-        <button mat-raised-button color="primary" (click)="addToLibrary()" [disabled]="!allTracksAreConfirmed">Add to library</button>
         <app-volume-slider class="d-flex align-items-center"></app-volume-slider>
     </div>
 </div>

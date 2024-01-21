@@ -4,6 +4,8 @@ import {NotificationService} from "../utils/notification.service";
 import {HttpClient} from "@angular/common/http";
 import {RoundTableItem} from "../interfaces/round-table-item";
 import {Round} from "../interfaces/round";
+import {LibraryService} from "./library.service";
+import {AudioTrack} from "../interfaces/audio-track";
 
 @Component({
     selector: 'app-library-content',
@@ -13,7 +15,11 @@ import {Round} from "../interfaces/round";
 })
 export class LibraryContentComponent implements OnChanges {
 
-    constructor(private notificationService: NotificationService, private http: HttpClient) {
+    constructor(private notificationService: NotificationService, private http: HttpClient,
+                private libraryService: LibraryService) {
+        this.libraryService.addedToLibraryTrackList$.subscribe((audioTrack: AudioTrack) => {
+            this.add(audioTrack);
+        });
     }
 
     private latinRegex = /^[a-zA-Z]$/;
@@ -63,7 +69,11 @@ export class LibraryContentComponent implements OnChanges {
             this.artistsAreLoading = true;
             this.http.get(`/library/letters?value=${letter.letter}`)
                 .subscribe(result => {
-                    letter.artists = (result as string[]).map(artist => ({artistName: artist, audioTracks: []}));
+                    letter.artists = (result as any[]).map(dto => ({
+                        id: dto.id,
+                        artistName: dto.artist,
+                        audioTracks: []
+                    }));
                     this.artistsAreLoading = false;
                 })
         }
@@ -79,6 +89,9 @@ export class LibraryContentComponent implements OnChanges {
                     if (libraryLetter.artists?.length === 0) {
                         let letterIndex = contentGroup.indexOf(libraryLetter);
                         contentGroup.splice(letterIndex, 1);
+
+                        let globalLetterIndex = this.content.indexOf(libraryLetter);
+                        this.content.splice(globalLetterIndex, 1);
                     }
                     return;
                 }
@@ -88,6 +101,40 @@ export class LibraryContentComponent implements OnChanges {
 
     onVersionSelected(version: RoundTableItem) {
         this.versionSelected.emit(version);
+    }
+
+    add(audioTrack: AudioTrack) {
+        let artist = audioTrack.artist;
+        let targetLetter = this.content.find(libraryLetter => libraryLetter.letter === artist[0]);
+        let targetArtist = targetLetter?.artists?.find(artist => audioTrack.artist === artist.artistName);
+        if (!targetArtist) {
+            this.http.get<Artist>(`/artists?name=${audioTrack.artist}`).subscribe(artist => {
+                targetArtist = artist;
+                targetArtist.audioTracks?.push(audioTrack);
+                if (!targetLetter) {
+                    targetLetter = {
+                        letter: audioTrack.artist[0],
+                        artists: [targetArtist]
+                    }
+                    this.content.push(targetLetter);
+                    if (this.latinRegex.test(targetLetter.letter)) {
+                        this.latinContent.push(targetLetter);
+                        this.latinContent.sort((a, b) => a.letter.localeCompare(b.letter));
+                    } else if (this.cyrillicRegex.test(targetLetter.letter)) {
+                        this.slavicContent.push(targetLetter);
+                        this.slavicContent.sort((a, b) => a.letter.localeCompare(b.letter));
+                    } else {
+                        this.otherContent.push(targetLetter);
+                        this.otherContent.sort((a, b) => a.letter.localeCompare(b.letter));
+                    }
+                    this.content.sort((a, b) => a.letter.localeCompare(b.letter));
+                }
+                targetLetter.artists?.push(targetArtist);
+                targetLetter.artists?.sort((a, b) => a.artistName.localeCompare(b.artistName));
+            })
+        } else {
+            targetArtist.audioTracks?.push(audioTrack);
+        }
     }
 }
 

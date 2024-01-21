@@ -4,7 +4,9 @@
         <div class="d-flex flex-column justify-content-center slider-and-progress">
             <div class="d-flex flex-row justify-content-between">
                 <app-audiotrack-version-edit-inputs [audioTrack]="audioTrack"
-                                                    [version]="audioTrackVersion" class="w-100">
+                                                    [version]="audioTrackVersion"
+                                                    [disabled]="disableControls"
+                                                    class="w-100">
                 </app-audiotrack-version-edit-inputs>
                 <app-audiotrack-version-mode-buttons *ngIf="audioTrackVersion.mode === 'edit' || audioTrackVersion.mode === 'view'"
                                                      [version]="audioTrackVersion"
@@ -15,11 +17,13 @@
             <div class="d-flex flex-row">
                 <app-audiotrack-version-playback-buttons [version]="audioTrackVersion"
                                                          [audio-track]="audioTrack"
-                                                         [range-slider]="rangeSlider">
+                                                         [range-slider]="rangeSlider"
+                                                         [disabled]="disableControls">
                 </app-audiotrack-version-playback-buttons>
                 <app-range-slider #rangeSlider class="mx-1"
                                   [audio-track]="audioTrack"
-                                  [version]="audioTrackVersion">
+                                  [version]="audioTrackVersion"
+                                  [disabled]="disableControls">
                 </app-range-slider>
             </div>
         </div>

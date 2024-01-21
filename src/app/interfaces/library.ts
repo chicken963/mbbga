@@ -7,6 +7,7 @@ export interface LibraryLetter {
 }
 
 export interface Artist {
+    id: string;
     artistName: string;
     audioTracks?: AudioTrack[];
 }

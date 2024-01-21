@@ -23,6 +23,9 @@ export class AudiotrackVersionPlaybackButtonsComponent {
     @Input("range-slider")
     rangeSlider: RangeSliderComponent;
 
+    @Input("disabled")
+    disabled: boolean;
+
     currentVersionIsPlaying: boolean;
     trackIsLoading: boolean;
     loadPercents: number = 0;
