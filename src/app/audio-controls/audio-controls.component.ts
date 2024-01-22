@@ -16,11 +16,6 @@ import {RoundTableItem} from "../interfaces/round-table-item";
 import {Round} from "../interfaces/round";
 import {FormGroup} from "@angular/forms";
 import {AudiotrackModeButtonsComponent} from "../audiotrack-mode-buttons/audiotrack-mode-buttons.component";
-import {OverlayService} from "../overlay.service";
-import {Subject} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {LibraryService} from "../library-content/library.service";
-import {NotificationService} from "../utils/notification.service";
 
 
 @Component({
@@ -97,7 +92,10 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
             startTime: version.startTime,
             endTime: version.endTime,
             duration: this.audioTrack.length,
-            selected: $event
+            audioEl: this.audioTrack.audioEl,
+            url: this.audioTrack.url,
+            selected: $event,
+            progressInSeconds: 0
         });
         version.selected = $event;
         if ($event) {

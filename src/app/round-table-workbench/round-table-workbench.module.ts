@@ -9,6 +9,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatButtonModule} from "@angular/material/button";
 import {TimeFormatModule} from "../time-format/time-format.module";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 
@@ -28,7 +29,8 @@ import {MatDialogModule} from "@angular/material/dialog";
         MatTooltipModule,
         MatButtonModule,
         TimeFormatModule,
-        MatDialogModule
+        MatDialogModule,
+        MatProgressSpinnerModule
     ]
 })
 export class RoundTableWorkbenchModule { }

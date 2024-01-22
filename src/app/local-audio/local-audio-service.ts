@@ -40,7 +40,7 @@ export class LocalAudioService {
 
     initiateName(filename: string) {
         let wholeName = this.trimFileExtension(filename);
-        const dashIndex = wholeName.indexOf('-');
+        let dashIndex = this.findDashIndex(wholeName);
         if (dashIndex !== -1) {
             return wholeName.substring(dashIndex + 1).trim();
         }
@@ -49,11 +49,19 @@ export class LocalAudioService {
 
     initiateArtist(filename: string) {
         let wholeName = this.trimFileExtension(filename);
-        const dashIndex = wholeName.indexOf('-');
+        let dashIndex = this.findDashIndex(wholeName);
         if (dashIndex !== -1) {
             return wholeName.substring(0, dashIndex).trim();
         }
         return "";
+    }
+
+    private findDashIndex(wholeName: string) {
+        let dashIndex = wholeName.indexOf('-');
+        if (dashIndex === -1) {
+            dashIndex = wholeName.indexOf('–');
+        }
+        return dashIndex;
     }
 
     trimFileExtension(filename: string): string {

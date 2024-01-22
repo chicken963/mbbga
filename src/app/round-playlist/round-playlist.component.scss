@@ -1,0 +1,58 @@
+.empty-rows-message {
+    height: 60px;
+    text-align: center;
+    color: rgb(244, 67, 54);
+}
+
+.play-control-button {
+    padding: 0;
+    height: 48px;
+    width: 48px;
+    ::ng-deep .mat-mdc-button-persistent-ripple {
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        border-radius: 50%;
+    }
+    ::ng-deep .mat-mdc-button-ripple {
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        border-radius: 50%;
+    }
+    ::ng-deep .mat-mdc-focus-indicator {
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        border-radius: 50%;
+    }
+    ::ng-deep .mat-mdc-button-touch-target {
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        border-radius: 50%;
+    }
+    ::ng-deep .mat-icon {
+        transform: scale(1.33);
+        margin-right: 16px;
+    }
+}
+
+.spinner-container {
+    width: 48px;
+    ::ng-deep .mat-mdc-progress-spinner {
+        margin: auto;
+        width: 30px !important;
+        height: 30px !important;
+    }
+}
+
+.load-percentage {
+    text-align: center;
+}
+
+.playlist-table {
+    ::ng-deep .mat-mdc-cell {
+        background: none;
+    }
+}

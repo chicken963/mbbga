@@ -6,5 +6,8 @@ export interface RoundTableItem {
     startTime: number,
     endTime: number,
     duration: number,
-    selected: boolean
+    selected: boolean,
+    audioEl: HTMLAudioElement,
+    url: string,
+    progressInSeconds: number;
 }

@@ -1,4 +1,4 @@
-import {ElementRef, Pipe, PipeTransform, Renderer2, SecurityContext} from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {DomSanitizer} from "@angular/platform-browser";
 
 @Pipe({

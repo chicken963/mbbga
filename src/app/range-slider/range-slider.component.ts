@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, Renderer2} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, Renderer2} from '@angular/core';
 import {MatSliderModule} from "@angular/material/slider";
 import {MatIconModule} from "@angular/material/icon";
 import {FormsModule} from "@angular/forms";

@@ -31,9 +31,6 @@ export class AudioControlsPanelComponent {
   @ViewChildren(AudiotrackVersionControlsComponent)
   versionControls: AudiotrackVersionControlsComponent[];
 
-  @ViewChild("defaultAudio")
-  private defaultAudio: ElementRef<HTMLAudioElement>;
-
   @Output() onDelete = new EventEmitter<AudioTrack>();
   @Output() onModeChange = new EventEmitter<string>();
 
