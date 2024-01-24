@@ -23,3 +23,11 @@
   overflow: auto;
 }
 
+app-round-playlist {
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.add-to-playlist-button {
+  min-height: 36px;
+}

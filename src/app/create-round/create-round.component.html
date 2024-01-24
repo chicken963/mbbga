@@ -8,11 +8,26 @@
         <app-win-conditions-form [winConditionsForm]="winConditionForm" [round]="round"></app-win-conditions-form>
     </form>
     <div class="d-flex flex-column playlist-group-container">
-        <button mat-raised-button color="primary" class="mb-2" (click)="openLibrary()">
+        <button mat-raised-button color="primary" class="mb-2 add-to-playlist-button" (click)="openLibrary()">
             <mat-icon>add</mat-icon>
             Add audio track(s) from library
         </button>
-        <app-round-playlist [round]="round"></app-round-playlist>
+        <app-round-player *ngIf="round.audioTracks.length > 0"
+                          [round-item]="playedItem"
+                          [next-exists]="nextExists"
+                          [previous-exists]="previousExists"
+                          [nextTrackDownload]="nextTrackDownload"
+                          (playNext)="onPlayNext()"
+                          (playPrevious)="onPlayPrevious()"
+                          (play)="play($event)"
+                          (pause)="pause($event)"
+                          (stop)="stop($event)">
+        </app-round-player>
+        <app-round-playlist [round]="round"
+                            (playedItemChanged)="onPlayedItemChanged($event)"
+                            (nextTrackDownload)="onNextTrackDownload($event)"
+                            (pause)="onPauseClicked()">
+        </app-round-playlist>
     </div>
 
 </div>

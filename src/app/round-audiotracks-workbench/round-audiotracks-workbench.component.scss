@@ -2,6 +2,8 @@ app-round-playlist {
     width: 100%;
     margin-top: 0.5rem;
     margin-left: 2rem;
+    max-height: 100%;
+    overflow-y: auto;
 }
 
 app-library {

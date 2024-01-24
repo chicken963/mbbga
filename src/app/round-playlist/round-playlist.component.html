@@ -25,7 +25,7 @@
                 </button>
                 <button mat-button
                         class="play-control-button"
-                        (click)="pause()"
+                        (click)="_pause()"
                         *ngIf="isPlaying && playedItem === element">
                     <mat-icon>pause</mat-icon>
                 </button>

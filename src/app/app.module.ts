@@ -41,7 +41,6 @@ import { WinConditionsFormComponent } from './win-conditions-form/win-conditions
 import { FieldSizeFormComponent } from './field-size-form/field-size-form.component';
 import {MatTableModule} from "@angular/material/table";
 import {RoundTableWorkbenchModule} from "./round-table-workbench/round-table-workbench.module";
-import { AudiotrackVersionEditInputsComponent } from './audiotrack-version-edit-inputs/audiotrack-version-edit-inputs.component';
 import { DateRefinePipe } from './date-refine.pipe';
 
 @NgModule({

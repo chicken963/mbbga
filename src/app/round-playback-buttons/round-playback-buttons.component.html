@@ -1,0 +1,34 @@
+<div class="d-flex flex-row justify-content-start align-items-center">
+    <div class="d-flex flex-row justify-content-center align-items-center">
+        <button mat-button matTooltip="Previous track"
+                class="play-control-button"
+                (click)="_previousTrack()"
+                [disabled]="!previousExists">
+            <mat-icon>fast_rewind</mat-icon>
+        </button>
+        <button mat-button matTooltip="Play"
+                class="play-control-button"
+                (click)="_play()"
+                *ngIf="!isPlaying"
+                [disabled]="!playedItem">
+            <mat-icon>play_arrow</mat-icon>
+        </button>
+        <button mat-button matTooltip="Pause"
+                class="play-control-button"
+                (click)="_pause()"
+                *ngIf="isPlaying">
+            <mat-icon>pause</mat-icon>
+        </button>
+        <button mat-button matTooltip="Stop"
+                class="play-control-button"
+                (click)="_stop()">
+            <mat-icon>stop</mat-icon>
+        </button>
+    </div>
+    <button mat-button matTooltip="Next track"
+            class="play-control-button"
+            (click)="_nextTrack()"
+            [disabled]="!nextExists">
+        <mat-icon>fast_forward</mat-icon>
+    </button>
+</div>

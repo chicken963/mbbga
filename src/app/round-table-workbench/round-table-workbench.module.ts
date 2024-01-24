@@ -10,17 +10,23 @@ import {MatButtonModule} from "@angular/material/button";
 import {TimeFormatModule} from "../time-format/time-format.module";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {RoundPlayerComponent} from "../round-player/round-player.component";
+import {MatCardModule} from "@angular/material/card";
+import { RoundPlaybackButtonsComponent } from '../round-playback-buttons/round-playback-buttons.component';
 
 
 
 @NgModule({
   declarations: [
     RoundAudiotracksWorkbenchComponent,
-    RoundPlaylistComponent
+    RoundPlaylistComponent,
+    RoundPlayerComponent,
+    RoundPlaybackButtonsComponent
   ],
-  exports: [
-    RoundPlaylistComponent
-  ],
+    exports: [
+        RoundPlaylistComponent,
+        RoundPlayerComponent
+    ],
     imports: [
         CommonModule,
         LibraryModule,
@@ -30,7 +36,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
         MatButtonModule,
         TimeFormatModule,
         MatDialogModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatCardModule
     ]
 })
 export class RoundTableWorkbenchModule { }
