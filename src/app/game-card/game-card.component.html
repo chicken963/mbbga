@@ -23,7 +23,7 @@
             </div>
             <div *ngIf="game.lastContributor && game.modifiedAt" class="d-flex flex-row justify-content-between">
                 <span class="game-metadata-key">Modified at:</span>
-                <span class="game-metadata-value">{{ game.modifiedAt | date }}</span>
+                <span class="game-metadata-value">{{ game.modifiedAt | date | dateRefine }}</span>
             </div>
         </div>
     </mat-card-content>

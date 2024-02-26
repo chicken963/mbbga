@@ -1,11 +1,14 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {RoundTableItem} from "./interfaces/round-table-item";
-import {Observable, Subject} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
+import {VolumeService} from "./services/volume.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class RoundPlayerService {
+
+    ngDestroy$: Subject<boolean> = new Subject<boolean>();
 
     currentItem: RoundTableItem;
     nextItemChanged: Subject<RoundTableItem> = new Subject<RoundTableItem>();
@@ -13,29 +16,46 @@ export class RoundPlayerService {
 
     nextItemExistChange: Subject<boolean> = new Subject<boolean>();
     previousItemExistChange: Subject<boolean> = new Subject<boolean>();
+    private volume: number;
+
+    constructor(private volumeService: VolumeService) {
+        this.volumeService.getVolume().pipe(takeUntil(this.ngDestroy$)).subscribe((volume) => {
+            this.volume = volume / 100;
+            if (this.currentItem?.audioEl) {
+                this.currentItem.audioEl.volume = this.volume;
+            }
+        });
+    }
 
 
     play(item: RoundTableItem) {
         if (!this.currentItem) {
             this.currentItem = item;
-            this.currentItem!.audioEl!.currentTime = item.startTime;
+            if (this.currentItem!.audioEl) {
+                this.currentItem!.audioEl.currentTime = item.startTime;
+            }
         }
         if (this.currentItem !== item) {
-            this.currentItem!.audioEl!.pause();
+            this.currentItem!.audioEl?.pause();
             this.currentItem = item;
-            this.currentItem!.audioEl!.currentTime = item.startTime;
+            if (this.currentItem!.audioEl) {
+                this.currentItem!.audioEl.currentTime = item.startTime;
+            }
         } else {
             this.resetIfPlayedToTheEnd();
         }
-        this.currentItem?.audioEl.play();
+        if (this.currentItem?.audioEl) {
+            this.currentItem.audioEl.volume = this.volume;
+        }
+        this.currentItem?.audioEl?.play();
     }
 
     pause() {
-        this.currentItem.audioEl.pause();
+        this.currentItem?.audioEl.pause();
     }
 
     private resetIfPlayedToTheEnd() {
-        if (this.currentItem.audioEl.currentTime >= this.currentItem.endTime - 0.1) {
+        if (this.currentItem.audioEl?.currentTime >= this.currentItem.endTime - 0.1) {
             this.currentItem.audioEl.currentTime = this.currentItem.startTime;
         }
     }

@@ -95,7 +95,8 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
             audioEl: this.audioTrack.audioEl,
             url: this.audioTrack.url,
             selected: $event,
-            progressInSeconds: 0
+            progressInSeconds: 0,
+            status: 'not loaded'
         });
         version.selected = $event;
         if ($event) {

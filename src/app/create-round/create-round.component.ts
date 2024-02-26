@@ -38,7 +38,6 @@ export class CreateRoundComponent implements OnInit {
 
     nextExists: boolean;
     previousExists: boolean = false;
-    nextTrackDownload: boolean = false;
 
     constructor(private fb: FormBuilder,
                 private dialog: MatDialog,
@@ -106,7 +105,7 @@ export class CreateRoundComponent implements OnInit {
         }
         if (this.audioTracksTable) {
             this.nextExists = this.audioTracksTable.nextItem !== undefined;
-            this.previousExists = this.audioTracksTable.itemsHistory.length > 0;
+            this.previousExists = this.audioTracksTable.itemsIndexesHistory.length > 0;
         }
     }
 
@@ -141,11 +140,7 @@ export class CreateRoundComponent implements OnInit {
 
     onPlayPrevious() {
         this.audioTracksTable.playPrevious();
-        this.previousExists = this.audioTracksTable?.itemsHistory !== undefined &&
-            this.audioTracksTable?.itemsHistory.length > 0;
-    }
-
-    onNextTrackDownload(value: boolean) {
-        this.nextTrackDownload = value;
+        this.previousExists = this.audioTracksTable?.itemsIndexesHistory !== undefined &&
+            this.audioTracksTable?.itemsIndexesHistory.length > 0;
     }
 }

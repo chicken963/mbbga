@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import {RoundTableItem} from "../interfaces/round-table-item";
-import {Round} from "../interfaces/round";
 
 @Component({
     selector: 'app-round-player',
@@ -17,9 +16,6 @@ export class RoundPlayerComponent {
 
     @Input("next-exists")
     nextExists: boolean;
-
-    @Input("nextTrackDownload")
-    nextTrackDownload: boolean;
 
     @Output() playPrevious: EventEmitter<any> = new EventEmitter<any>();
     @Output() playNext: EventEmitter<any> = new EventEmitter<any>();

@@ -1,21 +1,12 @@
 <mat-card class="px-2 pb-2 mb-1">
     <div class="d-flex flex-column">
-        <div class="d-flex flex-row-reverse next-track-loader m-1">
-            <div *ngIf="nextTrackDownload">
-                Loading next track...
-                <div class="gradient-line-container">
-                    <div class="loader"></div>
-                </div>
-            </div>
-        </div>
-        <div *ngIf="playedItem" class="d-flex flex-row justify-content-between p-3">
+        <div *ngIf="playedItem" class="d-flex flex-row justify-content-center p-3 current-track-name">
             <div>{{playedItem.artist}} - {{playedItem.title}}</div>
-            <div>{{playedItem.progressInSeconds  | timeFormat:'string'}}
-                / {{playedItem.endTime - playedItem.startTime  | timeFormat:'string'}}</div>
         </div>
         <div *ngIf="!playedItem">Round playlist is empty</div>
-        <div class="d-flex justify-content-center">
-            <app-round-playback-buttons [round-item]="playedItem"
+        <div class="d-flex justify-content-between">
+            <app-round-playback-buttons class="col-4"
+                                        [round-item]="playedItem"
                                         [next-exists]="nextExists"
                                         [previous-exists]="previousExists"
                                         [isPlaying]="isPlaying"
@@ -25,6 +16,11 @@
                                         (pause)="pause.emit($event)"
                                         (stop)="stop.emit($event)">
             </app-round-playback-buttons>
+            <div *ngIf="playedItem" class="playback-status col-4">{{playedItem.progressInSeconds  | timeFormat:'string'}}
+                / {{playedItem.endTime - playedItem.startTime  | timeFormat:'string'}}</div>
+            <app-volume-slider class="col-4">
+
+            </app-volume-slider>
         </div>
     </div>
 </mat-card>

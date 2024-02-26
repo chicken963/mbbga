@@ -16,7 +16,6 @@
                           [round-item]="playedItem"
                           [next-exists]="nextExists"
                           [previous-exists]="previousExists"
-                          [nextTrackDownload]="nextTrackDownload"
                           (playNext)="onPlayNext()"
                           (playPrevious)="onPlayPrevious()"
                           (play)="play($event)"
@@ -25,7 +24,6 @@
         </app-round-player>
         <app-round-playlist [round]="round"
                             (playedItemChanged)="onPlayedItemChanged($event)"
-                            (nextTrackDownload)="onNextTrackDownload($event)"
                             (pause)="onPauseClicked()">
         </app-round-playlist>
     </div>

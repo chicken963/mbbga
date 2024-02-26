@@ -10,4 +10,5 @@ export interface RoundTableItem {
     audioEl: HTMLAudioElement,
     url: string,
     progressInSeconds: number;
+    status: 'not loaded' | 'loading' | 'preloading' | 'loaded';
 }

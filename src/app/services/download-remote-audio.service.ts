@@ -15,7 +15,7 @@ export class DownloadRemoteAudioService {
 
 
     loadAudioFromRemote(audioTrackId: string): Observable<string | number | null> {
-        const req = new HttpRequest('GET', `audio-tracks/binary?id=${audioTrackId}`, {
+        const req = new HttpRequest('GET', `binary/async?id=${audioTrackId}`, {
             responseType: 'blob',
             reportProgress: true,
         });
