@@ -86,7 +86,8 @@ import { OverlayComponent } from '../overlay/overlay.component';
     exports: [
         HighlightPipe,
         LibraryComponent,
-        ParentWidthDirective
+        ParentWidthDirective,
+        VolumeSliderComponent
     ]
 })
 export class LibraryModule {
