@@ -22,6 +22,7 @@
                 <app-audiotrack-mode-buttons [audio-track]="audioTrack"
                                              [show-revert]="inputsChanged"
                                              [disabled]="disableControls"
+                                             [disableSave]="disableSave"
                                              (onSave)="saveAudioTrack($event)"
                                              (onDelete)="deleteAudioTrack()">
                 </app-audiotrack-mode-buttons>

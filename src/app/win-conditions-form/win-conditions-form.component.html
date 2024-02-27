@@ -11,7 +11,7 @@
         </div>
         <div formArrayName="winConditionFormItems">
             <div *ngFor="let item of winConditionFormItems.controls; let i = index">
-                <div [formGroupName]="i">
+                <div [formGroupName]="i" class="d-flex flex-nowrap">
                     <mat-form-field appearance="outline" class="group-item-field">
                         <mat-label>Win condition type #{{i + 1}}</mat-label>
                         <mat-select formControlName="type">

@@ -53,8 +53,9 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
     audioInputs: FormGroup;
     inputsChanged: boolean = false;
     disableControls: boolean = false;
+    disableSave: boolean = false;
 
-    constructor(private cdr: ChangeDetectorRef) {
+    constructor(private cdr: ChangeDetectorRef, public element: ElementRef) {
     }
 
     ngOnInit() {
@@ -68,6 +69,7 @@ export class AudioControlsComponent implements OnInit, AfterViewInit {
 
     onFormValidityChanged(isValid: boolean) {
         this.audioTrack.inputsAreValid = isValid;
+        this.disableSave = !isValid;
         this.inputsChanged = !!this.audioInputs?.dirty;
         this.cdr.detectChanges();
     }

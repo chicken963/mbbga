@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject} from '@angular/core';
+import {Component, Inject, QueryList, ViewChildren} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {LocalAudioService} from "../local-audio/local-audio-service";
 import {HttpClient} from "@angular/common/http";
@@ -7,6 +7,7 @@ import {NotificationService} from "../utils/notification.service";
 import {DialogService} from "../utils/dialog.service";
 import {LibraryService} from "../library-content/library.service";
 import {OverlayService} from "../overlay.service";
+import {AudioControlsComponent} from "../audio-controls/audio-controls.component";
 
 @Component({
     selector: 'app-add-audiotracks-workbench',
@@ -19,9 +20,10 @@ export class AddAudiotracksWorkbenchComponent {
     audioTracks: AudioTrack[] = [];
     disableControls: boolean = false;
 
+    @ViewChildren(AudioControlsComponent) audioControls: QueryList<AudioControlsComponent>;
+
     constructor(@Inject(MAT_DIALOG_DATA) public data: File[],
                 private selfDialogRef: MatDialogRef<AddAudiotracksWorkbenchComponent>,
-                private elementRef: ElementRef,
                 private dialogService: DialogService,
                 private localAudioService: LocalAudioService,
                 private http: HttpClient,
@@ -55,7 +57,7 @@ export class AddAudiotracksWorkbenchComponent {
 
     saveToLibrary(index: number) {
         let audioTrack = this.audioTracks[index];
-        this.openOverlay();
+        this.openOverlay(index);
         let addToLibrary = this.http.post("/audio-tracks/add", audioTrack.file, {
             params:
                 {
@@ -83,9 +85,9 @@ export class AddAudiotracksWorkbenchComponent {
             });
     }
 
-    openOverlay(): void {
+    openOverlay(index: number): void {
         this.disableControls = true;
-        this.overlayService.showLoader(this.elementRef);
+        this.overlayService.showLoader(this.audioControls.get(index)!.element);
     }
 
     closeOverlay(): void {

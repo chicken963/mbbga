@@ -24,11 +24,11 @@
                 (click)="_stop()">
             <mat-icon>stop</mat-icon>
         </button>
+        <button mat-button matTooltip="Next track"
+                class="play-control-button"
+                (click)="_nextTrack()"
+                [disabled]="!nextExists">
+            <mat-icon>fast_forward</mat-icon>
+        </button>
     </div>
-    <button mat-button matTooltip="Next track"
-            class="play-control-button"
-            (click)="_nextTrack()"
-            [disabled]="!nextExists">
-        <mat-icon>fast_forward</mat-icon>
-    </button>
 </div>

@@ -16,7 +16,7 @@
     <button *ngIf="audioTrack.mode === 'edit' || audioTrack.mode === 'workbench_edit'"
             mat-button class="panel-button"
             (click)="switchMode()"
-            [disabled]="disabled"
+            [disabled]="disabled || disableSave"
             matTooltip="{{audioTrack.mode === 'edit' ? 'Save artist and title' : 'Save audio track'}}">
         <mat-icon>save</mat-icon>
     </button>

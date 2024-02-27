@@ -18,8 +18,11 @@ export class AudiotrackModeButtonsComponent implements OnInit {
     @Input("show-revert")
     showRevert: boolean;
 
-    @Input("disabled")
+    @Input()
     disabled: boolean;
+
+    @Input()
+    disableSave: boolean;
 
     @Output() onDelete = new EventEmitter<AudioTrack>();
     @Output() onSave = new EventEmitter<string>();
