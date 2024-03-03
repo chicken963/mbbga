@@ -1,24 +1,24 @@
 import {Component, Inject, QueryList, ViewChildren} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {LocalAudioService} from "../local-audio/local-audio-service";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AudioTrack} from "../interfaces/audio-track";
-import {NotificationService} from "../utils/notification.service";
+import {NotificationService, NotificationType} from "../utils/notification.service";
 import {DialogService} from "../utils/dialog.service";
 import {LibraryService} from "../library-content/library.service";
 import {OverlayService} from "../overlay.service";
 import {AudioControlsComponent} from "../audio-controls/audio-controls.component";
+import {map} from "rxjs";
 
 @Component({
     selector: 'app-add-audiotracks-workbench',
     templateUrl: './add-audiotracks-workbench.component.html',
     styleUrls: ['./add-audiotracks-workbench.components.scss',
-                './../common-styles/scrollbar.css']
+        './../common-styles/scrollbar.css']
 })
 export class AddAudiotracksWorkbenchComponent {
 
     audioTracks: AudioTrack[] = [];
-    disableControls: boolean = false;
 
     @ViewChildren(AudioControlsComponent) audioControls: QueryList<AudioControlsComponent>;
 
@@ -30,7 +30,7 @@ export class AddAudiotracksWorkbenchComponent {
                 private notificationService: NotificationService,
                 private libraryService: LibraryService,
                 private overlayService: OverlayService
-                ) {
+    ) {
         data.map(file => this.localAudioService.toLocalAudioTrack(file, "edit")
             .then(audiotrack => this.audioTracks.push(audiotrack)));
     }
@@ -57,8 +57,15 @@ export class AddAudiotracksWorkbenchComponent {
 
     saveToLibrary(index: number) {
         let audioTrack = this.audioTracks[index];
-        this.openOverlay(index);
-        let addToLibrary = this.http.post("/audio-tracks/add", audioTrack.file, {
+
+        const formData = new FormData();
+        formData.append('file-data', audioTrack.file);
+
+        const headers = new HttpHeaders();
+        headers.append('Content-Type', 'multipart/form-data');
+
+        let addToLibrary = this.http.post<any>("/audio-tracks/add/async", formData, {
+            headers: headers,
             params:
                 {
                     artist: audioTrack.artist,
@@ -68,30 +75,21 @@ export class AddAudiotracksWorkbenchComponent {
                     duration: audioTrack.length
                 }
         });
-        addToLibrary.subscribe(response => {
-                let audio = response as unknown as AudioTrack;
-                this.libraryService.addToLibrary(audio);
-                this.notificationService.pushNotification(`Audio track '${audio.artist} - ${audio.name}' was successfully added to library`)
-                this.deleteFromWorkbench(audioTrack);
-            },
-            error => {
-                if (error.status === 409) {
-                    this.notificationService.pushNotification(`Error happened while adding '${audioTrack.artist} - ${audioTrack.name}' to library. Reason: audio track with the same artist and name already exists.`);
-                    return;
-                }
-                this.notificationService.pushNotification(`Error happened while adding '${audioTrack.artist} - ${audioTrack.name}' to library. Reason: ${error.message}`);
-            }, () => {
-                this.closeOverlay();
-            });
-    }
-
-    openOverlay(index: number): void {
-        this.disableControls = true;
-        this.overlayService.showLoader(this.audioControls.get(index)!.element);
-    }
-
-    closeOverlay(): void {
-        this.disableControls = false;
-        this.overlayService.hideLoader();
+        this.notificationService.pushNotification(`Upload for audio track '${audioTrack.artist} - ${audioTrack.name}' started`)
+        this.deleteFromWorkbench(audioTrack);
+        addToLibrary
+            .pipe(map(response => response.audioFile as AudioTrack))
+            .subscribe(response => {
+                    let audio = response as unknown as AudioTrack;
+                    this.libraryService.addToLibrary(audio);
+                    this.notificationService.pushNotification(`Audio track '${audio.artist} - ${audio.name}' was successfully added to library`, "success")
+                },
+                error => {
+                    if (error.status === 409) {
+                        this.notificationService.pushNotification(`Error happened while adding '${audioTrack.artist} - ${audioTrack.name}' to library. Reason: audio track with the same artist and name already exists.`);
+                        return;
+                    }
+                    this.notificationService.pushNotification(`Error happened while adding '${audioTrack.artist} - ${audioTrack.name}' to library. Reason: ${error.message}`);
+                });
     }
 }
