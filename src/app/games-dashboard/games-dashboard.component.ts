@@ -52,15 +52,4 @@ export class GamesDashboardComponent implements OnInit {
         }
 
     }
-
-    removeGame(mode: string, $event: Game) {
-        if (mode === 'all') {
-            let index = this.allGames.indexOf($event);
-            this.allGames.splice(index, 1);
-        }
-        if (mode === 'user') {
-            let index = this.userGames.indexOf($event);
-            this.allGames.splice(index, 1);
-        }
-    }
 }

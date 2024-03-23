@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewChildren, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChildren, ViewEncapsulation} from '@angular/core';
 import {Game} from "../interfaces/game";
 import {AuthService} from "../services/auth.service";
 import {Round} from "../interfaces/round";
@@ -6,8 +6,8 @@ import {WinConditionType} from "../interfaces/win-condition";
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NotificationService} from "../utils/notification.service";
-import {MatTabChangeEvent, MatTabGroup} from "@angular/material/tabs";
 import {CreateRoundComponent} from "../create-round/create-round.component";
+import {StrikeCriterion} from "../interfaces/blank/strike-criterion";
 
 @Component({
     selector: 'app-create-game',
@@ -75,7 +75,7 @@ export class CreateGameComponent implements OnInit {
             name: "",
             rowsCount: 5,
             columnsCount: 5,
-            winCriterion: "Artist",
+            strikeCriterion: StrikeCriterion.ARTIST,
             winConditions: [
                 {type: WinConditionType.LINES, linesToStrike: 1},
                 {type: WinConditionType.LINES, linesToStrike: 3},

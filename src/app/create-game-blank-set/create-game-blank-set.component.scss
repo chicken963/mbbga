@@ -1,0 +1,88 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.round-controls-select {
+  height: 36px;
+
+  & ::ng-deep label {
+    top: 28px !important;
+  }
+
+  & ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+    padding-top: 8px;
+  }
+
+  & ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 36px;
+  }
+}
+
+.round-controls-input-field {
+  height: 36px;
+
+  & ::ng-deep label {
+    top: 20px !important;
+  }
+
+  & ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 100% !important;
+  }
+}
+
+.round-controls-input {
+  position: relative !important;
+  top: -7px !important;
+}
+
+.round-blank-set-container {
+  border: 1px solid #c2185b;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 15px;
+  min-width: 667px;
+
+  .round-group-label {
+    position: relative;
+    top: -26px;
+    z-index: 2;
+    color: #c2185b;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #424242;
+  }
+
+  mat-select {
+    & ::ng-deep .mat-mdc-select-value {
+      text-align: center;
+    }
+
+    & ::ng-deep .mat-mdc-select-trigger {
+      top: 7px;
+    }
+
+    & ::ng-deep .mat-mdc-select-arrow-wrapper {
+      top: 1px;
+    }
+  }
+}
+
+
+.error-enter {
+  width: 125%;
+  left: -12px;
+  position: relative;
+}
+
+.error-at-least-1 {
+  width: 135%;
+  left: -17px;
+  position: relative;
+}
+
+:host {
+  display: block;
+  width: 98%;
+}

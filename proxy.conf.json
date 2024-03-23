@@ -26,5 +26,9 @@
   "/audio-tracks": {
     "target": "http://localhost:8080",
     "secure": false
+  },
+  "/blanks": {
+    "target": "http://localhost:8080",
+    "secure": false
   }
 }

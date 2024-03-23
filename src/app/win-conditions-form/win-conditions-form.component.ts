@@ -24,7 +24,6 @@ export class WinConditionsFormComponent implements OnInit {
 
     linesCountControls: AbstractControl[] = [];
     subscriptions: Subscription[] = [];
-    criteria: string[] = ["Artist", "Song title", "Other"];
 
     constructor(private fb: FormBuilder) {
     }

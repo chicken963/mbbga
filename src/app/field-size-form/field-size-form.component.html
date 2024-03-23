@@ -1,19 +1,24 @@
 <form [formGroup]="fieldSizeForm">
-    <div class="round-group-container">
-        <mat-label class="round-group-label">Field size</mat-label>
-        <div class="d-flex flex-row justify-content-around ">
+    <div>
+        <div class="d-flex flex-row justify-content-around">
             <mat-form-field appearance="outline" class="group-item-field">
-                <mat-label>Rows</mat-label>
+                <mat-label>Blank size - rows</mat-label>
                 <mat-select formControlName="height" class="dimensions-select">
                     <mat-option *ngFor="let number of sizeOptions" [value]="number">{{ number }}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline" class="group-item-field">
-                <mat-label>Columns</mat-label>
+                <mat-label>Blank size - columns</mat-label>
                 <mat-select formControlName="width" class="dimensions-select">
                     <mat-option *ngFor="let number of sizeOptions" [value]="number">{{ number }}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
     </div>
+    <div class="error-container">
+        <mat-error>
+            <div class="dimensions-error" *ngIf="fieldSizeForm.hasError('tooBigField')">Field size ({{formControls.width.value}} x {{formControls.height.value}}) requires at least {{formControls.width.value*formControls.height.value}} audio tracks in round playlist</div>
+        </mat-error>
+    </div>
+
 </form>

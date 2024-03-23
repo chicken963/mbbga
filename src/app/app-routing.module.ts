@@ -7,6 +7,7 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {UsersDashboardComponent} from "./users-dashboard/users-dashboard.component";
 import {GamesDashboardComponent} from "./games-dashboard/games-dashboard.component";
 import {CreateGameComponent} from "./create-game/create-game.component";
+import {GameBlanksWorkbenchComponent} from "./game-blanks-workbench/game-blanks-workbench.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: "user-dashboard", component: UsersDashboardComponent},
   { path: "game/new", component: CreateGameComponent},
   { path: 'game/:id', component: CreateGameComponent},
+  { path: 'game/:id/blanks', component: GameBlanksWorkbenchComponent},
   { path: "**", redirectTo: "" }
 ];
 

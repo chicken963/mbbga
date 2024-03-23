@@ -1,12 +1,12 @@
 <mat-tab-group (selectedIndexChange)="loadGames($event)">
     <mat-tab label="Public games">
         <div class="d-flex flex-row justify-content-start">
-            <app-games-table [games]="allGames" [gamesAreLoaded]="gamesAreLoaded" (gameRemoved)="removeGame('all', $event)"></app-games-table>
+            <app-games-table [games]="allGames" [gamesAreLoaded]="gamesAreLoaded"></app-games-table>
         </div>
 
     </mat-tab>
     <mat-tab label="Your games">
-        <app-games-table  [games]="userGames" [gamesAreLoaded]="gamesAreLoaded" (gameRemoved)="removeGame('user', $event)"></app-games-table>
+        <app-games-table  [games]="userGames" [gamesAreLoaded]="gamesAreLoaded"></app-games-table>
     </mat-tab>
     <!-- Add more tabs as needed -->
 </mat-tab-group>

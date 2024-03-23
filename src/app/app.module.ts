@@ -42,6 +42,9 @@ import { FieldSizeFormComponent } from './field-size-form/field-size-form.compon
 import {MatTableModule} from "@angular/material/table";
 import {RoundTableWorkbenchModule} from "./round-table-workbench/round-table-workbench.module";
 import { DateRefinePipe } from './date-refine.pipe';
+import { GameBlanksWorkbenchComponent } from './game-blanks-workbench/game-blanks-workbench.component';
+import { CreateGameBlankSetComponent } from './create-game-blank-set/create-game-blank-set.component';
+import { CapitalizeFirstLetterPipe } from './capitalize-first-letter.pipe';
 
 @NgModule({
     declarations: [
@@ -62,7 +65,10 @@ import { DateRefinePipe } from './date-refine.pipe';
         CreateRoundComponent,
         WinConditionsFormComponent,
         FieldSizeFormComponent,
-        DateRefinePipe
+        DateRefinePipe,
+        GameBlanksWorkbenchComponent,
+        CreateGameBlankSetComponent,
+        CapitalizeFirstLetterPipe
     ],
     imports: [
         BrowserModule,

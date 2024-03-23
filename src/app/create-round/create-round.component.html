@@ -1,10 +1,9 @@
 <div class="d-flex flex-row justify-content-between create-round-container">
     <form [formGroup]="roundForm">
-        <mat-form-field appearance="outline" class="round-controls-field mt-2 mb-4 game-input">
+        <mat-form-field appearance="outline" class="round-controls-field mt-2 mb-4">
             <mat-label>Round name</mat-label>
             <input matInput formControlName="name" type="string">
         </mat-form-field>
-        <app-field-size-form [fieldSizeForm] = "fieldSizeForm" [round]="round"></app-field-size-form>
         <app-win-conditions-form [winConditionsForm]="winConditionForm" [round]="round"></app-win-conditions-form>
     </form>
     <div class="d-flex flex-column playlist-group-container">

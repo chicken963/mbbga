@@ -51,13 +51,12 @@ export class CreateRoundComponent implements OnInit {
                 console.log("changing round player value")
                 this.roundPlayer.nextExists = this.round.audioTracks.length > 1;
             }
-
         }
     }
 
     ngOnInit() {
         this.winConditionForm = this.fb.group({
-            criterion: [this.round.winCriterion],
+            criterion: [this.round.strikeCriterion],
             winConditionFormItems: this.fb.array([])
         });
         this.fieldSizeForm = this.fb.group({})
@@ -83,7 +82,7 @@ export class CreateRoundComponent implements OnInit {
             this.round.name = newValue;
         });
         this.winConditionForm.get('criterion')?.valueChanges.subscribe(newValue => {
-            this.round.winCriterion = newValue;
+            this.round.strikeCriterion = newValue;
         })
     }
 

@@ -25,11 +25,8 @@ export class GamesTableComponent {
     @Input("games")
     games: Game[];
 
-    @Output() gameRemoved: EventEmitter<Game> = new EventEmitter<Game>();
-
     removeGameFromList(game: Game) {
         let index = this.games.indexOf(game);
         this.games.splice(index, 1);
-        this.gameRemoved.emit(game);
     }
 }

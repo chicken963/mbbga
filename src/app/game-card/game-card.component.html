@@ -1,9 +1,36 @@
-<mat-card class="entity-card m-2" (click)="navigateToGame()">
+<mat-card class="entity-card m-2">
     <mat-card-header class="d-flex flex-row justify-content-between">
         <mat-card-title>{{ game.name }}</mat-card-title>
-        <button mat-icon-button *ngIf="isGameOwner" class="delete-game" (click)="$event.stopPropagation(); delete()">
-            <mat-icon>delete_outline</mat-icon>
-        </button>
+        <div>
+            <button mat-icon-button matTooltip="Start game">
+                <mat-icon>play_arrow</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu"
+                    (click)="$event.stopPropagation();"
+                    matTooltip="Actions">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+        <mat-menu #menu="matMenu" id="menu">
+            <button mat-menu-item class="d-flex flex-row" (click)="manageBlanks()">
+                <mat-icon class="manage-blanks">style</mat-icon>
+                <span>Manage blanks</span>
+            </button>
+            <button *ngIf="isGameOwner"
+                    mat-menu-item
+                    class="d-flex flex-row"
+                    (click)="editGame()">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+            </button>
+            <button *ngIf="isGameOwner"
+                    mat-menu-item
+                    class="d-flex flex-row delete-game"
+                    (click)="askForDeletion()">
+                <mat-icon>delete_outline</mat-icon>
+                <span>Delete</span>
+            </button>
+        </mat-menu>
     </mat-card-header>
     <mat-card-content class="d-flex flex-column pt-3">
         <div class="author-group">
