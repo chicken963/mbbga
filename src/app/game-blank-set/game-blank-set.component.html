@@ -1,0 +1,12 @@
+<div *ngIf="blankSet" class="rounds-tabs mt-5">
+    <mat-tab-group>
+        <mat-tab *ngFor="let roundBlankSet of blankSet.roundBlankSets; let i = index">
+            <ng-template mat-tab-label>
+                <div class="tab-label-content">
+                    <span class="round-name-label">{{ roundBlankSet.round.name}}</span>
+                </div>
+            </ng-template>
+            <app-round-blank-set [roundBlankSet]="roundBlankSet"></app-round-blank-set>
+        </mat-tab>
+    </mat-tab-group>
+</div>

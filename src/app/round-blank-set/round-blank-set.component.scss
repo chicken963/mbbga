@@ -1,0 +1,22 @@
+.blank-preview-container {
+    min-width: 400px;
+    height: 600px;
+    border-radius: 5px;
+    border: 1px dashed rgb(244, 67, 54);
+    app-blank {
+        height: 100%;
+        display: flex;
+        background-image: url('./../../assets/template.png');
+        /* Set background size */
+        background-size: cover; /* or contain, or specify width and height */
+        /* Center the background image */
+        background-position: center center;
+        /* Repeat the background image */
+        background-repeat: no-repeat;
+    }
+}
+
+.blanks-number-container {
+    max-height: 100%;
+    overflow-y: auto;
+}

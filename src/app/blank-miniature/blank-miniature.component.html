@@ -1,0 +1,7 @@
+<mat-card class="mat-elevation-z8 m-1 p-3"
+          [ngClass]="{'selected': blank === clickedBlank}"
+          (mouseenter)="setCurrentBlank()"
+          (mouseleave)="clearCurrentBlank()"
+          (click)="setClickedBlank()">
+    {{blank.number}}
+</mat-card>

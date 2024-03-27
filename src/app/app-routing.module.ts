@@ -8,6 +8,7 @@ import {UsersDashboardComponent} from "./users-dashboard/users-dashboard.compone
 import {GamesDashboardComponent} from "./games-dashboard/games-dashboard.component";
 import {CreateGameComponent} from "./create-game/create-game.component";
 import {GameBlanksWorkbenchComponent} from "./game-blanks-workbench/game-blanks-workbench.component";
+import {GameBlankSetComponent} from "./game-blank-set/game-blank-set.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent},
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: "game/new", component: CreateGameComponent},
   { path: 'game/:id', component: CreateGameComponent},
   { path: 'game/:id/blanks', component: GameBlanksWorkbenchComponent},
+  { path: 'game/:id/blanks/:blankSetId', component: GameBlankSetComponent},
   { path: "**", redirectTo: "" }
 ];
 

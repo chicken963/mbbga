@@ -9,6 +9,7 @@ import {RoundBlankSet} from "../interfaces/blank/round-blank-set";
 import {AuthService} from "../services/auth.service";
 import {HttpClient} from "@angular/common/http";
 import {BlankManagementService} from "../services/blank-management.service";
+import {defaultBackground} from "../interfaces/blank/background";
 
 @Component({
     selector: 'app-create-game-blank-set',
@@ -40,7 +41,10 @@ export class CreateGameBlankSetComponent {
                     rowsCount: 5,
                     columnsCount: 5,
                     strikeCriterion: StrikeCriterion.ARTIST,
-                    round: {id: round.id},
+                    blankBackground: defaultBackground,
+                    round: {id: round.id,
+                            name: round.name,
+                            index: this.game.rounds.indexOf(round)},
                     blanks: []
                 } as RoundBlankSet
             })

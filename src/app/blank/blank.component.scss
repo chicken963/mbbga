@@ -1,0 +1,42 @@
+.items-container {
+    display: grid;
+    width: 100%;
+}
+
+.blank-item-cell {
+    aspect-ratio: 1;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    color: black;
+    &.right-edge {
+        border-right: 1px solid black;
+    }
+    &.lower-edge {
+        border-bottom: 1px solid black;
+    }
+    &.upper-left-corner {
+        border-radius: 5px 0 0 0;
+    }
+    &.upper-right-corner {
+        border-radius: 0 5px 0 0;
+    }
+    &.lower-right-corner {
+        border-radius: 0 0 5px 0;
+    }
+    &.lower-left-corner {
+        border-radius: 0 0 0 5px;
+    }
+}
+
+.blank-header {
+    font-size: 18px;
+    color: black;
+}
+
+.blank-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}

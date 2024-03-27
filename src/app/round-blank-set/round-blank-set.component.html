@@ -1,0 +1,23 @@
+<div class="m-2 container d-flex flex-row">
+    <div class="blanks-numbers-container" fxLayout="row wrap" fxLayoutAlign="start start">
+        <ng-container *ngFor="let blank of roundBlankSet.blanks">
+            <app-blank-miniature [blank]="blank"
+                                 [clickedBlank]="clickedBlank"
+                (blankHovered)="setCurrentBlank($event)"
+                (blankClicked)="setClickedBlank($event)">
+            </app-blank-miniature>
+        </ng-container>
+    </div>
+    <div class="blank-preview-container">
+        <ng-container *ngIf="hoveredBlank">
+            <app-blank [blank]="clickedBlank ? clickedBlank : hoveredBlank"
+                       [strikeCriterion]="roundBlankSet.strikeCriterion"
+                       [columnsCount]="roundBlankSet.columnsCount"
+                       [rowsCount]="roundBlankSet.rowsCount"
+                       [roundName]="roundBlankSet.round.name"
+                       [blankBackground]="roundBlankSet.blankBackground">
+            </app-blank>
+        </ng-container>
+
+    </div>
+</div>

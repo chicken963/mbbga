@@ -1,0 +1,10 @@
+mat-card {
+    font-size: 28px;
+&:hover {
+     background-color: rgba(244, 67, 54, 0.4);
+     cursor: pointer;
+ }
+  &.selected {
+    background-color: rgba(244, 67, 54, 1);
+  }
+}

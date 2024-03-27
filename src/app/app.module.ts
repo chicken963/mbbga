@@ -45,6 +45,10 @@ import { DateRefinePipe } from './date-refine.pipe';
 import { GameBlanksWorkbenchComponent } from './game-blanks-workbench/game-blanks-workbench.component';
 import { CreateGameBlankSetComponent } from './create-game-blank-set/create-game-blank-set.component';
 import { CapitalizeFirstLetterPipe } from './capitalize-first-letter.pipe';
+import { GameBlankSetComponent } from './game-blank-set/game-blank-set.component';
+import { RoundBlankSetComponent } from './round-blank-set/round-blank-set.component';
+import { BlankComponent } from './blank/blank.component';
+import { BlankMiniatureComponent } from './blank-miniature/blank-miniature.component';
 
 @NgModule({
     declarations: [
@@ -68,7 +72,11 @@ import { CapitalizeFirstLetterPipe } from './capitalize-first-letter.pipe';
         DateRefinePipe,
         GameBlanksWorkbenchComponent,
         CreateGameBlankSetComponent,
-        CapitalizeFirstLetterPipe
+        CapitalizeFirstLetterPipe,
+        GameBlankSetComponent,
+        RoundBlankSetComponent,
+        BlankComponent,
+        BlankMiniatureComponent
     ],
     imports: [
         BrowserModule,

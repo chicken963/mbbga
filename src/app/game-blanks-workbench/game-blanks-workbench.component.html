@@ -38,7 +38,8 @@
             <td mat-cell *matCellDef="let item" class="show-container">
                 <button mat-raised-button
                         color="primary"
-                        matTooltip="Show blanks">
+                        matTooltip="Show blanks"
+                        (click)="openBlankSet(item)">
                     <mat-icon>remove_red_eye</mat-icon>
                 </button>
             </td>

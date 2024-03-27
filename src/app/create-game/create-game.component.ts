@@ -12,7 +12,7 @@ import {StrikeCriterion} from "../interfaces/blank/strike-criterion";
 @Component({
     selector: 'app-create-game',
     templateUrl: './create-game.component.html',
-    styleUrls: ['./create-game.component.scss', './../common-styles/inputs.scss'],
+    styleUrls: ['./create-game.component.scss', './../common-styles/inputs.scss', './../common-styles/tabs.scss'],
     encapsulation: ViewEncapsulation.Emulated
 })
 export class CreateGameComponent implements OnInit {

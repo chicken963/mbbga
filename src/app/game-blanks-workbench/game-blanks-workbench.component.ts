@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Game} from "../interfaces/game";
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {DialogService} from "../utils/dialog.service";
 import {MatDialog} from "@angular/material/dialog";
 import {CreateGameBlankSetComponent} from "../create-game-blank-set/create-game-blank-set.component";
@@ -29,6 +29,7 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
     constructor(private http: HttpClient,
                 private dialogService: DialogService,
                 private dialog: MatDialog,
+                private router: Router,
                 private route: ActivatedRoute,
                 private authService: AuthService,
                 private notificationService: NotificationService,
@@ -76,5 +77,9 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
             this.blankManagementService.removeBlankSet(gameBlankSet);
         })
 
+    }
+
+    openBlankSet(gameBlankSet: GameBlankSet) {
+        this.router.navigate(['/game', this.game.id, 'blanks', gameBlankSet.id]);
     }
 }
