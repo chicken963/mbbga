@@ -1,0 +1,23 @@
+.crop-dimension {
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+    display: none;
+  }
+
+  ::ng-deep .mat-mdc-button .mat-mdc-button-touch-target {
+    height: 12px;
+  }
+
+  ::ng-deep .mdc-button {
+    min-width: 32px;
+    margin-right: 4px;
+  }
+
+  ::ng-deep .mat-mdc-button>.mat-icon {
+    margin-right: 0;
+  }
+}
+
+mat-form-field {
+  width: 120px;
+}

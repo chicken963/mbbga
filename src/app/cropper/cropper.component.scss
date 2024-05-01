@@ -1,0 +1,114 @@
+.cropped-image {
+  position: relative;
+}
+
+image-cropper {
+  max-height: 700px;
+
+  ::ng-deep .ngx-ic-overlay {
+    outline-color: black !important;
+  }
+}
+
+.selection-rectangle {
+  position: absolute;
+  cursor: move;
+  z-index: 4;
+  /* Other styles for the rectangle */
+}
+
+.resize-square {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border: 1px solid black;
+  cursor: nwse-resize;
+}
+
+.top-left {
+  top: -5px;
+  left: -5px;
+}
+
+.top-right {
+  top: -5px;
+  right: -5px;
+  cursor: nesw-resize;
+}
+
+.bottom-left {
+  bottom: -5px;
+  left: -5px;
+  cursor: nesw-resize;
+}
+
+.bottom-right {
+  bottom: -5px;
+  right: -5px;
+}
+
+.image-with-areas {
+  max-height: 600px;
+  max-width: 700px;
+  overflow-y: auto;
+  overflow-x: auto;
+  position: relative;
+  width: auto;
+  padding: 0;
+}
+
+img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.full {
+  width: 100%;
+  background: yellow;
+}
+
+.dragHandle {
+  position: absolute;
+  background-color: red;
+}
+
+.dragHandle.corner {
+  width: 15px;
+  height: 15px;
+  cursor: nwse-resize;
+}
+
+.dragHandle.right {
+  width: 2px;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+.dragHandle.bottom {
+  height: 2px;
+  width: 100%;
+  cursor: ns-resize;
+}
+
+app-transformed-area {
+  ::ng-deep .selected > .selection-rectangle {
+    background-color: rgba(0, 255, 0, 0.2);
+  }
+}
+
+h2 {
+  color: white;
+  margin-right: 60px;
+}
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: -8px;
+}
+
+.container {
+  margin: 20px;
+}

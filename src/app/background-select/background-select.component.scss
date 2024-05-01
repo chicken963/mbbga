@@ -1,0 +1,143 @@
+/*.entity-card {
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 8px;
+    box-sizing: border-box;
+}*/
+.entity-card {
+  border-radius: 12px;
+  overflow: hidden;
+  width: 250px;
+  height: 200px;
+
+  &:hover {
+    transform: scale(1.01);
+    cursor: pointer;
+    background-color: #464646;
+  }
+
+  label {
+    cursor: pointer;
+  }
+}
+
+.new-game {
+  border: 2px dashed #c92563;
+  color: #c92563;
+}
+
+mat-icon {
+  transform: scale(3);
+}
+
+.spinner-container {
+  border: none;
+}
+
+.upload-background {
+  transform: scale(2) rotate(180deg);
+  margin: auto;
+}
+
+.accent-icon {
+  color: #c2185b;
+}
+
+.accent-icon svg {
+  fill: #c2185b;
+}
+
+.new-background {
+  color: #c2185b;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.preview-image {
+  height: 130px;
+  width: fit-content;
+  margin: auto;
+}
+
+.background-select-radio-button {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  transform: scale(1.1);
+}
+
+.background-item-menu-trigger {
+  position: absolute;
+  top: 0;
+  right: 5px;
+
+  mat-icon {
+    transform: scale(1);
+  }
+}
+
+
+.menu-item-button {
+  width: 150px;
+
+  mat-icon {
+    transform: scale(1);
+  }
+}
+
+
+.background-select-radio-button input[type='radio'] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+}
+
+.background-select-radio-button input[type='radio']:checked {
+  background-color: #c2185b;
+  border-color: #c2185b;
+}
+
+.background-select-radio-button input[type='radio']:checked::after {
+  content: '\2713'; /* Checkmark character */
+  font-size: 16px;
+  color: white;
+  display: block;
+  text-align: center;
+  line-height: 20px;
+  position: relative;
+  bottom: 5px;
+  left: 2px;
+  transform: scale(1.5);
+}
+
+.loaded-bg-name {
+  padding-left: 37px;
+  padding-right: 37px;
+  line-height: 1.5;
+}
+
+.loaded-bg-name-container {
+  display: flex;
+  align-items: center;
+  height: 42px;
+}
+
+.close-button {
+  position: absolute;
+  left: 116px;
+}
+
+#backgrounds-container {
+  position: relative;
+  top: 40px;
+}
+
+.navigate-back-button {
+  transform: scale(1.2);
+}

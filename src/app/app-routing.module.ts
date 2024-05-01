@@ -9,6 +9,8 @@ import {GamesDashboardComponent} from "./games-dashboard/games-dashboard.compone
 import {CreateGameComponent} from "./create-game/create-game.component";
 import {GameBlanksWorkbenchComponent} from "./game-blanks-workbench/game-blanks-workbench.component";
 import {GameBlankSetComponent} from "./game-blank-set/game-blank-set.component";
+import {CreateGameBlankSetComponent} from "./create-game-blank-set/create-game-blank-set.component";
+import {BackgroundSelectComponent} from "./background-select/background-select.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent},
@@ -20,6 +22,8 @@ const routes: Routes = [
   { path: "game/new", component: CreateGameComponent},
   { path: 'game/:id', component: CreateGameComponent},
   { path: 'game/:id/blanks', component: GameBlanksWorkbenchComponent},
+  { path: 'game/:id/blanks/new', component: CreateGameBlankSetComponent},
+  { path: 'game/:id/blanks/new/choose-background', component: BackgroundSelectComponent},
   { path: 'game/:id/blanks/:blankSetId', component: GameBlankSetComponent},
   { path: "**", redirectTo: "" }
 ];

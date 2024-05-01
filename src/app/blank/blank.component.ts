@@ -1,8 +1,10 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Blank} from "../interfaces/blank/blank";
 import {BlankItem} from "../interfaces/blank/blank-item";
 import {StrikeCriterion} from "../interfaces/blank/strike-criterion";
-import {BackgroundRectangle, BlankBackground, defaultBackground} from "../interfaces/blank/background";
+import {BackgroundRectangle, BlankBackground} from "../interfaces/blank/background";
+import {BackgroundService} from "../services/background.service";
+import {AreaType} from "./AreaType";
 
 @Component({
     selector: 'app-blank',
@@ -29,17 +31,24 @@ export class BlankComponent implements OnInit {
     @Input()
     blankBackground: BlankBackground;
 
+    @Input()
+    zipQuotient: number;
+
     blankNameRectangle?: BackgroundRectangle;
     blankNumberRectangle?: BackgroundRectangle;
     blankItemsRectangle?: BackgroundRectangle;
 
+    constructor(private backgroundService: BackgroundService) {
+
+    }
+
     ngOnInit() {
         if (!this.blankBackground) {
-            this.blankBackground = defaultBackground;
+            this.blankBackground = this.backgroundService.defaultBackground;
         }
-        this.blankNumberRectangle = this.blankBackground?.areas.find(area => area.backgroundAreaType === "BLANK_NUMBER");
-        this.blankNameRectangle = this.blankBackground?.areas.find(area => area.backgroundAreaType === "BLANK_NAME");
-        this.blankItemsRectangle = this.blankBackground?.areas.find(area => area.backgroundAreaType === "BLANK_ITEMS");
+        this.blankNumberRectangle = this.blankBackground?.areas.find(area => area.backgroundAreaType === AreaType.BLANK_NUMBER);
+        this.blankNameRectangle = this.blankBackground?.areas.find(area => area.backgroundAreaType === AreaType.ROUND_NAME);
+        this.blankItemsRectangle = this.blankBackground?.areas.find(area => area.backgroundAreaType === AreaType.ITEMS_FIELD);
     }
 
 
@@ -57,13 +66,13 @@ export class BlankComponent implements OnInit {
         return `${100 / this.columnsCount}%`;
     }
 
-    calculatePosition(blankRectangle: BackgroundRectangle): Object {
+    async calculatePosition(blankRectangle: BackgroundRectangle) {
         return {
             'position': 'absolute',
-            'top': `${blankRectangle.startY}px`,
-            'left': `${blankRectangle.startX}px`,
-            'width': `${blankRectangle.width}px`,
-            'height': `${blankRectangle.height}px`
+            'top': `${blankRectangle.startY * this.zipQuotient}px`,
+            'left': `${blankRectangle.startX * this.zipQuotient}px`,
+            'width': `${blankRectangle.width * this.zipQuotient}px`,
+            'height': `${blankRectangle.height * this.zipQuotient}px`
         };
     }
 }

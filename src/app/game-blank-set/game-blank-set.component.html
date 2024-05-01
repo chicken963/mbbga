@@ -1,3 +1,10 @@
+<button mat-raised-button
+        color="accent"
+        (click)="backToBlankSetList()"
+        class="close-button">
+    <mat-icon class="navigate-back-button">arrow_back_ios</mat-icon>
+    Back to blanks set list
+</button>
 <div *ngIf="blankSet" class="rounds-tabs mt-5">
     <mat-tab-group>
         <mat-tab *ngFor="let roundBlankSet of blankSet.roundBlankSets; let i = index">

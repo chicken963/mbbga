@@ -11,6 +11,8 @@ import {Subject, takeUntil} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {AuthService} from "../services/auth.service";
 import {NotificationService} from "../utils/notification.service";
+import {BackgroundService} from "../services/background.service";
+import {BlankBackground} from "../interfaces/blank/background";
 
 @Component({
     selector: 'app-game-blanks-workbench',
@@ -25,6 +27,7 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
     dataSource: MatTableDataSource<GameBlankSet>;
     displayedColumns: string[] = ['position', 'name', 'ticketsAmount', 'created', 'author', 'show', 'delete'];
     ngDestroy$: Subject<boolean> = new Subject<boolean>();
+    numberOfImagesToLoad: number = 0;
 
     constructor(private http: HttpClient,
                 private dialogService: DialogService,
@@ -33,11 +36,17 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
                 private route: ActivatedRoute,
                 private authService: AuthService,
                 private notificationService: NotificationService,
+                private backgroundService: BackgroundService,
                 private blankManagementService: BlankManagementService) {
         this.gameId = this.route.snapshot.params["id"];
-        this.http.get<any>(`/games/${this.gameId}`).subscribe(response => {
-            this.game = response;
-        });
+        let game = this.blankManagementService.gameSelected.value;
+        if (!game) {
+            this.http.get<any>(`/games/${this.gameId}`).subscribe(response => {
+                this.game = response;
+            });
+        } else {
+            this.game = game;
+        }
         this.http.get<GameBlankSet[]>(`/blanks?game-id=${this.gameId}`).subscribe(response => {
             this.gameBlankSets = response;
             this.gameBlankSets.forEach(gameBlankSet => gameBlankSet.isOwnedByCurrentUser = gameBlankSet.owner.id === this.authService.user.id)
@@ -58,14 +67,7 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
     }
 
     showPreGeneratePopup() {
-        this.dialog.open(CreateGameBlankSetComponent, {
-            disableClose: true,
-            width: '70%',
-            panelClass: 'create-blank-set',
-            data: {
-                game: this.game
-            }
-        })
+        this.router.navigate(['/game', this.game.id, 'blanks', 'new']);
     }
 
     ngOnDestroy(): void {
@@ -80,6 +82,52 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
     }
 
     openBlankSet(gameBlankSet: GameBlankSet) {
-        this.router.navigate(['/game', this.game.id, 'blanks', gameBlankSet.id]);
+        this.http.get<BlankBackground[]>(`/backgrounds/blankSet/${gameBlankSet.id}`).subscribe(backgrounds => {
+            this.bindBackgroundsToBlankSet(backgrounds, gameBlankSet);
+            let backgroundsWithLoadableImage = backgrounds.filter(background => background);
+            let backgroundsWithDefaultImage = backgrounds.filter(background => !background);
+
+            this.numberOfImagesToLoad = backgroundsWithLoadableImage.length;
+            this.backgroundService.getBackgroundFetched().subscribe(value => {
+                if (value) {
+                    this.numberOfImagesToLoad--;
+                }
+                if (this.numberOfImagesToLoad == 0) {
+                    this.backgroundService.setCurrentGameSet(gameBlankSet);
+                    this.backgroundService.navigationToGameBlankSetCreationFromBackgroundSelect.next(false);
+                    this.router.navigate(['/game', this.game.id, 'blanks', gameBlankSet.id]);
+                }
+            });
+            backgroundsWithLoadableImage.forEach(background => this.backgroundService.fetchImage(background));
+            if (backgroundsWithDefaultImage.length > 0) {
+                this.backgroundService.fetchDefaultImage();
+            }
+            if (this.numberOfImagesToLoad == 0) {
+                this.backgroundService.setCurrentGameSet(gameBlankSet);
+                this.backgroundService.navigationToGameBlankSetCreationFromBackgroundSelect.next(false);
+                this.router.navigate(['/game', this.game.id, 'blanks', gameBlankSet.id]);
+            }
+        });
+    }
+
+    private bindBackgroundsToBlankSet(backgrounds: BlankBackground[], gameBlankSet: GameBlankSet) {
+        backgrounds
+            .filter(background => background)
+            .forEach(background => {
+                gameBlankSet.roundBlankSets.forEach(roundBlankSet => {
+                    if (roundBlankSet.blankBackground && roundBlankSet.blankBackground.id === background.id) {
+                        roundBlankSet.blankBackground = background;
+                    }
+                })
+            });
+    }
+
+    private gameBlankSetWasNotOpenedBefore(gameBlankSet: GameBlankSet) {
+        return gameBlankSet.roundBlankSets.find(roundBlankSet => roundBlankSet.blankBackground && roundBlankSet.blankBackground.id && !roundBlankSet.blankBackground.image);
+    }
+
+    allBackgroundImagesAreLoaded(gameBlankSet: GameBlankSet): boolean {
+        return gameBlankSet.roundBlankSets
+            .every(roundBlankSet => !roundBlankSet.blankBackground || roundBlankSet.blankBackground.image);
     }
 }

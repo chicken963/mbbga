@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule, HammerModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -49,6 +49,13 @@ import { GameBlankSetComponent } from './game-blank-set/game-blank-set.component
 import { RoundBlankSetComponent } from './round-blank-set/round-blank-set.component';
 import { BlankComponent } from './blank/blank.component';
 import { BlankMiniatureComponent } from './blank-miniature/blank-miniature.component';
+import { BackgroundSelectComponent } from './background-select/background-select.component';
+import { CropperComponent } from './cropper/cropper.component';
+import {ImageCropperModule} from "ngx-image-cropper";
+import {DragDropModule} from "@angular/cdk/drag-drop";
+import { TransformedAreaComponent } from './transformed-area/transformed-area.component';
+import { CropBoundsEditorComponent } from './crop-counds-editor/crop-bounds-editor.component';
+import { AreaFontConfiguratorComponent } from './area-font-configurator/area-font-configurator.component';
 
 @NgModule({
     declarations: [
@@ -76,7 +83,12 @@ import { BlankMiniatureComponent } from './blank-miniature/blank-miniature.compo
         GameBlankSetComponent,
         RoundBlankSetComponent,
         BlankComponent,
-        BlankMiniatureComponent
+        BlankMiniatureComponent,
+        BackgroundSelectComponent,
+        CropperComponent,
+        TransformedAreaComponent,
+        CropBoundsEditorComponent,
+        AreaFontConfiguratorComponent
     ],
     imports: [
         BrowserModule,
@@ -102,7 +114,10 @@ import { BlankMiniatureComponent } from './blank-miniature/blank-miniature.compo
         MatTooltipModule,
         MatSelectModule,
         MatTableModule,
-        RoundTableWorkbenchModule
+        RoundTableWorkbenchModule,
+        ImageCropperModule,
+        HammerModule,
+        DragDropModule
     ],
     providers: [
         MatSnackBarModule,

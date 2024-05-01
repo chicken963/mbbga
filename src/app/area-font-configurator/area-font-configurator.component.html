@@ -1,0 +1,19 @@
+<div class="container">
+    <h2>Configure font for {{backgroundArea.backgroundAreaType | lowercase}}:</h2>
+        <div class="d-flex flex-column">
+            <mat-form-field class="mx-2">
+                <mat-label>Font</mat-label>
+                <mat-select [(value)]="selectedFont" [(ngModel)]="backgroundArea.font">
+                    <mat-option *ngFor="let font of availableFonts" [value]="font">{{ font }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="mx-2">
+                <mat-label>Font Size</mat-label>
+                <mat-select [(value)]="selectedFontSize" [(ngModel)]="backgroundArea.fontSize">
+                    <mat-option *ngFor="let fontSize of availableFontSizes" [value]="fontSize">{{ fontSize }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+</div>

@@ -1,0 +1,74 @@
+<div class="d-flex flex-column">
+    <button mat-raised-button
+            color="accent"
+            (click)="backToBlankSetCreation()"
+            class="close-button">
+        <mat-icon class="navigate-back-button">arrow_back_ios</mat-icon>
+        Back to blanks set creation
+    </button>
+    <div class="m-2" fxLayout="row wrap" id="backgrounds-container" fxLayoutAlign="start start">
+        <mat-card class="entity-card
+                     m-2 d-flex
+                     justify-content-center
+                     align-items-center
+                     new-background">
+            <label for="fileInput" class="file-input-button d-flex flex-column justify-content-center">
+                <h2>Upload bew background</h2>
+                <br/>
+                <mat-icon class="upload-background accent-icon">save_alt</mat-icon>
+                <input #fileInput type="file" id="fileInput" (change)="showCropper($event)"
+                       accept="image/png, image/jpg, image/jpeg"/>
+            </label>
+
+        </mat-card>
+
+        <ng-container *ngFor="let background of backgrounds; let i = index">
+            <mat-card class="entity-card
+                     m-2 d-flex
+                     justify-content-center
+                     align-items-center">
+                <label class="background-select-radio-button">
+                    <input type="radio" [checked]="i === selectedBackgroundIndex" (click)="onRadioButtonClick(background, i)">
+                </label>
+                <div class="d-flex flex-column p-1">
+                    <div class="loaded-bg-name-container">
+                        <h2 class="text-center loaded-bg-name" [style.font-size.px]="background.fontSize">{{background.name}}</h2>
+                    </div>
+                    <img *ngIf="background && background.image" [src]="background.image" class="preview-image" alt="Image">
+                </div>
+                <button *ngIf="background.owner && background.owner.id === authService.user.id" mat-icon-button [matMenuTriggerFor]="menu"
+                        (click)="$event.stopPropagation();"
+                        class="background-item-menu-trigger"
+                        matTooltip="Actions">
+                    <mat-icon>menu</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" id="menu">
+                    <button mat-menu-item
+                            class="d-flex flex-row menu-item-button"
+                            (click)="editBackground(background)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                    </button>
+                    <button mat-menu-item
+                            class="d-flex flex-row delete-game menu-item-button"
+                            (click)="askForDeletion(background)">
+                        <mat-icon>delete_outline</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                </mat-menu>
+            </mat-card>
+        </ng-container>
+
+        <mat-card *ngIf="numberOfNotLoadedImages > 0"
+                  class="entity-card
+              m-2 d-flex
+              justify-content-center
+              align-items-center
+              spinner-container"
+                  routerLink="/game/new">
+            <p>Loading library...</p>
+            <mat-spinner></mat-spinner>
+        </mat-card>
+
+    </div>
+</div>

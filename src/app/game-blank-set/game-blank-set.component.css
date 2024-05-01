@@ -1,0 +1,9 @@
+.close-button {
+    position: absolute;
+    left: 100px;
+}
+
+.rounds-tabs {
+    position: relative;
+    top: 10px;
+}

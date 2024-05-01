@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {GameBlankSet} from "../interfaces/blank/game-blank-set";
 import {HttpClient} from "@angular/common/http";
+import {Location} from "@angular/common";
+import {BackgroundService} from "../services/background.service";
 
 @Component({
   selector: 'app-game-blank-set',
@@ -14,11 +16,15 @@ export class GameBlankSetComponent {
   blankSetId: string;
 
   constructor(private route: ActivatedRoute,
+              private location: Location,
+              private backgroundService: BackgroundService,
               private http: HttpClient) {
     this.blankSetId = this.route.snapshot.params["blankSetId"];
-    this.http.get<any>(`/blanks/${this.blankSetId}`).subscribe(response => {
-      this.blankSet = response;
-    });
+    this.blankSet = this.backgroundService.getCurrentGameSet().value!;
+
   }
 
+  backToBlankSetList() {
+    this.location.back();
+  }
 }

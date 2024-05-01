@@ -39,6 +39,7 @@
                 <button mat-raised-button
                         color="primary"
                         matTooltip="Show blanks"
+                        [disabled]="numberOfImagesToLoad !== 0"
                         (click)="openBlankSet(item)">
                     <mat-icon>remove_red_eye</mat-icon>
                 </button>

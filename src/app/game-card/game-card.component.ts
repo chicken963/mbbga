@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {AuthService} from "../services/auth.service";
 import {DialogService} from "../utils/dialog.service";
+import {BlankManagementService} from "../services/blank-management.service";
 
 @Component({
     selector: 'app-game-card',
@@ -19,7 +20,9 @@ export class GameCardComponent {
 
     @Output() gameDeleted: EventEmitter<Game> = new EventEmitter<Game>();
 
-    constructor(private router: Router, private http: HttpClient, private authService: AuthService,
+    constructor(private router: Router, private http: HttpClient,
+                private authService: AuthService,
+                private blankService: BlankManagementService,
                 private dialogService: DialogService) {
     }
 
@@ -38,6 +41,7 @@ export class GameCardComponent {
     }
 
     manageBlanks() {
+        this.blankService.gameSelected.next(this.game);
         this.router.navigate(['/game', this.game.id, 'blanks']);
     }
 

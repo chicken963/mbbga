@@ -51,7 +51,7 @@ input::-webkit-inner-spin-button {
     color: #c2185b;
     font-size: 16px;
     font-weight: bold;
-    background-color: #424242;
+    background-color: #303030;
   }
 
   mat-select {
@@ -85,4 +85,35 @@ input::-webkit-inner-spin-button {
 :host {
   display: block;
   width: 98%;
+}
+
+mat-form-field {
+  ::ng-deep .mat-mdc-form-field-infix {
+    width: 100px;
+  }
+  ::ng-deep .mdc-notched-outline__notch {
+    max-width: 100% !important;
+  }
+}
+
+.row-inputs-container {
+  position: relative;
+}
+
+.background-value-input {
+  top: 5px;
+  position: relative;
+  text-align: center;
+}
+
+.background-container {
+  height: 36px;
+  button {
+    top: 11px;
+  }
+}
+
+.close-button {
+  position: fixed;
+  left: 320px;
 }

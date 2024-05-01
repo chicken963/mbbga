@@ -1,0 +1,45 @@
+.selection-rectangle {
+  position: absolute;
+  cursor: move;
+  z-index: 4;
+  background-color: rgba(194, 34, 91, 0.2);
+}
+
+.text-container {
+  position: absolute;
+}
+
+.full {
+  position: absolute;
+  top: -16px;
+  text-wrap: nowrap;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+}
+
+.dragHandle {
+  position: absolute;
+  background-color: #c2185b;
+}
+
+.dragHandle.corner {
+  width: 6px;
+  height: 6px;
+  cursor: nwse-resize;
+}
+
+.dragHandle.right {
+  width: 2px;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+.dragHandle.bottom {
+  height: 2px;
+  width: 100%;
+  cursor: ns-resize;
+}
+
+.selected {
+    background-color: rgb(244, 67, 54, 0.2)
+  }

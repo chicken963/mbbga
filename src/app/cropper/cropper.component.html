@@ -1,0 +1,49 @@
+<div class="d-flex flex-column container">
+    <div class="d-flex flex-row justify-content-center">
+        <h2 class="text-center">Select the areas for labels on blank</h2>
+        <button mat-icon-button
+                (click)="openConfirmationDialog()"
+                class="close-button"
+                matTooltip="Discard all changes and exit">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <mat-form-field appearance="outline" class="m-1 edit-input-field">
+        <mat-label>Background name (optional)</mat-label>
+        <input matInput [(ngModel)]="background.name"/>
+    </mat-form-field>
+    <div class="d-flex flex-row justify-content-center">
+        <div class="image-with-areas">
+            <ng-container *ngFor="let area of background.areas, let i = index">
+                <app-transformed-area
+                        [area]="area"
+                        [basicStyle]="areaStyles.get(area)"
+                        [imageWidth]="bgImage.width"
+                        [imageHeight]="bgImage.height"
+                        [selected]="selectedArea === area"
+                        (click)="setSelectedArea(area)"
+                        (areaPositionChanged)="moveRectangle(area, $event)"
+                ></app-transformed-area>
+            </ng-container>
+            <img #bgImage [src]="background.image" class="cropped-image" alt="wrong url"/>
+        </div>
+        <!--<div class="d-flex flex-column">
+            <div *ngFor="let area of background.areas">
+                <app-crop-bounds-editor [backgroundArea]="area"
+                                        [imageWidth]="bgImage.width"
+                                        [imageHeight]="bgImage.height"
+                (areaSizeChanged)="moveRectangle(area, $event)"></app-crop-bounds-editor>
+            </div>
+        </div>-->
+        <div class="d-flex flex-column">
+            <div *ngFor="let area of background.areas">
+                <app-area-font-configurator [backgroundArea]="area" (fontChanged)="justifySampleTextInRectangle(area)">
+                </app-area-font-configurator>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer d-flex m-1 flex-row justify-content-between" mat-dialog-actions>
+        <button mat-raised-button color="accent" (click)="saveBackground()">{{mode === 'edit' ? 'Update' : 'Save'}} background</button>
+    </div>
+</div>
