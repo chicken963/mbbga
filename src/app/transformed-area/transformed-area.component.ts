@@ -153,6 +153,7 @@ export class TransformedAreaComponent {
         if (this.area.backgroundAreaType !== AreaType.ROUND_NAME) {
             const computedWidth = this.textContainer.nativeElement.offsetWidth;
             const marginLeft = (this.area.width - computedWidth) / 2;
+            console.log(computedWidth);
             this.renderer.setStyle(this.textContainer.nativeElement, 'margin-left', `${marginLeft}px`);
         }
     }

@@ -8,16 +8,18 @@
             </app-blank-miniature>
         </ng-container>
     </div>
-    <div class="blank-preview-container">
+    <canvas #canvas style="display: none"></canvas>
+    <a #downloadLink style="display: none"></a>
+    <div #blankContainer class="blank-preview-container">
         <ng-container *ngIf="hoveredBlank">
-            <app-blank #blank
-                       [blank]="clickedBlank ? clickedBlank : hoveredBlank"
+            <app-blank [blank]="clickedBlank ? clickedBlank : hoveredBlank"
                        [strikeCriterion]="roundBlankSet.strikeCriterion"
                        [columnsCount]="roundBlankSet.columnsCount"
                        [rowsCount]="roundBlankSet.rowsCount"
                        [roundName]="roundBlankSet.round.name"
                        [blankBackground]="roundBlankSet.blankBackground"
                        [zipQuotient]="previewHeight / imageHeight"
+                       (blankRendered)="captureComponentView()"
             [ngStyle]="{'background-image': 'url(;'+ imageUrl +')'}">
             </app-blank>
         </ng-container>

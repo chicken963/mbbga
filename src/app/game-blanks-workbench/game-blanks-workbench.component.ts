@@ -130,4 +130,13 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
         return gameBlankSet.roundBlankSets
             .every(roundBlankSet => !roundBlankSet.blankBackground || roundBlankSet.blankBackground.image);
     }
+
+    openConfirmationDialog(gameBlankSet: GameBlankSet) {
+        this.dialogService.openYesNoPopup(`Are you sure you want to delete game blank set ${gameBlankSet.name}?\nYou will be unable to revert this action.`,
+            (confirmed: boolean) => {
+                if (confirmed) {
+                    this.delete(gameBlankSet);
+                }
+            });
+    }
 }

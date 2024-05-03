@@ -1,19 +1,9 @@
-import {
-    Component,
-    ElementRef,
-    Input,
-    OnChanges,
-    OnInit,
-    Renderer2,
-    SimpleChanges,
-    ViewChild,
-    ViewChildren
-} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {RoundBlankSet} from "../interfaces/blank/round-blank-set";
 import {Blank} from "../interfaces/blank/blank";
 import {BlankMiniatureComponent} from "../blank-miniature/blank-miniature.component";
 import {BackgroundService} from "../services/background.service";
-import {BlankComponent} from "../blank/blank.component";
+import html2canvas from "html2canvas";
 
 @Component({
     selector: 'app-round-blank-set',
@@ -28,13 +18,17 @@ export class RoundBlankSetComponent implements OnInit {
     @ViewChildren(BlankMiniatureComponent)
     blankMiniatures: BlankMiniatureComponent[];
 
-    @ViewChild("blank")
-    blank: ElementRef<BlankComponent>;
+    @ViewChild("blankContainer")
+    blankContainer: ElementRef;
+
+    @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement>;
+    @ViewChild('downloadLink', { static: true }) downloadLink: ElementRef<HTMLAnchorElement>;
 
     hoveredBlank: Blank | null;
     clickedBlank: Blank | null;
 
     imageHeight: number;
+    imageWidth: number;
     previewHeight: number = 600;
     imageUrl: string;
 
@@ -49,7 +43,9 @@ export class RoundBlankSetComponent implements OnInit {
             this.roundBlankSet.blankBackground = this.backgroundService.defaultBackground;
         }
         this.getImageDimensions(this.roundBlankSet.blankBackground.image as string).then(({width, height}) => {
+            this.imageWidth = width;
             this.imageHeight = height;
+            this.blankContainer.nativeElement.style.aspectRatio = width / height;
         });
         this.imageUrl = this.roundBlankSet.blankBackground.image as string;
     }
@@ -72,15 +68,29 @@ export class RoundBlankSetComponent implements OnInit {
     getImageDimensions(base64String: string): Promise<{ width: number, height: number }> {
         return new Promise((resolve, reject) => {
             const img = new Image();
-
             img.onload = () => {
                 const width = img.width;
                 const height = img.height;
-
                 resolve({width, height});
             };
-
             img.src = base64String;
         });
+    }
+
+
+    captureComponentView() {
+        const content = this.blankContainer.nativeElement;
+        html2canvas(content, {scale: this.imageHeight / this.previewHeight}).then(canvas => {
+            const canvasImage = canvas.toDataURL('image/png');
+            this.downloadImage(canvasImage);
+        });
+    }
+
+    downloadImage(imageDataUrl: string) {
+        const link = document.createElement('a');
+        link.href = imageDataUrl;
+        link.download = 'component_image.png';
+        link.click();
+        link.remove();
     }
 }

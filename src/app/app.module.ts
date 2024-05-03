@@ -51,7 +51,6 @@ import { BlankComponent } from './blank/blank.component';
 import { BlankMiniatureComponent } from './blank-miniature/blank-miniature.component';
 import { BackgroundSelectComponent } from './background-select/background-select.component';
 import { CropperComponent } from './cropper/cropper.component';
-import {ImageCropperModule} from "ngx-image-cropper";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import { TransformedAreaComponent } from './transformed-area/transformed-area.component';
 import { CropBoundsEditorComponent } from './crop-counds-editor/crop-bounds-editor.component';
@@ -115,7 +114,6 @@ import { AreaFontConfiguratorComponent } from './area-font-configurator/area-fon
         MatSelectModule,
         MatTableModule,
         RoundTableWorkbenchModule,
-        ImageCropperModule,
         HammerModule,
         DragDropModule
     ],

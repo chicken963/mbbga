@@ -1,10 +1,10 @@
 <div class="blank-container">
-    <div class="blank-header p-4 d-flex flex-row justify-content-between">
-        <div *ngIf="blankNameRectangle" [ngStyle]="calculatePosition(blankNameRectangle)">{{roundName}}</div>
-        <div *ngIf="blankNumberRectangle" [ngStyle]="calculatePosition(blankNumberRectangle)">{{blank.number}}</div>
+    <div class="blank-header d-flex flex-row justify-content-between">
+        <div #blankName *ngIf="blankNameRectangle">{{roundName}}</div>
+        <div #blankNumber *ngIf="blankNumberRectangle">{{blank.number}}</div>
     </div>
 
-    <div class="items-container d-flex flex-wrap p-4" *ngIf="blankItemsRectangle" [ngStyle]="calculatePosition(blankItemsRectangle)">
+    <div #blankItems class="items-container d-flex flex-wrap" *ngIf="blankItemsRectangle">
         <ng-container *ngFor="let item of blank.items; let i = index">
             <div class="blank-item-cell d-flex align-items-center justify-content-center"
                  [ngClass]="{
@@ -15,7 +15,7 @@
                                 'lower-left-corner': i === (rowsCount - 1) * columnsCount,
                                 'lower-right-corner': i === rowsCount * columnsCount - 1,
                              }"
-                 [ngStyle]="{'width': calculateWidth()}">
+                 [ngStyle]="{'width': calculateWidth(), 'height': calculateHeight()}">
                 <span>{{getItemContent(item)}}</span>
             </div>
         </ng-container>

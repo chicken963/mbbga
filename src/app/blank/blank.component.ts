@@ -1,10 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Blank} from "../interfaces/blank/blank";
 import {BlankItem} from "../interfaces/blank/blank-item";
 import {StrikeCriterion} from "../interfaces/blank/strike-criterion";
 import {BackgroundRectangle, BlankBackground} from "../interfaces/blank/background";
 import {BackgroundService} from "../services/background.service";
 import {AreaType} from "./AreaType";
+import html2canvas from "html2canvas";
 
 @Component({
     selector: 'app-blank',
@@ -34,6 +35,17 @@ export class BlankComponent implements OnInit {
     @Input()
     zipQuotient: number;
 
+    @ViewChild("blankName")
+    blankName: ElementRef;
+
+    @ViewChild("blankNumber")
+    blankNumber: ElementRef;
+
+    @ViewChild("blankItems")
+    blankItems: ElementRef;
+
+    @Output() blankRendered: EventEmitter<any> = new EventEmitter<any>();
+
     blankNameRectangle?: BackgroundRectangle;
     blankNumberRectangle?: BackgroundRectangle;
     blankItemsRectangle?: BackgroundRectangle;
@@ -51,6 +63,13 @@ export class BlankComponent implements OnInit {
         this.blankItemsRectangle = this.blankBackground?.areas.find(area => area.backgroundAreaType === AreaType.ITEMS_FIELD);
     }
 
+    ngAfterViewInit() {
+        this.applyPosition(this.blankName, this.blankNameRectangle!);
+        this.applyPosition(this.blankNumber, this.blankNumberRectangle!);
+        this.applyPosition(this.blankItems, this.blankItemsRectangle!);
+        this.blankRendered.emit(true);
+    }
+
 
     getItemContent(item: BlankItem): string {
         if (this.strikeCriterion === StrikeCriterion.ARTIST) {
@@ -66,13 +85,20 @@ export class BlankComponent implements OnInit {
         return `${100 / this.columnsCount}%`;
     }
 
-    async calculatePosition(blankRectangle: BackgroundRectangle) {
-        return {
-            'position': 'absolute',
-            'top': `${blankRectangle.startY * this.zipQuotient}px`,
-            'left': `${blankRectangle.startX * this.zipQuotient}px`,
-            'width': `${blankRectangle.width * this.zipQuotient}px`,
-            'height': `${blankRectangle.height * this.zipQuotient}px`
-        };
+    calculateHeight() {
+        return `${100 / this.rowsCount}%`;
+    }
+
+    applyPosition(element: ElementRef, blankRectangle: BackgroundRectangle) {
+        element.nativeElement.style.position= 'absolute';
+        element.nativeElement.style.top = `${blankRectangle.startY * this.zipQuotient}px`;
+        element.nativeElement.style.left = `${blankRectangle.startX * this.zipQuotient}px`;
+        element.nativeElement.style.width = `${blankRectangle.width * this.zipQuotient}px`;
+        element.nativeElement.style.height = `${blankRectangle.height * this.zipQuotient}px`;
+        element.nativeElement.style.fontFamily = blankRectangle.font;
+        element.nativeElement.style.fontSize = `${blankRectangle.fontSize * this.zipQuotient}px`;
+        element.nativeElement.style.display = 'flex';
+        element.nativeElement.style.alignItems = 'center';
+        element.nativeElement.style.justifyContent = blankRectangle.backgroundAreaType === AreaType.ROUND_NAME ? "start" : "center";
     }
 }

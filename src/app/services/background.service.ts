@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BackgroundRectangle, BlankBackground} from "../interfaces/blank/background";
 import {HttpClient} from "@angular/common/http";
-import {CropperPosition} from "ngx-image-cropper";
 import {AreaType} from "../blank/AreaType";
 import {BehaviorSubject, Observable, ReplaySubject, Subject} from "rxjs";
 import {GameBlankSet} from "../interfaces/blank/game-blank-set";
-import {RoundBlankSet} from "../interfaces/blank/round-blank-set";
 
 @Injectable({
     providedIn: 'root'
@@ -92,15 +90,6 @@ export class BackgroundService {
 
     get defaultBackground(): BlankBackground {
         return this._defaultBackground;
-    }
-
-    areaToPosition(area: BackgroundRectangle): CropperPosition {
-        return {
-            x1: area.startX,
-            y1: area.startY,
-            x2: area.startX + area.width,
-            y2: area.startY + area.height
-        }
     }
 
     getBackgroundAdded(): Observable<BlankBackground> {

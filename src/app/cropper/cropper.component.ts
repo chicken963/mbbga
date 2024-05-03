@@ -1,6 +1,5 @@
 import {Component, ElementRef, EventEmitter, Inject, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {CropperPosition} from 'ngx-image-cropper';
 import {BackgroundService} from "../services/background.service";
 import {BackgroundRectangle, BlankBackground} from "../interfaces/blank/background";
 import {AreaType} from "../blank/AreaType";
@@ -27,7 +26,6 @@ export class CropperComponent {
     datePipe = new DatePipe();
     selectedArea: BackgroundRectangle;
     croppedImage: any = '';
-    position: CropperPosition;
     areaTypes: AreaType[] = Object.values(AreaType);
     currentType: AreaType;
     currentArea: BackgroundRectangle;
@@ -121,6 +119,9 @@ export class CropperComponent {
     }
 
     justifySampleTextInRectangle(area: BackgroundRectangle) {
-        this.areaRectangles.get(area)?.justifySampleTextCenter()
+        setTimeout(() => {
+            this.areaRectangles.get(area)?.justifySampleTextCenter()
+        }, 0);
+
     }
 }

@@ -10,7 +10,7 @@
 
             <mat-form-field class="mx-2">
                 <mat-label>Font Size</mat-label>
-                <mat-select [(value)]="selectedFontSize" [(ngModel)]="backgroundArea.fontSize">
+                <mat-select [(value)]="selectedFontSize" [(ngModel)]="backgroundArea.fontSize" (valueChange)="fontChanged.emit(backgroundArea)">
                     <mat-option *ngFor="let fontSize of availableFontSizes" [value]="fontSize">{{ fontSize }}</mat-option>
                 </mat-select>
             </mat-form-field>
