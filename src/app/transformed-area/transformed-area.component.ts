@@ -52,10 +52,6 @@ export class TransformedAreaComponent {
         this.justifySampleTextCenter();
     }
 
-    ngOnChanges(changes: SimpleChange) {
-        console.log(changes);
-    }
-
     get resizeBoxElement(): HTMLElement {
         return this.resizeBox.nativeElement;
     }
@@ -126,8 +122,6 @@ export class TransformedAreaComponent {
         this.area.startX += $event.distance.x;
         this.area.startY += $event.distance.y;
         resizeBox.style.transform = "none";
-        console.log(resizeBox.style.transform)
-        console.log($event.distance)
         this.areaPositionChanged.emit(this.area);
     }
 
@@ -153,7 +147,6 @@ export class TransformedAreaComponent {
         if (this.area.backgroundAreaType !== AreaType.ROUND_NAME) {
             const computedWidth = this.textContainer.nativeElement.offsetWidth;
             const marginLeft = (this.area.width - computedWidth) / 2;
-            console.log(computedWidth);
             this.renderer.setStyle(this.textContainer.nativeElement, 'margin-left', `${marginLeft}px`);
         }
     }

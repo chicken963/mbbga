@@ -118,6 +118,9 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
                     if (roundBlankSet.blankBackground && roundBlankSet.blankBackground.id === background.id) {
                         roundBlankSet.blankBackground = background;
                     }
+                    if (!roundBlankSet.blankBackground) {
+                        roundBlankSet.blankBackground = this.backgroundService.defaultBackground;
+                    }
                 })
             });
     }

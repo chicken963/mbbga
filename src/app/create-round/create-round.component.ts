@@ -48,7 +48,6 @@ export class CreateRoundComponent implements OnInit {
         if (changes.round) {
             this.nextExists = this.round.audioTracks.length > 1;
             if (this.roundPlayer) {
-                console.log("changing round player value")
                 this.roundPlayer.nextExists = this.round.audioTracks.length > 1;
             }
         }

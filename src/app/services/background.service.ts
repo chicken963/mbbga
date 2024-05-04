@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {AreaType} from "../blank/AreaType";
 import {BehaviorSubject, Observable, ReplaySubject, Subject} from "rxjs";
 import {GameBlankSet} from "../interfaces/blank/game-blank-set";
+import {RoundBlankSet} from "../interfaces/blank/round-blank-set";
 
 @Injectable({
     providedIn: 'root'
@@ -105,6 +106,7 @@ export class BackgroundService {
     }
 
     setCurrentGameSet(gameSet: GameBlankSet) {
+        sessionStorage.setItem('gameBlankSet', JSON.stringify(gameSet));
         this.currentBlankSet.next(gameSet);
     }
 

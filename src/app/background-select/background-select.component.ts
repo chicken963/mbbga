@@ -91,7 +91,6 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.backgroundSelectService.getSelectedRadioButton().pipe(takeUntil(this.ngDestroy$)).subscribe(index => {
-            console.log(index)
             this.selectedBackgroundIndex = index;
         });
         this.backgroundService.getBackgroundFetched().pipe(takeUntil(this.ngDestroy$)).subscribe(value => {

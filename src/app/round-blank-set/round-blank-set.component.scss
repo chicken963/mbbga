@@ -5,11 +5,8 @@
     app-blank {
         height: 100%;
         display: flex;
-        /* Set background size */
-        background-size: cover; /* or contain, or specify width and height */
-        /* Center the background image */
+        background-size: cover;
         background-position: center center;
-        /* Repeat the background image */
         background-repeat: no-repeat;
     }
 }
@@ -17,4 +14,14 @@
 .blanks-number-container {
     max-height: 100%;
     overflow-y: auto;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
 }

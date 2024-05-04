@@ -1,11 +1,19 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    SimpleChanges,
+    ViewChild
+} from '@angular/core';
 import {Blank} from "../interfaces/blank/blank";
 import {BlankItem} from "../interfaces/blank/blank-item";
 import {StrikeCriterion} from "../interfaces/blank/strike-criterion";
 import {BackgroundRectangle, BlankBackground} from "../interfaces/blank/background";
 import {BackgroundService} from "../services/background.service";
 import {AreaType} from "./AreaType";
-import html2canvas from "html2canvas";
 
 @Component({
     selector: 'app-blank',
@@ -50,8 +58,15 @@ export class BlankComponent implements OnInit {
     blankNumberRectangle?: BackgroundRectangle;
     blankItemsRectangle?: BackgroundRectangle;
 
-    constructor(private backgroundService: BackgroundService) {
+    constructor(private backgroundService: BackgroundService,
+                public elementRef: ElementRef) {
 
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.blank) {
+            setTimeout(() => this.blankRendered.emit(true), 0);
+        }
     }
 
     ngOnInit() {
@@ -67,7 +82,6 @@ export class BlankComponent implements OnInit {
         this.applyPosition(this.blankName, this.blankNameRectangle!);
         this.applyPosition(this.blankNumber, this.blankNumberRectangle!);
         this.applyPosition(this.blankItems, this.blankItemsRectangle!);
-        this.blankRendered.emit(true);
     }
 
 
