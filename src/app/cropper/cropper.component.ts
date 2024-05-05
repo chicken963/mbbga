@@ -13,7 +13,7 @@ import {DialogService} from "../utils/dialog.service";
 @Component({
     selector: 'app-cropper',
     templateUrl: './cropper.component.html',
-    styleUrls: ['./cropper.component.scss']
+    styleUrls: ['./cropper.component.scss', './../common-styles/scrollbar.css']
 })
 export class CropperComponent {
 

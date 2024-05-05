@@ -16,7 +16,9 @@ export class BackgroundService {
     backgroundAdded: Subject<BlankBackground> = new Subject<BlankBackground>();
     backgroundFetched: Subject<BlankBackground|null> = new Subject<BlankBackground|null>();
 
-    currentBlankSet: BehaviorSubject<GameBlankSet|null> = new BehaviorSubject<GameBlankSet|null>(null);
+    private roundBlanksScreenshotsFinished: Subject<RoundBlankSet> = new Subject<RoundBlankSet>();
+    private roundBlankSetComponentRendered: Subject<RoundBlankSet> = new Subject<RoundBlankSet>();
+    private imageZipped: Subject<boolean> = new Subject<boolean>();
 
     navigationToGameBlankSetCreationFromBackgroundSelect: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -107,10 +109,52 @@ export class BackgroundService {
 
     setCurrentGameSet(gameSet: GameBlankSet) {
         sessionStorage.setItem('gameBlankSet', JSON.stringify(gameSet));
-        this.currentBlankSet.next(gameSet);
     }
 
-    getCurrentGameSet(): BehaviorSubject<GameBlankSet|null> {
-        return this.currentBlankSet;
+    getCachedCurrentGameSet(): GameBlankSet | null {
+        if (sessionStorage.getItem("gameBlankSet") != null) {
+            let gameBlankSetAsString: string = sessionStorage.getItem("gameBlankSet")!;
+            return JSON.parse(gameBlankSetAsString) as GameBlankSet;
+        }
+        return null;
+    }
+
+    setRoundBlanksScreenshotsFinished(roundBlankSet: RoundBlankSet) {
+        this.roundBlanksScreenshotsFinished.next(roundBlankSet);
+    }
+
+    getRoundBlanksScreenshotsFinished(): Observable<RoundBlankSet> {
+        return this.roundBlanksScreenshotsFinished.asObservable();
+    }
+
+    setRoundBlankSetComponentRendered(roundBlankSet: RoundBlankSet) {
+        this.roundBlankSetComponentRendered.next(roundBlankSet);
+    }
+
+    getRoundBlankSetComponentRendered(): Observable<RoundBlankSet> {
+        return this.roundBlankSetComponentRendered.asObservable();
+    }
+
+    setImageZipped(value: boolean) {
+        this.imageZipped.next(value);
+    }
+
+    getImageZipped(): Observable<boolean> {
+        return this.imageZipped.asObservable();
+    }
+
+    getRbsIndex(): number {
+        let gameBlankSetAsString: string = sessionStorage.getItem("roundBlankSetIndex")!;
+        return JSON.parse(gameBlankSetAsString) as number;
+    }
+
+    getBackgroundIndex(): number {
+        let gameBlankSetAsString: string = sessionStorage.getItem("backgroundIndex")!;
+        return JSON.parse(gameBlankSetAsString) as number;
+    }
+
+    getSelectedBackground(): BlankBackground {
+        let gameBlankSetAsString: string = sessionStorage.getItem("selectedBackground")!;
+        return JSON.parse(gameBlankSetAsString) as BlankBackground;
     }
 }

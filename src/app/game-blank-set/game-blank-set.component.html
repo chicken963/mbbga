@@ -1,12 +1,21 @@
-<button mat-raised-button
-        color="accent"
-        (click)="backToBlankSetList()"
-        class="close-button">
-    <mat-icon class="navigate-back-button">arrow_back_ios</mat-icon>
-    Back to blanks set list
-</button>
-<div *ngIf="blankSet" class="rounds-tabs mt-5">
-    <mat-tab-group>
+<div class="header d-flex flex-row justify-content-between align-items-center">
+    <button mat-raised-button
+            color="accent"
+            (click)="backToBlankSetList()"
+            class="close-button">
+        <mat-icon class="navigate-back-button">arrow_back_ios</mat-icon>
+        Back to blanks set list
+    </button>
+    <span class="header-label">{{blankSet.name}}</span>
+    <button mat-raised-button color="primary"
+            class="generate-images d-flex flex-row justify-content-between align-items-center"
+            (click)="saveAllBlanks()">
+        <mat-icon *ngIf="!archiveLoadInProgress">save_alt</mat-icon>
+        Save all blanks
+    </button>
+</div>
+<div *ngIf="blankSet" class="rounds-tabs mt-1">
+    <mat-tab-group (selectedTabChange)="onTabChanged($event)">
         <mat-tab *ngFor="let roundBlankSet of blankSet.roundBlankSets; let i = index">
             <ng-template mat-tab-label>
                 <div class="tab-label-content">
@@ -16,4 +25,8 @@
             <app-round-blank-set [roundBlankSet]="roundBlankSet"></app-round-blank-set>
         </mat-tab>
     </mat-tab-group>
+</div>
+
+<div class="overlay" *ngIf="archiveLoadInProgress">Preparing pictures ({{loadPercents}}%). Please do not refresh this page
+    <mat-spinner></mat-spinner>
 </div>

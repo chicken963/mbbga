@@ -49,6 +49,7 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
         }
         this.http.get<GameBlankSet[]>(`/blanks?game-id=${this.gameId}`).subscribe(response => {
             this.gameBlankSets = response;
+            this.gameBlankSets.forEach(gameBlankSet => gameBlankSet.roundBlankSets = gameBlankSet.roundBlankSets.sort((r1, r2) => r1.round.index - r2.round.index));
             this.gameBlankSets.forEach(gameBlankSet => gameBlankSet.isOwnedByCurrentUser = gameBlankSet.owner.id === this.authService.user.id)
             this.dataSource = new MatTableDataSource(this.gameBlankSets);
         });

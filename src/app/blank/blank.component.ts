@@ -18,7 +18,7 @@ import {AreaType} from "./AreaType";
 @Component({
     selector: 'app-blank',
     templateUrl: './blank.component.html',
-    styleUrls: ['./blank.component.scss']
+    styleUrls: ['./blank.component.scss', './../common-styles/scrollbar.css']
 })
 export class BlankComponent implements OnInit {
 

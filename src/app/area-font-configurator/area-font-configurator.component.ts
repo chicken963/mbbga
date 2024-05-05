@@ -1,11 +1,10 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BackgroundRectangle} from "../interfaces/blank/background";
-import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-area-font-configurator',
   templateUrl: './area-font-configurator.component.html',
-  styleUrls: ['./area-font-configurator.component.css']
+  styleUrls: ['./area-font-configurator.component.scss', './../common-styles/scrollbar.css']
 })
 export class AreaFontConfiguratorComponent {
   @Input()

@@ -11,9 +11,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NotificationService} from "../utils/notification.service";
 import {Location} from "@angular/common";
 import {RoundBlankSet} from "../interfaces/blank/round-blank-set";
-import {Round} from "../interfaces/round";
 import {BackgroundService} from "../services/background.service";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {JumpToBackgroundDashboardService} from "../services/jump-to-background-dashboard.service";
 
 @Component({
@@ -28,7 +27,6 @@ export class CreateGameBlankSetComponent {
     strikeCriteria: StrikeCriterion[] = Object.values(StrikeCriterion)
     gameBlankSet: GameBlankSet;
     fieldSizeForm: FormGroup;
-    private navigatedFromBackButtonSubject = new BehaviorSubject<boolean>(false);
 
     constructor(private dialogService: DialogService,
                 private authService: AuthService,
@@ -51,18 +49,22 @@ export class CreateGameBlankSetComponent {
                 this.http.get<any>(`/games/${this.gameId}`).subscribe(response => {
                     this.game = response;
                     this.gameBlankSet = this.blankManagementService.generateDefaultGameBlankSet(this.authService.user, this.game);
-                    this.backgroundService.currentBlankSet.next(this.gameBlankSet);
+                    sessionStorage.setItem('gameBlankSet', JSON.stringify(this.gameBlankSet));
+                    sessionStorage.setItem('backgroundIndex', String(0));
                     this.init();
                 });
             } else {
                 this.game = game;
                 this.gameBlankSet = this.blankManagementService.generateDefaultGameBlankSet(this.authService.user, this.game);
-                this.backgroundService.currentBlankSet.next(this.gameBlankSet);
+                sessionStorage.setItem('gameBlankSet', JSON.stringify(this.gameBlankSet));
+                sessionStorage.setItem('backgroundIndex', String(0));
                 this.init();
             }
         } else {
-            this.gameBlankSet = this.backgroundService.currentBlankSet.value!;
             this.game = this.jumpToBackgroundDashboardService.cachedGame;
+            this.backgroundService.getCachedCurrentGameSet()!.roundBlankSets[this.backgroundService.getRbsIndex()].blankBackground = this.backgroundService.getSelectedBackground();
+            this.gameBlankSet = this.backgroundService.getCachedCurrentGameSet()!;
+            sessionStorage.removeItem("roundBlankSetIndex");
             this.init();
         }
     }
@@ -77,10 +79,6 @@ export class CreateGameBlankSetComponent {
             });
     }
 
-    setValue(i: number, enumValue: string) {
-
-    }
-
     get roundStrikeCriteriaFormItems(): FormArray {
         return this.gameBlankSetParamsForm?.get('roundStrikeCriteriaFormItems') as FormArray;
     }
@@ -90,17 +88,20 @@ export class CreateGameBlankSetComponent {
             this.blankManagementService.addBlankSet(response);
             this.notificationService.pushNotification("Blank set was successfully added", 'success')
         });
+        sessionStorage.removeItem('backgroundIndex');
         this.router.navigate(['/game', this.game.id, 'blanks']);
     }
 
-    openBackgroundChooseWindow(roundBlankSet: RoundBlankSet) {
+    openBackgroundChooseWindow(rbsIndex: number) {
         this.jumpToBackgroundDashboardService.cachedGame = this.game;
-        this.jumpToBackgroundDashboardService.cachedRoundBlankSet = roundBlankSet;
+        sessionStorage.setItem("roundBlankSetIndex", String(rbsIndex));
         this.router.navigate(['/game', this.game.id, 'blanks', 'new', 'choose-background'])
     }
 
     init() {
-
+        if (!this.gameBlankSet) {
+            this.gameBlankSet = this.backgroundService.getCachedCurrentGameSet()!;
+        }
         this.fieldSizeForm = this.fb.group({})
         this.gameBlankSetParamsForm = this.fb.group({
             blanksSetName: this.gameBlankSet.name,

@@ -16,3 +16,38 @@ app-left-menu {
     margin-left: 100px;
     margin-right: 100px;
 }
+
+::ng-deep .mat-mdc-dialog-container {
+    max-height: 95vh !important;
+
+    .mat-mdc-dialog-surface {
+        overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar:horizontal {
+        height: 12px;
+    }
+
+    ::-webkit-scrollbar-corner {
+        background-color: #464646; /* Set the background color to match the container */
+    }
+
+    ::-webkit-scrollbar-track {
+        border-radius: 5px;
+
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #c2185b;
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #ea4e8b;
+        cursor: pointer;
+    }
+}

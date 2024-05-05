@@ -52,7 +52,8 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
                 private backgroundSelectService: BackgroundSelectService,
                 private blankManagementService: BlankManagementService) {
         this.backgrounds.push(this.backgroundService.defaultBackground);
-        this.gameBlankSet = this.backgroundService.getCurrentGameSet().value!;4
+
+        this.gameBlankSet = this.backgroundService.getCachedCurrentGameSet()!;
 
         this.gameId = this.route.snapshot.params["id"];
         let game = this.blankManagementService.gameSelected.value;
@@ -91,6 +92,7 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.backgroundSelectService.getSelectedRadioButton().pipe(takeUntil(this.ngDestroy$)).subscribe(index => {
+            sessionStorage.setItem("backgroundIndex", String(index));
             this.selectedBackgroundIndex = index;
         });
         this.backgroundService.getBackgroundFetched().pipe(takeUntil(this.ngDestroy$)).subscribe(value => {
@@ -98,10 +100,8 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
                 this.numberOfNotLoadedImages--;
             }
         });
-        this.roundBlankSet = this.jumpToBackgroundDashboardService.cachedRoundBlankSet;
-        this.selectedBackgroundIndex = this.jumpToBackgroundDashboardService.cachedRoundBlankSet
-        ? this.backgrounds.indexOf(this.jumpToBackgroundDashboardService.cachedRoundBlankSet.blankBackground)
-        : 0;
+        this.roundBlankSet = this.backgroundService.getCachedCurrentGameSet()!.roundBlankSets[this.backgroundService.getRbsIndex()];
+        this.selectedBackgroundIndex = this.backgroundService.getBackgroundIndex();
     }
 
     showCropper(event: any) {
@@ -114,8 +114,8 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
                     let newBackground = {...this.backgroundService.defaultBackground};
                     this.dialog.open(CropperComponent, {
                         disableClose: true,
-                        width: `${image.width}px`,
-                        maxHeight: `${image.width + 40}px`,
+                        minWidth: `85vw`,
+                        minHeight: `95vh`,
                         data: {
                             src: this.imageSrc,
                             // dataUrl: image.src,
@@ -134,9 +134,9 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
     }
 
     onRadioButtonClick(background: BlankBackground, i: number) {
-        this.gameBlankSet.roundBlankSets
-            .find(roundBlankSet => roundBlankSet === this.roundBlankSet)!.blankBackground = background;
+        this.gameBlankSet.roundBlankSets[this.backgroundService.getRbsIndex()]!.blankBackground = background;
         this.backgroundSelectService.setSelectedRadioButton(i);
+        sessionStorage.setItem("selectedBackground", JSON.stringify(background));
     }
 
     editBackground(background: BlankBackground) {
@@ -165,7 +165,6 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
     }
 
     backToBlankSetCreation() {
-        this.backgroundService.currentBlankSet.next(this.gameBlankSet);
         this.backgroundService.navigationToGameBlankSetCreationFromBackgroundSelect.next(true);
         this.location.back();
     }

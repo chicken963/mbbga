@@ -1,10 +1,10 @@
-<button mat-raised-button color="primary"
+<!--<button mat-raised-button color="primary"
         class="m-2"
         (click)="saveAllBlanks()"
         [innerText]="archiveLoadInProgress ? 'Preparing pictures (' + loadPercents + '%). Please do not refresh this page' : 'Save all blanks'">
         <mat-spinner *ngIf="archiveLoadInProgress"></mat-spinner>
         Save all blanks
-</button>
+</button>-->
 <div class="m-2 container d-flex flex-row">
     <div class="blanks-numbers-container" fxLayout="row wrap" fxLayoutAlign="start start">
         <ng-container *ngFor="let blank of roundBlankSet.blanks">
@@ -17,21 +17,21 @@
     </div>
     <canvas #canvas style="display: none"></canvas>
     <a #downloadLink style="display: none"></a>
-    <div #blankContainer class="blank-preview-container">
-        <ng-container *ngIf="hoveredBlank">
-            <app-blank [blank]="clickedBlank ? clickedBlank : hoveredBlank"
-                       [strikeCriterion]="roundBlankSet.strikeCriterion"
-                       [columnsCount]="roundBlankSet.columnsCount"
-                       [rowsCount]="roundBlankSet.rowsCount"
-                       [roundName]="roundBlankSet.round.name"
-                       [blankBackground]="roundBlankSet.blankBackground"
-                       [zipQuotient]="previewHeight / imageHeight"
-                       (blankRendered)="captureComponentView()"
-            [ngStyle]="{'background-image': 'url(;'+ imageUrl +')'}">
-            </app-blank>
-        </ng-container>
-
+    <div #scrollableContainer class="scrollable-container">
+        <div #blankContainer class="blank-preview-container">
+            <ng-container *ngIf="hoveredBlank">
+                <app-blank [blank]="clickedBlank ? clickedBlank : hoveredBlank"
+                           [strikeCriterion]="roundBlankSet.strikeCriterion"
+                           [columnsCount]="roundBlankSet.columnsCount"
+                           [rowsCount]="roundBlankSet.rowsCount"
+                           [roundName]="roundBlankSet.round.name"
+                           [blankBackground]="roundBlankSet.blankBackground"
+                           [zipQuotient]="previewHeight / imageHeight"
+                           (blankRendered)="captureComponentView()"
+                           [ngStyle]="{'background-image': 'url(;'+ imageUrl +')'}">
+                </app-blank>
+            </ng-container>
+        </div>
     </div>
-</div>
 
-<div class="overlay" *ngIf="archiveLoadInProgress"></div>
+</div>

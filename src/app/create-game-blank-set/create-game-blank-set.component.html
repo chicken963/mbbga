@@ -43,7 +43,7 @@
                                 <mat-label>Background</mat-label>
                                 <input matInput class="background-value-input" [value]="gameBlankSet.roundBlankSets[i].blankBackground.name" [disabled]="true">
                             </mat-form-field>
-                            <button mat-raised-button color="primary" type="button" (click)="openBackgroundChooseWindow(gameBlankSet.roundBlankSets[i])">Change</button>
+                            <button mat-raised-button color="primary" type="button" (click)="openBackgroundChooseWindow(i)">Change</button>
                         </div>
                     </div>
                 </div>
