@@ -5,6 +5,8 @@ import {HttpClient} from "@angular/common/http";
 import {AuthService} from "../services/auth.service";
 import {DialogService} from "../utils/dialog.service";
 import {BlankManagementService} from "../services/blank-management.service";
+import {MatDialog} from "@angular/material/dialog";
+import {BlankSetSelectComponent} from "../blank-set-select/blank-set-select.component";
 
 @Component({
     selector: 'app-game-card',
@@ -22,6 +24,7 @@ export class GameCardComponent {
 
     constructor(private router: Router, private http: HttpClient,
                 private authService: AuthService,
+                private dialog: MatDialog,
                 private blankService: BlankManagementService,
                 private dialogService: DialogService) {
     }
@@ -56,5 +59,12 @@ export class GameCardComponent {
                     this.delete();
                 }
             });
+    }
+
+    openPreselectPopup() {
+        this.dialog.open(BlankSetSelectComponent, {
+            disableClose: true,
+            minWidth: `35vw`,
+            data: {gameId: this.game.id}})
     }
 }

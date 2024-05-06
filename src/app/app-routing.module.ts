@@ -11,6 +11,7 @@ import {GameBlanksWorkbenchComponent} from "./game-blanks-workbench/game-blanks-
 import {GameBlankSetComponent} from "./game-blank-set/game-blank-set.component";
 import {CreateGameBlankSetComponent} from "./create-game-blank-set/create-game-blank-set.component";
 import {BackgroundSelectComponent} from "./background-select/background-select.component";
+import {GameplayDashboardComponent} from "./gameplay-dashboard/gameplay-dashboard.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent},
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'game/:id/blanks/new', component: CreateGameBlankSetComponent},
   { path: 'game/:id/blanks/new/choose-background', component: BackgroundSelectComponent},
   { path: 'game/:id/blanks/:blankSetId', component: GameBlankSetComponent},
+  { path: 'game/:id/play/:blankSetId', component: GameplayDashboardComponent},
   { path: "**", redirectTo: "" }
 ];
 

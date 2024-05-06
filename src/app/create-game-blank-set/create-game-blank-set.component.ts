@@ -10,9 +10,7 @@ import {BlankManagementService} from "../services/blank-management.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NotificationService} from "../utils/notification.service";
 import {Location} from "@angular/common";
-import {RoundBlankSet} from "../interfaces/blank/round-blank-set";
 import {BackgroundService} from "../services/background.service";
-import {BehaviorSubject} from "rxjs";
 import {JumpToBackgroundDashboardService} from "../services/jump-to-background-dashboard.service";
 
 @Component({
@@ -48,23 +46,23 @@ export class CreateGameBlankSetComponent {
             if (!game || game.id !== this.gameId) {
                 this.http.get<any>(`/games/${this.gameId}`).subscribe(response => {
                     this.game = response;
-                    this.gameBlankSet = this.blankManagementService.generateDefaultGameBlankSet(this.authService.user, this.game);
+                    if (this.backgroundService.getCachedCurrentGameSet()) {
+                        this.gameBlankSet = this.backgroundService.getCachedCurrentGameSet()!;
+                    } else {
+                        this.gameBlankSet = this.blankManagementService.generateDefaultGameBlankSet(this.authService.user, this.game);
+                    }
                     sessionStorage.setItem('gameBlankSet', JSON.stringify(this.gameBlankSet));
-                    sessionStorage.setItem('backgroundIndex', String(0));
                     this.init();
                 });
             } else {
                 this.game = game;
                 this.gameBlankSet = this.blankManagementService.generateDefaultGameBlankSet(this.authService.user, this.game);
                 sessionStorage.setItem('gameBlankSet', JSON.stringify(this.gameBlankSet));
-                sessionStorage.setItem('backgroundIndex', String(0));
                 this.init();
             }
         } else {
-            this.game = this.jumpToBackgroundDashboardService.cachedGame;
-            this.backgroundService.getCachedCurrentGameSet()!.roundBlankSets[this.backgroundService.getRbsIndex()].blankBackground = this.backgroundService.getSelectedBackground();
+            this.game = this.backgroundService.getCachedGame();
             this.gameBlankSet = this.backgroundService.getCachedCurrentGameSet()!;
-            sessionStorage.removeItem("roundBlankSetIndex");
             this.init();
         }
     }
@@ -88,12 +86,11 @@ export class CreateGameBlankSetComponent {
             this.blankManagementService.addBlankSet(response);
             this.notificationService.pushNotification("Blank set was successfully added", 'success')
         });
-        sessionStorage.removeItem('backgroundIndex');
         this.router.navigate(['/game', this.game.id, 'blanks']);
     }
 
     openBackgroundChooseWindow(rbsIndex: number) {
-        this.jumpToBackgroundDashboardService.cachedGame = this.game;
+        this.backgroundService.cacheGame(this.game);
         sessionStorage.setItem("roundBlankSetIndex", String(rbsIndex));
         this.router.navigate(['/game', this.game.id, 'blanks', 'new', 'choose-background'])
     }

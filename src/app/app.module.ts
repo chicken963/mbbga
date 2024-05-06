@@ -55,6 +55,9 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import { TransformedAreaComponent } from './transformed-area/transformed-area.component';
 import { CropBoundsEditorComponent } from './crop-counds-editor/crop-bounds-editor.component';
 import { AreaFontConfiguratorComponent } from './area-font-configurator/area-font-configurator.component';
+import { BlankSetSelectComponent } from './blank-set-select/blank-set-select.component';
+import {MatRadioModule} from "@angular/material/radio";
+import { GameplayDashboardComponent } from './gameplay-dashboard/gameplay-dashboard.component';
 
 @NgModule({
     declarations: [
@@ -87,7 +90,9 @@ import { AreaFontConfiguratorComponent } from './area-font-configurator/area-fon
         CropperComponent,
         TransformedAreaComponent,
         CropBoundsEditorComponent,
-        AreaFontConfiguratorComponent
+        AreaFontConfiguratorComponent,
+        BlankSetSelectComponent,
+        GameplayDashboardComponent
     ],
     imports: [
         BrowserModule,
@@ -115,7 +120,8 @@ import { AreaFontConfiguratorComponent } from './area-font-configurator/area-fon
         MatTableModule,
         RoundTableWorkbenchModule,
         HammerModule,
-        DragDropModule
+        DragDropModule,
+        MatRadioModule
     ],
     providers: [
         MatSnackBarModule,

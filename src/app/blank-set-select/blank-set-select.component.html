@@ -1,0 +1,15 @@
+<div class="container d-flex flex-column">
+    <h2 mat-dialog-title class="header">Please select blank set to play with:</h2>
+    <mat-radio-group [(ngModel)]="selectedBlankSet" class="d-flex flex-column">
+        <mat-radio-button *ngFor="let gameBlankSet of blankSets" [value]="gameBlankSet">
+            {{ gameBlankSet.name }}
+        </mat-radio-button>
+    </mat-radio-group>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary"
+                [disabled]="!selectedBlankSet"
+                (click)="startGame()"
+        >Start game</button>
+        <button mat-raised-button (click)="cancel()">Cancel</button>
+    </div>
+</div>

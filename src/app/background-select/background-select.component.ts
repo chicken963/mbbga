@@ -68,7 +68,10 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
             this.numberOfNotLoadedImages = response.length;
             response.forEach(background => {
                     this.addBackgroundAndLoadPreview(background);
-                })
+                });
+            this.roundBlankSet = this.backgroundService.getCachedCurrentGameSet()!.roundBlankSets[this.backgroundService.getRbsIndex()];
+            let selectedBackground = this.backgrounds.find(background => background.id && background.id === this.roundBlankSet.blankBackground.id);
+            this.selectedBackgroundIndex = selectedBackground ? this.backgrounds.indexOf(selectedBackground) : 0;
         });
         this.backgroundService.getBackgroundAdded().pipe(takeUntil(this.ngDestroy$)).subscribe(background =>
             this.addBackgroundAndLoadPreview(background));
@@ -92,7 +95,6 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.backgroundSelectService.getSelectedRadioButton().pipe(takeUntil(this.ngDestroy$)).subscribe(index => {
-            sessionStorage.setItem("backgroundIndex", String(index));
             this.selectedBackgroundIndex = index;
         });
         this.backgroundService.getBackgroundFetched().pipe(takeUntil(this.ngDestroy$)).subscribe(value => {
@@ -100,8 +102,6 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
                 this.numberOfNotLoadedImages--;
             }
         });
-        this.roundBlankSet = this.backgroundService.getCachedCurrentGameSet()!.roundBlankSets[this.backgroundService.getRbsIndex()];
-        this.selectedBackgroundIndex = this.backgroundService.getBackgroundIndex();
     }
 
     showCropper(event: any) {
@@ -134,9 +134,8 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
     }
 
     onRadioButtonClick(background: BlankBackground, i: number) {
-        this.gameBlankSet.roundBlankSets[this.backgroundService.getRbsIndex()]!.blankBackground = background;
+        this.roundBlankSet.blankBackground = background;
         this.backgroundSelectService.setSelectedRadioButton(i);
-        sessionStorage.setItem("selectedBackground", JSON.stringify(background));
     }
 
     editBackground(background: BlankBackground) {
@@ -170,6 +169,8 @@ export class BackgroundSelectComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.gameBlankSet.roundBlankSets[this.backgroundService.getRbsIndex()] = this.roundBlankSet;
+        this.backgroundService.setCurrentGameSet(this.gameBlankSet);
         this.ngDestroy$.next(true);
     }
 }

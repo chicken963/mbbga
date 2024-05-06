@@ -13,6 +13,7 @@ import {AuthService} from "../services/auth.service";
 import {NotificationService} from "../utils/notification.service";
 import {BackgroundService} from "../services/background.service";
 import {BlankBackground} from "../interfaces/blank/background";
+import {Location} from "@angular/common";
 
 @Component({
     selector: 'app-game-blanks-workbench',
@@ -35,6 +36,7 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
                 private router: Router,
                 private route: ActivatedRoute,
                 private authService: AuthService,
+                private location: Location,
                 private notificationService: NotificationService,
                 private backgroundService: BackgroundService,
                 private blankManagementService: BlankManagementService) {
@@ -142,5 +144,9 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
                     this.delete(gameBlankSet);
                 }
             });
+    }
+
+    backToGamesList() {
+        this.location.back();
     }
 }

@@ -2,7 +2,8 @@
     <mat-card-header class="d-flex flex-row justify-content-between">
         <mat-card-title>{{ game.name }}</mat-card-title>
         <div>
-            <button mat-icon-button matTooltip="Start game">
+            <button mat-icon-button matTooltip="Start game"
+                    (click)="openPreselectPopup()">
                 <mat-icon>play_arrow</mat-icon>
             </button>
             <button mat-icon-button [matMenuTriggerFor]="menu"

@@ -5,6 +5,7 @@ import {AreaType} from "../blank/AreaType";
 import {BehaviorSubject, Observable, ReplaySubject, Subject} from "rxjs";
 import {GameBlankSet} from "../interfaces/blank/game-blank-set";
 import {RoundBlankSet} from "../interfaces/blank/round-blank-set";
+import {Game} from "../interfaces/game";
 
 @Injectable({
     providedIn: 'root'
@@ -148,13 +149,24 @@ export class BackgroundService {
         return JSON.parse(gameBlankSetAsString) as number;
     }
 
-    getBackgroundIndex(): number {
-        let gameBlankSetAsString: string = sessionStorage.getItem("backgroundIndex")!;
-        return JSON.parse(gameBlankSetAsString) as number;
+    cacheGame(game: Game) {
+        sessionStorage.setItem("game", JSON.stringify(game));
     }
 
-    getSelectedBackground(): BlankBackground {
-        let gameBlankSetAsString: string = sessionStorage.getItem("selectedBackground")!;
-        return JSON.parse(gameBlankSetAsString) as BlankBackground;
+    getCachedGame(): Game {
+        let game: string = sessionStorage.getItem("game")!;
+        return JSON.parse(game) as Game;
+    }
+
+    clearCachedGame() {
+        sessionStorage.removeItem("game");
+    }
+
+    clearCachedGameBlankSet() {
+        sessionStorage.removeItem("gameBlankSet");
+    }
+
+    clearRoundBlankSetIndex() {
+        sessionStorage.removeItem("roundBlankSetIndex");
     }
 }
