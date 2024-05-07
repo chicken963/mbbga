@@ -32,6 +32,9 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
     @Input("round")
     round: Round;
 
+    @Input("mode")
+    mode: "create" | "play";
+
     @Input("preload-by-default")
     preloadByDefault: boolean = false;
 

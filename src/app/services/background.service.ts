@@ -92,6 +92,21 @@ export class BackgroundService {
             () => this.backgroundFetched.next(null));
     }
 
+    bindBackgroundsToBlankSet(backgrounds: BlankBackground[], gameBlankSet: GameBlankSet) {
+        backgrounds
+            .filter(background => background)
+            .forEach(background => {
+                gameBlankSet.roundBlankSets.forEach(roundBlankSet => {
+                    if (roundBlankSet.blankBackground && roundBlankSet.blankBackground.id === background.id) {
+                        roundBlankSet.blankBackground = background;
+                    }
+                    if (!roundBlankSet.blankBackground) {
+                        roundBlankSet.blankBackground = this.defaultBackground;
+                    }
+                })
+            });
+    }
+
     get defaultBackground(): BlankBackground {
         return this._defaultBackground;
     }

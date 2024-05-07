@@ -7,6 +7,7 @@ import {CreateRoundCloseService} from "../services/create-round-close.service";
 import {RoundPlaylistComponent} from "../round-playlist/round-playlist.component";
 import {RoundTableItem} from "../interfaces/round-table-item";
 import {RoundPlayerComponent} from "../round-player/round-player.component";
+import {RoundPlayerWithPlaylistComponent} from "../round-player-with-playlist/round-player-with-playlist.component";
 
 @Component({
     selector: 'app-create-round',
@@ -21,37 +22,22 @@ export class CreateRoundComponent implements OnInit {
     @Input("round")
     round: Round;
 
-    @ViewChild(RoundPlaylistComponent)
-    audioTracksTable: RoundPlaylistComponent;
-
-    @ViewChild(RoundPlayerComponent)
-    roundPlayer: RoundPlayerComponent
+    @ViewChild(RoundPlayerWithPlaylistComponent)
+    roundPlayerWithPlaylistComponent: RoundPlayerWithPlaylistComponent;
 
     roundForm: FormGroup;
 
     winConditionForm: FormGroup;
     fieldSizeForm: FormGroup;
 
-    playedItem: RoundTableItem | null;
-
     private workbenchPopupDialogRef: MatDialogRef<RoundAudiotracksWorkbenchComponent>;
-
-    nextExists: boolean;
-    previousExists: boolean = false;
 
     constructor(private fb: FormBuilder,
                 private dialog: MatDialog,
                 private createRoundCloseService: CreateRoundCloseService) {
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.round) {
-            this.nextExists = this.round.audioTracks.length > 1;
-            if (this.roundPlayer) {
-                this.roundPlayer.nextExists = this.round.audioTracks.length > 1;
-            }
-        }
-    }
+
 
     ngOnInit() {
         this.winConditionForm = this.fb.group({
@@ -70,7 +56,7 @@ export class CreateRoundComponent implements OnInit {
         this.createRoundCloseService.getCloseRoundPopupState().subscribe(state => {
             if (state) {
                 this.workbenchPopupDialogRef?.close();
-                this.audioTracksTable.refresh();
+                this.roundPlayerWithPlaylistComponent.refreshTable();
             }
         })
     }
@@ -94,51 +80,5 @@ export class CreateRoundComponent implements OnInit {
                 audioTracksInitialSnapshot: [...this.round.audioTracks]
             }
         })
-    }
-
-    onPlayedItemChanged($event: RoundTableItem | null) {
-        this.playedItem = $event;
-        if (this.roundPlayer) {
-            this.roundPlayer.isPlaying = true;
-        }
-        if (this.audioTracksTable) {
-            this.nextExists = this.audioTracksTable.nextItem !== undefined;
-            this.previousExists = this.audioTracksTable.itemsIndexesHistory.length > 0;
-        }
-    }
-
-    play($event: RoundTableItem) {
-        this.audioTracksTable.play($event)
-    }
-
-    pause($event: RoundTableItem) {
-        this.audioTracksTable._pause()
-    }
-
-    stop($event: RoundTableItem) {
-        this.audioTracksTable.stop()
-    }
-
-    previousTrack($event: RoundTableItem) {
-        this.audioTracksTable.playNext();
-    }
-
-    nextTrack($event: RoundTableItem) {
-        this.audioTracksTable.playPrevious();
-    }
-
-    onPauseClicked() {
-        this.roundPlayer.isPlaying = false;
-    }
-
-    onPlayNext() {
-        this.audioTracksTable.playNext();
-        this.nextExists = this.audioTracksTable?.nextItem !== undefined;
-    }
-
-    onPlayPrevious() {
-        this.audioTracksTable.playPrevious();
-        this.previousExists = this.audioTracksTable?.itemsIndexesHistory !== undefined &&
-            this.audioTracksTable?.itemsIndexesHistory.length > 0;
     }
 }

@@ -1,1 +1,15 @@
-<p>gameplay-dashboard works!</p>
+<div class="rounds-tabs" *ngIf="roundsWithBlankSets.size > 0">
+    <mat-tab-group [(selectedIndex)]="currentRound">
+        <mat-tab *ngFor="let roundWithBlankSet of roundsWithBlankSets | keyvalue; let i = index">
+            <ng-template mat-tab-label>
+                <div class="tab-label-content">
+                    <span class="round-name-label">{{roundWithBlankSet.key.name}}</span>
+                </div>
+            </ng-template>
+            <div class="d-flex flex-row">
+                <app-round-blank-set [roundBlankSet]="roundWithBlankSet.value"></app-round-blank-set>
+                <app-round-player-with-playlist [round]="roundWithBlankSet.key" [mode]="'play'"></app-round-player-with-playlist>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

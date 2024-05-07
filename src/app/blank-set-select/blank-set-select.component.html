@@ -13,3 +13,6 @@
         <button mat-raised-button (click)="cancel()">Cancel</button>
     </div>
 </div>
+<div class="overlay" *ngIf="imagesArePreloaded">Preparing pictures ({{loadPercents}}%). Please do not refresh this page
+    <mat-spinner></mat-spinner>
+</div>

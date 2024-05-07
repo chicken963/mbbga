@@ -58,6 +58,7 @@ import { AreaFontConfiguratorComponent } from './area-font-configurator/area-fon
 import { BlankSetSelectComponent } from './blank-set-select/blank-set-select.component';
 import {MatRadioModule} from "@angular/material/radio";
 import { GameplayDashboardComponent } from './gameplay-dashboard/gameplay-dashboard.component';
+import { RoundPlayerWithPlaylistComponent } from './round-player-with-playlist/round-player-with-playlist.component';
 
 @NgModule({
     declarations: [
@@ -92,7 +93,8 @@ import { GameplayDashboardComponent } from './gameplay-dashboard/gameplay-dashbo
         CropBoundsEditorComponent,
         AreaFontConfiguratorComponent,
         BlankSetSelectComponent,
-        GameplayDashboardComponent
+        GameplayDashboardComponent,
+        RoundPlayerWithPlaylistComponent
     ],
     imports: [
         BrowserModule,

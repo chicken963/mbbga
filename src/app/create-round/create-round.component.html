@@ -11,20 +11,7 @@
             <mat-icon>add</mat-icon>
             Add audio track(s) from library
         </button>
-        <app-round-player *ngIf="round.audioTracks.length > 0"
-                          [round-item]="playedItem"
-                          [next-exists]="nextExists"
-                          [previous-exists]="previousExists"
-                          (playNext)="onPlayNext()"
-                          (playPrevious)="onPlayPrevious()"
-                          (play)="play($event)"
-                          (pause)="pause($event)"
-                          (stop)="stop($event)">
-        </app-round-player>
-        <app-round-playlist [round]="round"
-                            (playedItemChanged)="onPlayedItemChanged($event)"
-                            (pause)="onPauseClicked()">
-        </app-round-playlist>
+        <app-round-player-with-playlist [round]="round"></app-round-player-with-playlist>
     </div>
 
 </div>

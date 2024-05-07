@@ -10,7 +10,7 @@ import {RoundBlankSetComponent} from "../round-blank-set/round-blank-set.compone
 @Component({
     selector: 'app-game-blank-set',
     templateUrl: './game-blank-set.component.html',
-    styleUrls: ['./game-blank-set.component.scss', './../common-styles/tabs.scss']
+    styleUrls: ['./game-blank-set.component.scss', './../common-styles/tabs.scss', './../common-styles/overlay.scss']
 })
 export class GameBlankSetComponent {
 

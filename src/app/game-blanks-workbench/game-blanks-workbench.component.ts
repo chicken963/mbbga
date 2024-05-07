@@ -86,7 +86,7 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
 
     openBlankSet(gameBlankSet: GameBlankSet) {
         this.http.get<BlankBackground[]>(`/backgrounds/blankSet/${gameBlankSet.id}`).subscribe(backgrounds => {
-            this.bindBackgroundsToBlankSet(backgrounds, gameBlankSet);
+            this.backgroundService.bindBackgroundsToBlankSet(backgrounds, gameBlankSet);
             let backgroundsWithLoadableImage = backgrounds.filter(background => background);
             let backgroundsWithDefaultImage = backgrounds.filter(background => !background);
 
@@ -111,21 +111,6 @@ export class GameBlanksWorkbenchComponent implements OnDestroy {
                 this.router.navigate(['/game', this.game.id, 'blanks', gameBlankSet.id]);
             }
         });
-    }
-
-    private bindBackgroundsToBlankSet(backgrounds: BlankBackground[], gameBlankSet: GameBlankSet) {
-        backgrounds
-            .filter(background => background)
-            .forEach(background => {
-                gameBlankSet.roundBlankSets.forEach(roundBlankSet => {
-                    if (roundBlankSet.blankBackground && roundBlankSet.blankBackground.id === background.id) {
-                        roundBlankSet.blankBackground = background;
-                    }
-                    if (!roundBlankSet.blankBackground) {
-                        roundBlankSet.blankBackground = this.backgroundService.defaultBackground;
-                    }
-                })
-            });
     }
 
     private gameBlankSetWasNotOpenedBefore(gameBlankSet: GameBlankSet) {
