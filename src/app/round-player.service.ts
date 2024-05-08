@@ -81,20 +81,4 @@ export class RoundPlayerService {
     setPreviousItem(item: RoundTableItem) {
         this.previousItemChanged.next(item);
     }
-
-    getNextItemExist(): Observable<any> {
-        return this.nextItemExistChange.asObservable();
-    }
-
-    getPreviousItemExist(): Observable<any> {
-        return this.previousItemExistChange.asObservable();
-    }
-
-    setNextItemExist(value: any) {
-        this.nextItemExistChange.next(value);
-    }
-
-    setPreviousItemExist(value: any) {
-        this.previousItemExistChange.next(value);
-    }
 }

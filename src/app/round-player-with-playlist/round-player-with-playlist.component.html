@@ -12,6 +12,8 @@
     <app-round-playlist [round]="round"
                         [mode]="mode"
                         (playedItemChanged)="onPlayedItemChanged($event)"
+                        (previousItemChanged)="onPreviousItemChanged($event)"
+                        (nextItemChanged)="onNextItemChanged($event)"
                         (pause)="onPauseClicked()">
     </app-round-playlist>
 </div>

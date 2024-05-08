@@ -18,7 +18,7 @@ export class RoundPlayerWithPlaylistComponent {
   mode: "create" | "play";
 
   @ViewChild(RoundPlaylistComponent)
-  audioTracksTable: RoundPlaylistComponent;
+  roundPlayList: RoundPlaylistComponent;
 
   @ViewChild(RoundPlayerComponent)
   roundPlayer: RoundPlayerComponent
@@ -38,7 +38,7 @@ export class RoundPlayerWithPlaylistComponent {
   }
 
   refreshTable() {
-    this.audioTracksTable.refresh();
+    this.roundPlayList.refresh();
   }
 
   onPlayedItemChanged($event: RoundTableItem | null) {
@@ -46,30 +46,24 @@ export class RoundPlayerWithPlaylistComponent {
     if (this.roundPlayer) {
       this.roundPlayer.isPlaying = true;
     }
-    if (this.audioTracksTable) {
-      this.nextExists = this.audioTracksTable.nextItem !== undefined;
-      this.previousExists = this.audioTracksTable.itemsIndexesHistory.length > 0;
+    if (this.roundPlayList) {
+      this.nextExists = this.roundPlayList.nextItem !== undefined;
+      this.previousExists = this.roundPlayList.previousItem !== undefined;
     }
   }
 
   play($event: RoundTableItem) {
-    this.audioTracksTable.play($event)
+    this.roundPlayList.play($event);
+    this.nextExists = this.roundPlayList?.nextItem !== undefined;
+    this.previousExists = this.roundPlayList?.previousItem !== undefined;
   }
 
   pause($event: RoundTableItem) {
-    this.audioTracksTable._pause()
+    this.roundPlayList._pause()
   }
 
   stop($event: RoundTableItem) {
-    this.audioTracksTable.stop()
-  }
-
-  previousTrack($event: RoundTableItem) {
-    this.audioTracksTable.playNext();
-  }
-
-  nextTrack($event: RoundTableItem) {
-    this.audioTracksTable.playPrevious();
+    this.roundPlayList.stop()
   }
 
   onPauseClicked() {
@@ -77,13 +71,18 @@ export class RoundPlayerWithPlaylistComponent {
   }
 
   onPlayNext() {
-    this.audioTracksTable.playNext();
-    this.nextExists = this.audioTracksTable?.nextItem !== undefined;
+    this.roundPlayList.playNext();
   }
 
   onPlayPrevious() {
-    this.audioTracksTable.playPrevious();
-    this.previousExists = this.audioTracksTable?.itemsIndexesHistory !== undefined &&
-        this.audioTracksTable?.itemsIndexesHistory.length > 0;
+    this.roundPlayList.playPrevious();
+  }
+
+  onPreviousItemChanged($event: RoundTableItem | undefined) {
+    this.previousExists = !!$event;
+  }
+
+  onNextItemChanged($event: RoundTableItem | undefined) {
+    this.nextExists = !!$event;
   }
 }
