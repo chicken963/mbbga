@@ -4,7 +4,7 @@
             <div>{{playedItem.artist}} - {{playedItem.title}}</div>
         </div>
         <div *ngIf="!playedItem">Round playlist is empty</div>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between" [ngClass]="{'round-play-buttons-container' : mode === 'play'}">
             <app-round-playback-buttons class="col-4"
                                         [round-item]="playedItem"
                                         [next-exists]="nextExists"

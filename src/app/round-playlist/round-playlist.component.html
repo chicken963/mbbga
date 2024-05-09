@@ -2,12 +2,39 @@
 
     <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef> #</th>
-        <td mat-cell *matCellDef="let element"> {{round.audioTracks.indexOf(element) + 1}} </td>
+        <td mat-cell *matCellDef="let element">
+            <ng-container [ngSwitch]="mode">
+                <ng-template [ngSwitchCase]="'play'">
+                    <div class="spinner-container" *ngIf="element.status === 'loading'">
+                        <mat-spinner></mat-spinner>
+                        <div class="load-percentage">{{loadPercents}}%</div>
+                    </div>
+                    <div class="spinner-container" *ngIf="element.status === 'preloading'">
+                        <mat-spinner></mat-spinner>
+                        Preloading...
+                    </div>
+                    <span *ngIf="element.status !== 'loading' && element.status !== 'preloading'">{{round.audioTracks.indexOf(element) + 1}}</span>
+                </ng-template>
+                <ng-template ngSwitchDefault>
+                    {{round.audioTracks.indexOf(element) + 1}}
+                </ng-template>
+            </ng-container>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="isNext">
         <th mat-header-cell *matHeaderCellDef> Next</th>
-        <input type="radio">
+        <td mat-cell *matCellDef="let element">
+            <audio #defaultAudio>
+                <source [src]="element.url" type="audio/mp3">
+                Your browser does not support the audio tag.
+            </audio>
+            <mat-radio-group [(ngModel)]="nextItem" class="d-flex flex-column radio-group" color="primary"
+                             (change)="onNextItemChanged($event.value)">
+                <mat-radio-button [value]="element">
+                </mat-radio-button>
+            </mat-radio-group>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="play">
@@ -25,7 +52,8 @@
                 <mat-spinner></mat-spinner>
                 Preloading...
             </div>
-            <div class="d-flex flex-row justify-content-center align-items-center play-controls-container" *ngIf="element.status === 'not loaded' || element.status === 'loaded'">
+            <div class="d-flex flex-row justify-content-center align-items-center play-controls-container"
+                 *ngIf="element.status === 'not loaded' || element.status === 'loaded'">
                 <button mat-button
                         class="play-control-button"
                         (click)="play(element)"

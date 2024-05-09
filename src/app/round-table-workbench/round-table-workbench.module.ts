@@ -13,6 +13,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {RoundPlayerComponent} from "../round-player/round-player.component";
 import {MatCardModule} from "@angular/material/card";
 import { RoundPlaybackButtonsComponent } from '../round-playback-buttons/round-playback-buttons.component';
+import {MatRadioModule} from "@angular/material/radio";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -37,7 +39,9 @@ import { RoundPlaybackButtonsComponent } from '../round-playback-buttons/round-p
         TimeFormatModule,
         MatDialogModule,
         MatProgressSpinnerModule,
-        MatCardModule
+        MatCardModule,
+        MatRadioModule,
+        FormsModule
     ]
 })
 export class RoundTableWorkbenchModule { }

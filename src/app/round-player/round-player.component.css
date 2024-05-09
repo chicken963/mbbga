@@ -32,3 +32,7 @@ app-round-playback-buttons {
     color: #f44336;
     text-align: center;
 }
+
+.round-play-buttons-container {
+    margin-right: 40px;
+}

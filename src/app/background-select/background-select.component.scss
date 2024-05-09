@@ -104,7 +104,7 @@ input[type="file"] {
 }
 
 .background-select-radio-button input[type='radio']:checked::after {
-  content: '\2713'; /* Checkmark character */
+  content: '\2713';
   font-size: 16px;
   color: white;
   display: block;

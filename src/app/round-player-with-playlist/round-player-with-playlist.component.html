@@ -2,6 +2,7 @@
     <app-round-player *ngIf="round.audioTracks.length > 0"
                       [round-item]="playedItem"
                       [next-exists]="nextExists"
+                      [mode]="mode"
                       [previous-exists]="previousExists"
                       (playNext)="onPlayNext()"
                       (playPrevious)="onPlayPrevious()"

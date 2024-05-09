@@ -1,10 +1,13 @@
 import {
     Component,
-    ElementRef, EventEmitter,
+    ElementRef,
+    EventEmitter,
     Input,
     OnDestroy,
-    OnInit, Output,
-    QueryList, Renderer2, ViewChild,
+    OnInit,
+    Output,
+    QueryList,
+    Renderer2,
     ViewChildren
 } from '@angular/core';
 import {AddAudioToRoundService} from "../services/add-audio-to-round.service";
@@ -48,7 +51,7 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
     @Output() nextItemChanged = new EventEmitter<RoundTableItem | undefined>();
     @Output() pause = new EventEmitter<RoundTableItem>();
 
-    displayedColumns: string[] = ['position', 'play', 'artist', 'title', 'duration', 'remove'];
+    displayedColumns: string[];
     private setAudioTracksSubscription: Subscription;
     isPlaying: boolean = false;
     trackIsLoading: boolean;
@@ -69,6 +72,9 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
 
     //TODO handle bug with rollback from the last track (there is a jump from -1-2 to -3-4)
     ngOnInit(): void {
+        this.displayedColumns = this.mode === 'play'
+            ? ['position', 'isNext', 'artist', 'title', 'duration']
+            : ['position', 'play', 'artist', 'title', 'duration', 'remove'];
         this.dataSource = new MatTableDataSource(this.round.audioTracks);
         this.dataSource.data.forEach(item => item.status = 'not loaded');
         this.subscribeToDataSourceChanges();
@@ -163,6 +169,7 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
 
     private preloadNextPlayedItem(item: RoundTableItem) {
         let index = this.dataSource.data.indexOf(item);
+        console.log(index)
         if (item && item.status !== 'loaded') {
             if (item.status === 'not loaded') {
                 this.downloadMap.set(index, this.downloadAudioFileForItem(item));
@@ -197,6 +204,13 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
     private cancelDownloadForAllExceptCurrentAndNeighbour(currentItem: RoundTableItem, neighbourItem?: RoundTableItem) {
         let toCancelDownloadCondition = (value: RoundTableItem) =>
             value.audioFileId !== currentItem.audioFileId && value.audioFileId !== neighbourItem?.audioFileId;
+        const keysToCancelDownload: number[] = Array.from(this.downloadMap.keys())
+            .filter(key => toCancelDownloadCondition(this.round.audioTracks[key]));
+        keysToCancelDownload.forEach(indexToCancelLoad => this.cancelDownload(indexToCancelLoad));
+    }
+
+    private cancelDownloadForAllExceptCurrent(currentItem: RoundTableItem | null) {
+        let toCancelDownloadCondition = (value: RoundTableItem) => currentItem === null || value.audioFileId !== currentItem.audioFileId;
         const keysToCancelDownload: number[] = Array.from(this.downloadMap.keys())
             .filter(key => toCancelDownloadCondition(this.round.audioTracks[key]));
         keysToCancelDownload.forEach(indexToCancelLoad => this.cancelDownload(indexToCancelLoad));
@@ -285,5 +299,11 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
         this.downloadMap.get(index)?.unsubscribe();
         this.downloadMap.delete(index);
         this.dataSource.data[index].status = 'not loaded';
+    }
+
+    onNextItemChanged(item: RoundTableItem) {
+        this.cancelDownloadForAllExceptCurrent(this.playedItem);
+        this.preloadNextPlayedItem(item);
+
     }
 }

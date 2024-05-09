@@ -17,6 +17,9 @@ export class RoundPlayerComponent {
     @Input("next-exists")
     nextExists: boolean;
 
+    @Input("mode")
+    mode: 'play' | 'create';
+
     @Output() playPrevious: EventEmitter<any> = new EventEmitter<any>();
     @Output() playNext: EventEmitter<any> = new EventEmitter<any>();
     @Output() play: EventEmitter<RoundTableItem> = new EventEmitter<RoundTableItem>();
