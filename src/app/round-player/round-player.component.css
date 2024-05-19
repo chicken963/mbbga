@@ -28,9 +28,11 @@ app-round-playback-buttons {
 
 .playback-status {
     padding-top: 13px;
-    font-size: 20px;
+    font-size: 13px;
     color: #f44336;
     text-align: center;
+    position: relative;
+    left: 14px;
 }
 
 .round-play-buttons-container {

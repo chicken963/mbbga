@@ -13,6 +13,7 @@
     <app-round-playlist [round]="round"
                         [mode]="mode"
                         (playedItemChanged)="onPlayedItemChanged($event)"
+                        (playStatusChange)="onPlayStatusChange($event)"
                         (previousItemChanged)="onPreviousItemChanged($event)"
                         (nextItemChanged)="onNextItemChanged($event)"
                         (pause)="onPauseClicked()">

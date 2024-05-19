@@ -37,7 +37,7 @@ export class LoginComponent {
                 (response) => {
                     localStorage.setItem("mbbg_token", response.token);
                     this.authService.fetchCurrentUser();
-                    this.router.navigate(["player"]);
+                    this.router.navigate(["game-dashboard"]);
                 },
                 (error) => {
                     if (error.status === 400) {

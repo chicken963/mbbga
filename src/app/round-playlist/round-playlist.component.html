@@ -30,7 +30,8 @@
                 Your browser does not support the audio tag.
             </audio>
             <mat-radio-group [(ngModel)]="nextItem" class="d-flex flex-column radio-group" color="primary"
-                             (change)="onNextItemChanged($event.value)">
+                             (change)="onNextItemChanged($event.value)"
+                             [disabled]="isPlayed(element)">
                 <mat-radio-button [value]="element">
                 </mat-radio-button>
             </mat-radio-group>
@@ -102,7 +103,8 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        [ngClass]="{'previously-played': isPlayed(row)}"></tr>
 
     <tr class="mat-row empty-rows-message" *matNoDataRow>
         <td class="mat-cell" [attr.colspan]="displayedColumns.length">

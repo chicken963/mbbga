@@ -66,16 +66,8 @@ export class RoundPlayerService {
         this.currentItem.audioEl.currentTime = this.currentItem.startTime;
     }
 
-    getNextItem(): Observable<RoundTableItem> {
-        return this.nextItemChanged.asObservable();
-    }
-
     getPreviousItem(): Observable<RoundTableItem> {
         return this.previousItemChanged.asObservable();
-    }
-
-    setNextItem(item: RoundTableItem) {
-        this.nextItemChanged.next(item);
     }
 
     setPreviousItem(item: RoundTableItem) {

@@ -1,4 +1,5 @@
 import {
+    ChangeDetectorRef,
     Component,
     ElementRef,
     EventEmitter,
@@ -18,6 +19,9 @@ import {MatRow, MatTableDataSource} from "@angular/material/table";
 import {DownloadRemoteAudioService} from "../services/download-remote-audio.service";
 import {RoundPlayerService} from "../round-player.service";
 import {ProgressService} from "../range-slider/progress.service";
+import {MatRadioButton} from "@angular/material/radio";
+import {NotificationService} from "../utils/notification.service";
+import {SwitchPlayMode} from "../enums/enums";
 
 @Component({
     selector: 'app-round-playlist',
@@ -38,11 +42,13 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
     @Input("mode")
     mode: "create" | "play";
 
-    @Input("preload-by-default")
-    preloadByDefault: boolean = false;
+    playbackStarted: boolean;
 
     @ViewChildren("defaultAudio")
     defaultAudio: QueryList<ElementRef<HTMLAudioElement>>
+
+    @ViewChildren(MatRadioButton, { read: ElementRef })
+    radioButtons: ElementRef[];
 
 
     @ViewChildren(MatRow, {read: ElementRef}) rowElements: QueryList<ElementRef>;
@@ -50,12 +56,14 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
     @Output() previousItemChanged = new EventEmitter<RoundTableItem | undefined>();
     @Output() nextItemChanged = new EventEmitter<RoundTableItem | undefined>();
     @Output() pause = new EventEmitter<RoundTableItem>();
+    @Output() playStatusChange = new EventEmitter<boolean>();
 
     displayedColumns: string[];
     private setAudioTracksSubscription: Subscription;
     isPlaying: boolean = false;
     trackIsLoading: boolean;
     loadPercents: number = 0;
+    downloadedNextItem: RoundTableItem | null;
 
     downloadMap: Map<number, Subscription> = new Map();
 
@@ -67,6 +75,8 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
                 private downloadService: DownloadRemoteAudioService,
                 private roundPlayerService: RoundPlayerService,
                 private progressService: ProgressService,
+                private changeDetectorRef: ChangeDetectorRef,
+                private notificationService: NotificationService,
                 private renderer: Renderer2) {
     }
 
@@ -79,27 +89,15 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
         this.dataSource.data.forEach(item => item.status = 'not loaded');
         this.subscribeToDataSourceChanges();
         this.roundPlayerService.getPreviousItem().subscribe(item => this.playPrevious());
-        this.roundPlayerService.getNextItem().subscribe(item => this.playNext());
         if (this.round.audioTracks.length > 0) {
-            this.playedItem = this.dataSource.data[0];
-            if (this.preloadByDefault) {
-                this.playedItem.status = 'loading';
-                let downloadSubscription = this.downloadAudioFileForItem({...this.playedItem});
-                this.downloadMap.set(0, downloadSubscription);
-            }
+            this.nextItem = this.dataSource.data[0];
 
-            this.playedItemChanged.emit(this.playedItem);
-            this.playedItem.progressInSeconds = 0;
-
-            if (this.round.audioTracks.length > 1) {
-                this.nextItem = this.dataSource.data[1];
-                this.nextItemChanged.next(this.nextItem);
-                if (this.preloadByDefault) {
-                    this.nextItem.status = 'preloading';
-                    let nextFileDownloadSubscription = this.downloadAudioFileForItem({...this.nextItem});
-                    this.downloadMap.set(1, nextFileDownloadSubscription);
-                }
-            }
+            this.nextItem.status = 'preloading';
+            let downloadSubscription = this.downloadAudioFileForItem({...this.nextItem});
+            this.downloadMap.set(0, downloadSubscription);
+            this.nextItem.progressInSeconds = 0;
+            this.playedItemChanged.emit(this.nextItem);
+            this.nextItemChanged.emit(this.nextItem);
         }
     }
 
@@ -136,6 +134,7 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
             this.progressSubscription?.unsubscribe();
             this.playedItem = null;
             this.playedItemChanged.emit(this.playedItem);
+            this.playStatusChange.emit(false);
         }
         if (index !== -1) {
             this.round.audioTracks.splice(index, 1);
@@ -147,13 +146,27 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
         this.dataSource.data = this.round.audioTracks;
     }
 
-    play(item: RoundTableItem, rollback?: boolean) {
+    play(item: RoundTableItem, rollback?: boolean, switchPlayMode?: SwitchPlayMode) {
         let index = this.round.audioTracks.indexOf(item);
         let neighborItem: RoundTableItem | undefined;
-        this.previousItem = index >= 1 ? this.dataSource.data[index - 1] : undefined;
+        if (switchPlayMode === SwitchPlayMode.FROM_PREVIOUS_BUTTON) {
+            let previousItemIndex = this.itemsIndexesHistory[this.itemsIndexesHistory.length - 1];
+            this.previousItem = this.dataSource.data[previousItemIndex];
+        }
         this.previousItemChanged.next(this.previousItem);
-        this.nextItem = index < this.dataSource.data.length - 1 ? this.dataSource.data[index + 1] : undefined;
-        this.nextItemChanged.next(this.nextItem);
+        if (!this.playbackStarted) {
+            this.playedItem = this.nextItem!;
+        }
+        if (switchPlayMode === SwitchPlayMode.ON_SNIPPET_END && this.downloadedNextItem && this.downloadedNextItem !== this.nextItem) {
+            this.notificationService.pushNotification(`${this.downloadedNextItem.artist} - ${this.downloadedNextItem.artist} was not downloaded during pre-loading phase. It will take some time to finish download. Please consider the opportunity to change next track.`)
+            let downloadedItemIndex = this.dataSource.data.indexOf(this.downloadedNextItem);
+            this.itemsIndexesHistory.push(downloadedItemIndex);
+            this.nextItem = this.downloadedNextItem;
+
+        } else {
+            this.nextItem = this.findNextItemInTable(index, switchPlayMode);
+            this.nextItemChanged.next(this.nextItem);
+        }
         if (rollback) {
             this.cancelDownloadForAllExceptCurrentAndPrevious(item, this.previousItem);
             neighborItem = this.previousItem;
@@ -165,11 +178,27 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
         if (neighborItem) {
             this.preloadNextPlayedItem(neighborItem);
         }
+        if (!this.playbackStarted) {
+            this.playbackStarted = true;
+        }
+    }
+
+    private findNextItemInTable(playedItemIndex: number, switchPlayMode?: SwitchPlayMode): RoundTableItem | undefined {
+        if (this.nextItem && switchPlayMode === SwitchPlayMode.FROM_NEXT_BUTTON) {
+            let nextItemIndex =  Math.min(...[...Array(this.dataSource.data.length).keys()]
+                .filter(n => !this.itemsIndexesHistory.includes(n) && n > playedItemIndex));
+            let nextItem = this.dataSource.data[nextItemIndex];
+            if (nextItem) {
+                return nextItem;
+            }
+        }
+        let nextItemIndex =  Math.min(...[...Array(this.dataSource.data.length).keys()]
+            .filter(n => !this.itemsIndexesHistory.includes(n) && n !== playedItemIndex));
+        return nextItemIndex !== undefined ? this.dataSource.data[nextItemIndex] : undefined;
     }
 
     private preloadNextPlayedItem(item: RoundTableItem) {
         let index = this.dataSource.data.indexOf(item);
-        console.log(index)
         if (item && item.status !== 'loaded') {
             if (item.status === 'not loaded') {
                 this.downloadMap.set(index, this.downloadAudioFileForItem(item));
@@ -216,14 +245,21 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
         keysToCancelDownload.forEach(indexToCancelLoad => this.cancelDownload(indexToCancelLoad));
     }
 
+    private cancelDownloadForAll() {
+        const keysToCancelDownload: number[] = Array.from(this.downloadMap.keys());
+        keysToCancelDownload.forEach(indexToCancelLoad => this.cancelDownload(indexToCancelLoad));
+    }
+
     private setPlayingState(item: RoundTableItem, index: number, rollback?: boolean) {
         this.roundPlayerService.play(item);
         this.rowElement = this.rowElements.get(index);
         if (this.playedItem && !rollback) {
             this.itemsIndexesHistory.push(index);
+            this.previousItem = this.playedItem;
         }
         this.playedItem = item;
         this.playedItemChanged.emit(this.playedItem);
+        this.playStatusChange.emit(true);
         this.isPlaying = true;
         this.progressSubscription = interval(this.updatePeriod).subscribe(() => {
             this.updateProgress(this.updatePeriod);
@@ -250,7 +286,7 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
             if (currentTime >= this.playedItem.endTime - period / 1000) {
                 this.setProgressPercentage(100);
                 if (this.nextItem) {
-                    this.playNext();
+                    this.playNext(SwitchPlayMode.ON_SNIPPET_END);
                 } else {
                     this._pause();
                 }
@@ -266,30 +302,34 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
         );
     }
 
-    playNext() {
-        this.play(this.nextItem!);
+    playNext(switchPlayMode: SwitchPlayMode) {
+        this.play(this.nextItem!, false, switchPlayMode);
     }
 
     playPrevious() {
         this.itemsIndexesHistory.splice(-1);
         if (this.previousItem) {
-            this.play(this.previousItem, true);
+            this.play(this.previousItem, true, SwitchPlayMode.FROM_PREVIOUS_BUTTON);
         }
     }
 
     private downloadAudioFileForItem(item: RoundTableItem, rollback?: boolean): Subscription {
-        let index = this.round.audioTracks.indexOf(item);
+        let itemWithSameId = this.dataSource.data.find(dataItem => dataItem.audioFileId === item.audioFileId)!;
+        let index = this.round.audioTracks.indexOf(itemWithSameId);
+        this.downloadedNextItem = itemWithSameId;
         return this.downloadService.loadAudioFromRemote(item.audioFileId).subscribe(result => {
             if (typeof result === 'number') {
                 this.loadPercents = result;
             } else if (typeof result === 'string') {
-                item.audioEl = this.defaultAudio.get(index)!.nativeElement;
-                item.audioEl.src = result;
-                item.url = `audio-tracks/binary?id=${item.audioFileId}`;
-                if (item.status === 'loading') {
-                    this.setPlayingState(item, index, rollback);
+                itemWithSameId.audioEl = this.defaultAudio.get(index)!.nativeElement;
+                itemWithSameId.audioEl.src = result;
+                itemWithSameId.url = `audio-tracks/binary?id=${item.audioFileId}`;
+                if (itemWithSameId.status === 'loading') {
+                    this.setPlayingState(itemWithSameId, index, rollback);
                 }
-                item.status = 'loaded';
+                itemWithSameId.status = 'loaded';
+                itemWithSameId.progressInSeconds = 0;
+                this.downloadedNextItem = null;
                 this.downloadMap.delete(index);
             }
         })
@@ -302,8 +342,27 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
     }
 
     onNextItemChanged(item: RoundTableItem) {
-        this.cancelDownloadForAllExceptCurrent(this.playedItem);
+        if (this.playedItem) {
+            this.cancelDownloadForAllExceptCurrent(this.playedItem);
+        } else {
+            this.radioButtons.forEach(rb => {
+                if (rb.nativeElement.classList.contains("mat-mdc-radio-checked")) {
+                    this.renderer.removeClass(rb.nativeElement, 'mat-mdc-radio-checked');
+                }
+                this.changeDetectorRef.detectChanges();
+            })
+            this.cancelDownloadForAll();
+        }
         this.preloadNextPlayedItem(item);
+        if (!this.playbackStarted) {
+            this.playedItemChanged.emit(item);
+            this.nextItem = this.findNextItemInTable(this.dataSource.data.indexOf(item));
+            this.nextItemChanged.next(this.nextItem);
+        }
+    }
 
+    isPlayed(item: RoundTableItem) {
+        let index = this.dataSource.data.indexOf(item);
+        return this.mode === 'play' && this.itemsIndexesHistory.includes(index);
     }
 }
