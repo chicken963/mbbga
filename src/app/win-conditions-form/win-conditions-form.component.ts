@@ -29,6 +29,7 @@ export class WinConditionsFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.round.winConditions.sort((a, b) => this.winConditionsSort(a, b));
         this.round?.winConditions.forEach(winCondition => this.addControlAndSubscription(winCondition));
     }
 
@@ -131,5 +132,15 @@ export class WinConditionsFormComponent implements OnInit {
         this.attemptToCreateHarderThanFull = false;
         this.round.winConditions.push(newWinCondition)
         this.addControlAndSubscription(newWinCondition);
+    }
+
+    private winConditionsSort(a: WinCondition, b: WinCondition): number {
+        if (a.type === WinConditionType.FULL) {
+            return 1;
+        }
+        if (b.type === WinConditionType.FULL) {
+            return -1;
+        }
+        return a.linesToStrike - b.linesToStrike;
     }
 }

@@ -12,7 +12,7 @@
 
 <div class="rounds-tabs mt-5">
     <mat-tab-group [(selectedIndex)]="selectedTabIndex">
-        <mat-tab *ngFor="let round of game.rounds; let i = index">
+        <mat-tab *ngFor="let round of game.rounds.slice().sort(linkedSort); let i = index">
             <ng-template mat-tab-label>
                 <div class="tab-label-content">
                     <span class="round-name-label">{{ round.name ? round.name : 'Round ' + (i + 1)}}</span>

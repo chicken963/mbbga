@@ -14,6 +14,7 @@ import {StrikeCriterion} from "../interfaces/blank/strike-criterion";
 import {BackgroundRectangle, BlankBackground} from "../interfaces/blank/background";
 import {BackgroundService} from "../services/background.service";
 import {AreaType} from "./AreaType";
+import {RoundTableItem} from "../interfaces/round-table-item";
 
 @Component({
     selector: 'app-blank',
@@ -27,6 +28,9 @@ export class BlankComponent implements OnInit {
 
     @Input()
     strikeCriterion: StrikeCriterion;
+
+    @Input()
+    nextTrack?: RoundTableItem;
 
     @Input()
     columnsCount: number;

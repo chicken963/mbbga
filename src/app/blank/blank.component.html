@@ -14,6 +14,9 @@
                                 'upper-right-corner': i === columnsCount - 1,
                                 'lower-left-corner': i === (rowsCount - 1) * columnsCount,
                                 'lower-right-corner': i === rowsCount * columnsCount - 1,
+
+                                'animated-bg': item.audioTrack.versionId === nextTrack?.versionId,
+                                'crossed': item.stroke
                              }"
                  [ngStyle]="{'width': calculateWidth(), 'height': calculateHeight()}">
                 <span>{{getItemContent(item)}}</span>

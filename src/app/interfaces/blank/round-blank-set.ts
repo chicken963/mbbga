@@ -1,6 +1,7 @@
 import {StrikeCriterion} from "./strike-criterion";
 import {Blank} from "./blank";
 import {BlankBackground} from "./background";
+import {RoundMetadata} from "../round-metadata";
 
 export interface RoundBlankSet {
     id?: string;
@@ -8,9 +9,6 @@ export interface RoundBlankSet {
     columnsCount: number;
     strikeCriterion: StrikeCriterion;
     blankBackground: BlankBackground;
-    round: { id: string,
-             name: string,
-             index: number
-    };
+    round: RoundMetadata;
     blanks: Blank[];
 }

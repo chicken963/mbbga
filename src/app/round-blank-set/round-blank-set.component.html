@@ -10,6 +10,7 @@
         <ng-container *ngFor="let blank of roundBlankSet.blanks">
             <app-blank-miniature [blank]="blank"
                                  [clickedBlank]="clickedBlank"
+                                 [blankStatus]="getBlankStatus(blank)"
                 (blankHovered)="setCurrentBlank($event)"
                 (blankClicked)="setClickedBlank($event)">
             </app-blank-miniature>
@@ -22,6 +23,7 @@
             <ng-container *ngIf="hoveredBlank">
                 <app-blank [blank]="clickedBlank ? clickedBlank : hoveredBlank"
                            [strikeCriterion]="roundBlankSet.strikeCriterion"
+                           [nextTrack]="roundPlay?.nextTrack?.audioTrack"
                            [columnsCount]="roundBlankSet.columnsCount"
                            [rowsCount]="roundBlankSet.rowsCount"
                            [roundName]="roundBlankSet.round.name"

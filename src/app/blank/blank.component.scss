@@ -39,3 +39,30 @@
     justify-content: space-between;
     position: relative;
 }
+
+.animated-bg {
+    width: 100%;
+    background-size: cover;
+    animation: blink 2s infinite;
+
+    &:hover {
+        background-color: rgba(244, 67, 54, 0.4) !important;
+        cursor: pointer;
+    }
+    &.selected {
+        background-color: rgba(244, 67, 54, 1) !important;
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        background-color: inherit;
+    }
+    50% {
+        background-color: rgba(9, 92, 121, 0.6);
+    }
+}
+
+.crossed {
+    background-color: #c2185b;
+}

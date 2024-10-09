@@ -22,6 +22,7 @@ import {ProgressService} from "../range-slider/progress.service";
 import {MatRadioButton} from "@angular/material/radio";
 import {NotificationService} from "../utils/notification.service";
 import {SwitchPlayMode} from "../enums/enums";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: 'app-round-playlist',
@@ -77,6 +78,7 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
                 private progressService: ProgressService,
                 private changeDetectorRef: ChangeDetectorRef,
                 private notificationService: NotificationService,
+                private http: HttpClient,
                 private renderer: Renderer2) {
     }
 
@@ -364,5 +366,10 @@ export class RoundPlaylistComponent implements OnInit, OnDestroy {
     isPlayed(item: RoundTableItem) {
         let index = this.dataSource.data.indexOf(item);
         return this.mode === 'play' && this.itemsIndexesHistory.includes(index);
+    }
+
+    private setNextItem(item: RoundTableItem) {
+        this.nextItem = item;
+        this.http.get(`/progress`, {params: {}})
     }
 }

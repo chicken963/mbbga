@@ -59,6 +59,7 @@ import { BlankSetSelectComponent } from './blank-set-select/blank-set-select.com
 import {MatRadioModule} from "@angular/material/radio";
 import { GameplayDashboardComponent } from './gameplay-dashboard/gameplay-dashboard.component';
 import { RoundPlayerWithPlaylistComponent } from './round-player-with-playlist/round-player-with-playlist.component';
+import { PlaybackHistoryComponent } from './playback-history/playback-history.component';
 
 @NgModule({
     declarations: [
@@ -94,7 +95,8 @@ import { RoundPlayerWithPlaylistComponent } from './round-player-with-playlist/r
         AreaFontConfiguratorComponent,
         BlankSetSelectComponent,
         GameplayDashboardComponent,
-        RoundPlayerWithPlaylistComponent
+        RoundPlayerWithPlaylistComponent,
+        PlaybackHistoryComponent
     ],
     imports: [
         BrowserModule,

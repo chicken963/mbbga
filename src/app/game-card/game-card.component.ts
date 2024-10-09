@@ -7,6 +7,7 @@ import {DialogService} from "../utils/dialog.service";
 import {BlankManagementService} from "../services/blank-management.service";
 import {MatDialog} from "@angular/material/dialog";
 import {BlankSetSelectComponent} from "../blank-set-select/blank-set-select.component";
+import {PlaybackHistoryComponent} from "../playback-history/playback-history.component";
 
 @Component({
     selector: 'app-game-card',
@@ -22,7 +23,8 @@ export class GameCardComponent {
 
     @Output() gameDeleted: EventEmitter<Game> = new EventEmitter<Game>();
 
-    constructor(private router: Router, private http: HttpClient,
+    constructor(private router: Router,
+                private http: HttpClient,
                 private authService: AuthService,
                 private dialog: MatDialog,
                 private blankService: BlankManagementService,
@@ -66,5 +68,15 @@ export class GameCardComponent {
             disableClose: true,
             minWidth: `35vw`,
             data: {gameId: this.game.id}})
+    }
+
+    openHistoryPopup() {
+        this.dialog.open(PlaybackHistoryComponent, {
+            disableClose: true,
+            minWidth: `60vw`,
+            data: {
+                gameId: this.game.id
+            }
+        })
     }
 }

@@ -6,6 +6,7 @@ export interface Round {
     id?: string;
     rowsCount: number;
     columnsCount: number;
+    indexInGame: number;
     name: string;
     strikeCriterion: StrikeCriterion;
     winConditions: WinCondition[];

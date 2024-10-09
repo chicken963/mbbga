@@ -34,5 +34,13 @@
   "/backgrounds": {
     "target": "http://localhost:8080",
     "secure": false
+  },
+  "/gameplay": {
+    "target": "http://localhost:8080",
+    "secure": false
+  },
+  "/round-play": {
+    "target": "http://localhost:8080",
+    "secure": false
   }
 }

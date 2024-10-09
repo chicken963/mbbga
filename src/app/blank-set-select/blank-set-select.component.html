@@ -4,6 +4,10 @@
         <mat-radio-button *ngFor="let gameBlankSet of blankSets" [value]="gameBlankSet">
             {{ gameBlankSet.name }}
         </mat-radio-button>
+        <div class="spinner-container" *ngIf="gameBlankSetsArePreloaded">
+            <mat-spinner></mat-spinner>
+            Loading blank sets...
+        </div>
     </mat-radio-group>
     <div mat-dialog-actions>
         <button mat-raised-button color="primary"

@@ -8,6 +8,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NotificationService} from "../utils/notification.service";
 import {CreateRoundComponent} from "../create-round/create-round.component";
 import {StrikeCriterion} from "../interfaces/blank/strike-criterion";
+import {KeyValue} from "@angular/common";
+import {RoundBlankSet} from "../interfaces/blank/round-blank-set";
 
 @Component({
     selector: 'app-create-game',
@@ -75,6 +77,7 @@ export class CreateGameComponent implements OnInit {
             name: "",
             rowsCount: 5,
             columnsCount: 5,
+            indexInGame: this.game ? this.game.rounds.length : 0,
             strikeCriterion: StrikeCriterion.ARTIST,
             winConditions: [
                 {type: WinConditionType.LINES, linesToStrike: 1},
@@ -102,5 +105,9 @@ export class CreateGameComponent implements OnInit {
             this.router.navigate(["/game-dashboard"]);
             this.notificationService.pushNotification("Game successfully updated");
         })
+    }
+
+    linkedSort = (a: Round, b: Round): number => {
+        return a.indexInGame - b.indexInGame;
     }
 }

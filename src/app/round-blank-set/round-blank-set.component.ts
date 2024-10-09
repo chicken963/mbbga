@@ -1,10 +1,11 @@
 import {
+    AfterViewInit,
     Component,
     ElementRef,
     EventEmitter,
     Input,
     OnInit,
-    Output,
+    Output, QueryList,
     Renderer2,
     ViewChild,
     ViewChildren
@@ -16,19 +17,24 @@ import {BackgroundService} from "../services/background.service";
 import html2canvas from "html2canvas";
 import {Subject} from "rxjs";
 import * as JSZip from "jszip";
+import {RoundPlay} from "../interfaces/gameplay/round-play";
+import {BlankStatus} from "../interfaces/gameplay/blank-status";
 
 @Component({
     selector: 'app-round-blank-set',
     templateUrl: './round-blank-set.component.html',
     styleUrls: ['./round-blank-set.component.scss', './../common-styles/scrollbar.css']
 })
-export class RoundBlankSetComponent implements OnInit {
+export class RoundBlankSetComponent implements OnInit, AfterViewInit {
 
     @Input()
     roundBlankSet: RoundBlankSet;
 
+    @Input()
+    roundPlay: RoundPlay;
+
     @ViewChildren(BlankMiniatureComponent)
-    blankMiniatures: ElementRef<BlankMiniatureComponent>[];
+    blankMiniatures: BlankMiniatureComponent[];
 
     @ViewChild("blankContainer")
     blankContainer: ElementRef;
@@ -53,7 +59,8 @@ export class RoundBlankSetComponent implements OnInit {
     zip: JSZip;
     loadPercents: number = 0;
 
-    constructor(private backgroundService: BackgroundService) {
+    constructor(private backgroundService: BackgroundService,
+                private renderer: Renderer2) {
 
 
     }
@@ -67,6 +74,15 @@ export class RoundBlankSetComponent implements OnInit {
             this.blankContainer.nativeElement.style.aspectRatio = width / height;
         });
         this.imageUrl = this.roundBlankSet.blankBackground.image as string;
+    }
+
+    ngAfterViewInit(): void {
+        this.blankMiniatures.forEach((blankMiniature: BlankMiniatureComponent) => {
+            const matCardElement = blankMiniature.el.nativeElement.querySelector('mat-card');
+            if (matCardElement) {
+                this.renderer.addClass(matCardElement, 'animated-bg');
+            }
+        });
     }
 
 
@@ -140,5 +156,11 @@ export class RoundBlankSetComponent implements OnInit {
         link.href = URL.createObjectURL(blob);
         link.download = fileName;
         link.click();
+    }
+
+    getBlankStatus(blank: Blank): BlankStatus | null {
+        return this.roundPlay
+            ? this.roundPlay.blankStatuses.find(blankStatus => blankStatus.blank.id === blank.id)!
+            : null;
     }
 }

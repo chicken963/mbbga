@@ -1,0 +1,25 @@
+.spinner-container {
+  width: 100%;
+  color: white;
+  text-align: center;
+  font-size: inherit;
+
+  ::ng-deep .mat-mdc-progress-spinner {
+    margin: auto;
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+
+.playback-history-table {
+  margin: auto !important;
+  margin-bottom: 20px !important;
+}
+
+.empty-rows-message {
+  height: 60px;
+  text-align: center;
+  color: rgb(244, 67, 54);
+  font-size: 17px;
+  font-weight: 500;
+}

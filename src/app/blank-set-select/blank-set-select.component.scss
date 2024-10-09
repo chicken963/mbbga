@@ -1,0 +1,16 @@
+.header {
+  color: white;
+}
+
+.spinner-container {
+  width: 100%;
+  color: white;
+  text-align: center;
+  font-size: inherit;
+
+  ::ng-deep .mat-mdc-progress-spinner {
+    margin: auto;
+    width: 30px !important;
+    height: 30px !important;
+  }
+}

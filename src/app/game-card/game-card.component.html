@@ -27,6 +27,12 @@
             <button *ngIf="isGameOwner"
                     mat-menu-item
                     class="d-flex flex-row delete-game"
+                    (click)="openHistoryPopup()">
+                <mat-icon>history</mat-icon>
+                <span>Playback history</span>
+            </button>
+            <button mat-menu-item
+                    class="d-flex flex-row delete-game"
                     (click)="askForDeletion()">
                 <mat-icon>delete_outline</mat-icon>
                 <span>Delete</span>

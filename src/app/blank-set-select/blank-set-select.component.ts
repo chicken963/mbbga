@@ -9,7 +9,7 @@ import {BackgroundService} from "../services/background.service";
 @Component({
     selector: 'app-blank-set-select',
     templateUrl: './blank-set-select.component.html',
-    styleUrls: ['./blank-set-select.component.css', './../common-styles/overlay.scss']
+    styleUrls: ['./blank-set-select.component.scss', './../common-styles/overlay.scss']
 })
 export class BlankSetSelectComponent {
 
@@ -19,6 +19,7 @@ export class BlankSetSelectComponent {
     private numberOfImagesToLoad: number;
     imagesArePreloaded: boolean = false;
     loadPercents: number;
+    gameBlankSetsArePreloaded: boolean;
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: any,
                 private router: Router,
@@ -30,7 +31,9 @@ export class BlankSetSelectComponent {
 
 
     ngOnInit() {
+        this.gameBlankSetsArePreloaded = true;
         this.http.get<GameBlankSet[]>(`/blanks?game-id=${this.gameId}`).subscribe(response => {
+            this.gameBlankSetsArePreloaded = false;
             this.blankSets = response;
         })
     }
