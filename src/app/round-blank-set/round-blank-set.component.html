@@ -22,6 +22,7 @@
         <div #blankContainer class="blank-preview-container">
             <ng-container *ngIf="hoveredBlank">
                 <app-blank [blank]="clickedBlank ? clickedBlank : hoveredBlank"
+                           [blankStatus]="getBlankStatus(clickedBlank ? clickedBlank : hoveredBlank)"
                            [strikeCriterion]="roundBlankSet.strikeCriterion"
                            [nextTrack]="roundPlay?.nextTrack?.audioTrack"
                            [columnsCount]="roundBlankSet.columnsCount"

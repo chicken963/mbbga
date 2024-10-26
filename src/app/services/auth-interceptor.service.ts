@@ -9,11 +9,14 @@ import {
 import {Observable, tap} from 'rxjs';
 import {Router} from "@angular/router";
 import {NotificationService} from "../utils/notification.service";
+import {ErrorService} from "./error.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router, private notificationService: NotificationService) {
+  constructor(private router: Router,
+              private notificationService: NotificationService,
+              private errorService: ErrorService) {
   }
 
 
@@ -37,9 +40,14 @@ export class AuthInterceptor implements HttpInterceptor {
                 (event) => {
                 },
                 (error) => {
+                    this.errorService.serError(true);
                     if (error.status === 401 || error.status === 403) {
                         localStorage.setItem("mbbg_token", "");
                         this.router.navigate(['/login']);
+                        this.notificationService.pushNotification(
+                            `You're not authorized in the system. Please sign in to reach this page.`,
+                            "error");
+                        return;
                     }
                     this.notificationService.pushNotification(
                         "Failed to process data. Reason: " + error.error,

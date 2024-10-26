@@ -25,10 +25,21 @@ export class BlankMiniatureComponent {
   @Output()
   blankClicked: EventEmitter<Blank> = new EventEmitter<Blank>();
 
+  currentProgress: number;
+  nextProgress: number;
+
   @HostBinding("attr.style")
   public get valueAsStyle(): any {
-    let nextProgress = this.blankStatus ? Math.round(this.blankStatus.nextProgress) : 0;
-    return this.sanitizer.bypassSecurityTrustStyle(`--nextProgress: ${nextProgress}%`);
+    this.nextProgress = this.blankStatus ? Math.round(this.blankStatus.nextProgress) : 0;
+    this.currentProgress = this.blankStatus ? Math.round(this.blankStatus.currentProgress) : 0;
+    let deltaProgress = this.nextProgress - this.currentProgress;
+    let blinkingColor = this.nextProgress === 100 || this.currentProgress == 100 ? '#c2185b' : '#095c79';
+    return this.sanitizer.bypassSecurityTrustStyle(`
+      --nextProgress: ${this.nextProgress}%; 
+      --currentProgress: ${this.currentProgress}%; 
+      --deltaProgress: ${deltaProgress}%;
+      --blinkingColor: ${blinkingColor}
+    `);
   }
 
   setCurrentBlank() {
@@ -47,11 +58,5 @@ export class BlankMiniatureComponent {
 
   ngOnInit() {
 
-  }
-
-  addDynamicKeyframes() {
-    let nextProgress = this.blankStatus ? Math.round(this.blankStatus.nextProgress) : 0;
-    const progressValue = `${nextProgress}%`;
-    this.renderer.setStyle(this.el.nativeElement, '--nextProgress', progressValue);
   }
 }

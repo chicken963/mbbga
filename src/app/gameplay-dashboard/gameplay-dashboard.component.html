@@ -10,7 +10,9 @@
                 <ng-container *ngIf="roundsWithRoundPlays.get(roundWithBlankSet.key)">
                     <app-round-blank-set [roundBlankSet]="roundWithBlankSet.value" [roundPlay]="roundsWithRoundPlays.get(roundWithBlankSet.key)!"></app-round-blank-set>
                 </ng-container>
-                <app-round-player-with-playlist [round]="roundWithBlankSet.key" [mode]="'play'"></app-round-player-with-playlist>
+                <app-round-player-with-playlist [round]="roundWithBlankSet.key"
+                                                (nextTrackChanged)="makeStepForward($event, roundWithBlankSet.key)"
+                                                [mode]="'play'"></app-round-player-with-playlist>
             </div>
         </mat-tab>
     </mat-tab-group>

@@ -3,6 +3,7 @@ import {AuthService} from "../services/auth.service";
 import {User} from "../interfaces/user";
 import {Game} from "../interfaces/game";
 import {HttpClient} from "@angular/common/http";
+import {RoundSortService} from "../services/round-sort.service";
 
 @Component({
   selector: 'app-games-dashboard',
@@ -12,7 +13,9 @@ import {HttpClient} from "@angular/common/http";
 export class GamesDashboardComponent implements OnInit {
 
     user: User;
-    constructor(private authService: AuthService, private http: HttpClient) {
+    constructor(private authService: AuthService,
+                private http: HttpClient,
+                private roundSortService: RoundSortService) {
       this.authService.getUser().subscribe(user => this.user = user);
     }
 
@@ -29,6 +32,9 @@ export class GamesDashboardComponent implements OnInit {
             this.gamesAreLoaded = false;
             this.http.get<Game[]>(`/games/all`).subscribe(response => {
                 this.allGames = response;
+                this.allGames.forEach(game => {
+                    game.rounds = game.rounds.sort(this.roundSortService.sortRounds);
+                });
                 this.gamesAreLoaded = true;
             })
         }

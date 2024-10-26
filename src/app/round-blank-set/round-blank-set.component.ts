@@ -67,6 +67,9 @@ export class RoundBlankSetComponent implements OnInit, AfterViewInit {
 
 
     ngOnInit(): void {
+        if (!this.roundBlankSet.blankBackground) {
+            this.roundBlankSet.blankBackground = this.backgroundService.defaultBackground;
+        }
         this.getImageDimensions(this.roundBlankSet.blankBackground.image as string).then(({width, height}) => {
             this.imageWidth = width;
             this.imageHeight = height;

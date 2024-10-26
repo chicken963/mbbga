@@ -9,6 +9,7 @@ import {BackgroundService} from "../services/background.service";
 import {GamePlay} from "../interfaces/gameplay/game-play";
 import {RoundPlay} from "../interfaces/gameplay/round-play";
 import {KeyValue} from "@angular/common";
+import {RoundTableItem} from "../interfaces/round-table-item";
 
 @Component({
   selector: 'app-gameplay-dashboard',
@@ -57,5 +58,15 @@ export class GameplayDashboardComponent {
 
     linkedSort = (a: KeyValue<Round, RoundBlankSet>, b: KeyValue<Round, RoundBlankSet>): number => {
         return a.key.indexInGame - b.key.indexInGame;
+    }
+
+    makeStepForward($event: RoundTableItem, round: Round) {
+        const roundPlayId = this.roundsWithRoundPlays?.get(round)?.id;
+        if (roundPlayId) {
+            this.http.post<RoundPlay>(`/round-play/${roundPlayId}/step-forward`, $event).subscribe(roundPlay => {
+                this.roundsWithRoundPlays.set(round, roundPlay);
+            });
+        }
+
     }
 }

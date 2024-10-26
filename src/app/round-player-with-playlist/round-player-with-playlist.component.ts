@@ -1,4 +1,4 @@
-import {Component, Input, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {Round} from "../interfaces/round";
 import {RoundPlaylistComponent} from "../round-playlist/round-playlist.component";
 import {RoundPlayerComponent} from "../round-player/round-player.component";
@@ -22,7 +22,10 @@ export class RoundPlayerWithPlaylistComponent {
   roundPlayList: RoundPlaylistComponent;
 
   @ViewChild(RoundPlayerComponent)
-  roundPlayer: RoundPlayerComponent
+  roundPlayer: RoundPlayerComponent;
+
+  @Output()
+  nextTrackChanged: EventEmitter<RoundTableItem> = new EventEmitter<RoundTableItem>();
 
   nextExists: boolean;
   previousExists: boolean = false;
@@ -85,6 +88,9 @@ export class RoundPlayerWithPlaylistComponent {
 
   onNextItemChanged($event: RoundTableItem | undefined) {
     this.nextExists = !!$event;
+    if ($event) {
+      this.nextTrackChanged.emit($event);
+    }
   }
 
   onPlayStatusChange($event: boolean) {

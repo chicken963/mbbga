@@ -1,5 +1,6 @@
 mat-card {
   font-size: 28px;
+  background-color: transparent;
 
   &:hover {
     background-color: rgba(244, 67, 54, 0.4);
@@ -9,9 +10,31 @@ mat-card {
   &.selected {
     background-color: rgba(244, 67, 54, 1);
   }
+
+  .background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: inherit;
+    z-index: -1;
+    .current-progress {
+      width: var(--currentProgress, 0%);
+      background-color: #095c79;
+    }
+    .next-progress {
+      width: var(--deltaProgress, 0%);
+      animation: blink 2s infinite;
+    }
+    .winning {
+      width: 100%;
+      animation: blink 2s infinite;
+    }
+  }
 }
 
-.animated-bg {
+/*.animated-bg {
   width: 100%;
   background-size: cover;
   animation: blink 2s infinite;
@@ -24,13 +47,41 @@ mat-card {
   &.selected {
     box-shadow: 0 0 9px 6px rgba(244, 67, 54, 1);
   }
-}
+}*/
 
 @keyframes blink {
   0%, 100% {
-    background-color: #464646;
+    background-color: transparent;
   }
   50% {
-    background: linear-gradient(90deg, #095c79 var(--nextProgress, 0%), #464646 var(--nextProgress, 0%));
+    background: var(--blinkingColor);
   }
 }
+
+/*:host {
+  --color1: #095c79;
+  --color2: #c2185b;
+  --color3: #464646;
+
+  background: linear-gradient(
+                  90deg,
+                  var(--color1) var(--currentProgress, 0%),
+                  var(--color2) var(--currentProgress, 0%),
+                  var(--color2) var(--nextProgress, 0%),
+                  var(--color3) var(--nextProgress, 0%));
+}
+
+.blinking-zone {
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0% {
+    background-color: var(--color2);
+  }
+  50% {
+    background-color: var(--color3);
+  }
+  100% {
+    background-color: var(--color2);
+  }*/

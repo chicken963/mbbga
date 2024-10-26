@@ -15,6 +15,7 @@ import {BackgroundRectangle, BlankBackground} from "../interfaces/blank/backgrou
 import {BackgroundService} from "../services/background.service";
 import {AreaType} from "./AreaType";
 import {RoundTableItem} from "../interfaces/round-table-item";
+import {BlankStatus} from "../interfaces/gameplay/blank-status";
 
 @Component({
     selector: 'app-blank',
@@ -25,6 +26,9 @@ export class BlankComponent implements OnInit {
 
     @Input()
     blank: Blank;
+
+    @Input()
+    blankStatus: BlankStatus | null;
 
     @Input()
     strikeCriterion: StrikeCriterion;
@@ -118,5 +122,10 @@ export class BlankComponent implements OnInit {
         element.nativeElement.style.display = 'flex';
         element.nativeElement.style.alignItems = 'center';
         element.nativeElement.style.justifyContent = blankRectangle.backgroundAreaType === AreaType.ROUND_NAME ? "start" : "center";
+    }
+
+    containsBlankItem(blankStatus: BlankStatus | null, item: BlankItem) {
+        return blankStatus?.strokeBlankItems?.map(strokeBlankItem => strokeBlankItem.id)
+            .some(id => id === item.id);
     }
 }

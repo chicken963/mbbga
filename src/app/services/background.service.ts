@@ -30,7 +30,7 @@ export class BackgroundService {
         this.fetchDefaultImage();
     }
 
-    generateDefaultBackground(): BlankBackground {
+    private generateDefaultBackground(): BlankBackground {
         return {
             name: 'default',
             fontSize: 18,

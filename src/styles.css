@@ -33,3 +33,24 @@ snack-bar-container {
     width: 650px;
     display: block;
 }
+
+@font-face {
+    font-family: 'Kust';
+    src: url('assets/fonts/kust.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Motter';
+    src: url('assets/fonts/Motter.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'IntroRustG';
+    src: url('assets/fonts/IntroRustG-Base2Line.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
