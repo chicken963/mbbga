@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChildren} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {Game} from "../interfaces/game";
@@ -10,6 +10,7 @@ import {GamePlay} from "../interfaces/gameplay/game-play";
 import {RoundPlay} from "../interfaces/gameplay/round-play";
 import {KeyValue} from "@angular/common";
 import {RoundTableItem} from "../interfaces/round-table-item";
+import {RoundBlankSetComponent} from "../round-blank-set/round-blank-set.component";
 
 @Component({
   selector: 'app-gameplay-dashboard',
@@ -17,6 +18,9 @@ import {RoundTableItem} from "../interfaces/round-table-item";
   styleUrls: ['./gameplay-dashboard.component.scss', './../common-styles/tabs.scss', './../common-styles/scrollbar.css']
 })
 export class GameplayDashboardComponent {
+
+    @ViewChildren(RoundBlankSetComponent)
+    roundBlankSetComponents: RoundBlankSetComponent[];
 
     game: Game;
     gameBlankSet: GameBlankSet;
@@ -60,11 +64,16 @@ export class GameplayDashboardComponent {
         return a.key.indexInGame - b.key.indexInGame;
     }
 
-    makeStepForward($event: RoundTableItem, round: Round) {
-        const roundPlayId = this.roundsWithRoundPlays?.get(round)?.id;
+    makeStepForward($event: RoundTableItem, roundAndBlankSet: KeyValue<Round, RoundBlankSet>) {
+        const roundPlayId = this.roundsWithRoundPlays?.get(roundAndBlankSet.key)?.id;
         if (roundPlayId) {
             this.http.post<RoundPlay>(`/round-play/${roundPlayId}/step-forward`, $event).subscribe(roundPlay => {
-                this.roundsWithRoundPlays.set(round, roundPlay);
+                this.roundsWithRoundPlays.set(roundAndBlankSet.key, roundPlay);
+                let roundBlankSetComponent = this.roundBlankSetComponents
+                    .find(roundBlankSetComponent => roundBlankSetComponent.roundBlankSet === roundAndBlankSet.value)!;
+                roundBlankSetComponent.roundPlay = roundPlay;
+                roundBlankSetComponent.sortBlanks();
+
             });
         }
 

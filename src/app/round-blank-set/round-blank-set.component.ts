@@ -2,10 +2,8 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
-    EventEmitter,
     Input,
     OnInit,
-    Output, QueryList,
     Renderer2,
     ViewChild,
     ViewChildren
@@ -165,5 +163,9 @@ export class RoundBlankSetComponent implements OnInit, AfterViewInit {
         return this.roundPlay
             ? this.roundPlay.blankStatuses.find(blankStatus => blankStatus.blank.id === blank.id)!
             : null;
+    }
+
+    sortBlanks() {
+        this.roundBlankSet.blanks = this.roundBlankSet.blanks.sort((bm1, bm2) => this.getBlankStatus(bm2)!.nextProgress - this.getBlankStatus(bm1)!.nextProgress);
     }
 }

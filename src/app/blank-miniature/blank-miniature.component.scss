@@ -30,6 +30,13 @@ mat-card {
     .winning {
       width: 100%;
       animation: blink 2s infinite;
+      border-radius: 4px;
+    }
+    .left-edge {
+      border-radius: 4px 0 0 4px;
+    }
+    .right-edge {
+      border-radius: 0 4px 4px 0;
     }
   }
 }

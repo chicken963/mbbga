@@ -5,8 +5,8 @@
           (click)="setClickedBlank()">
     {{blank.number}}
     <div class="background d-flex flex-row justify-content-start">
-        <div *ngIf="currentProgress < 100" class="current-progress"></div>
-        <div *ngIf="currentProgress < 100" class="next-progress"></div>
+        <div *ngIf="currentProgress < 100" class="current-progress" [ngClass]="{'left-edge': currentProgress > 0}"></div>
+        <div *ngIf="currentProgress < 100" class="next-progress" [ngClass]="{'left-edge': currentProgress == 0, 'right-edge': nextProgress == 100}"></div>
         <div *ngIf="currentProgress >= 100" class="winning"></div>
     </div>
 </mat-card>
